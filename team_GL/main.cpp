@@ -49,8 +49,6 @@ void Draw(void);
 int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nCmdShow )
 {
 	g_pManager = new CManager;
-	HWND  Wnd;//ウィンドウのハンドル
-	//HDC   DC;
 
 	DWORD dwFrameCount;
 	DWORD dwCurrentTime;
@@ -96,7 +94,7 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 						   hInstance ,			 //
 						   NULL);//ウィンドウの作成データ
 
-	if( FAILED( Init( hInstance , Wnd , TRUE ) ) ) {//初期化処理
+	if( FAILED( Init( hInstance , hWnd , TRUE ) ) ) {//初期化処理
 		return -1;
 	}
 
