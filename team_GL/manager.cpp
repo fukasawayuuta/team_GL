@@ -7,6 +7,7 @@
 #include "main.h"
 #include "rerender.h"
 #include "manager.h"
+#include "scene.h"
 
 /******************************************************************************
 	ŠÖ”–¼ : CManager::CManager()
@@ -57,6 +58,8 @@ void CManager::Uninit(void)
 		delete m_pRenderer;
 		m_pRenderer = NULL;
 	}
+
+	CScene::ReleaseAll();
 }
 
 /******************************************************************************
@@ -68,6 +71,7 @@ void CManager::Uninit(void)
 void CManager::Update(void)
 {
 	m_pRenderer->Update();
+	CScene::UpdateAll();
 }
 
 /******************************************************************************
@@ -79,5 +83,8 @@ void CManager::Update(void)
 void CManager::Draw(void)
 {
 	m_pRenderer->Begin();
+
+	CScene::DrawAll();
+
 	m_pRenderer->End();
 }

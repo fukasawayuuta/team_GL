@@ -28,6 +28,7 @@ public:
 	void Update(void);													//	更新処理
 	void Draw(void);													//	描画処理
 
+	CRerenderer  *GetRenderer(void) { return m_pRenderer; }	
 private:
 	CRerenderer *m_pRenderer;		//	レンダラークラス。
 };

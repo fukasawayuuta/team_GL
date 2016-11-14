@@ -13,6 +13,7 @@
 	インクルードファイル
 ******************************************************************************/
 #include "main.h"
+#include "manager.h"
 
 /******************************************************************************
 	マクロ定義
@@ -28,10 +29,17 @@
 	プロトタイプ宣言
 ******************************************************************************/
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+HRESULT Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow);
+void Uninit(void);
+void Update(void);
+void Draw(void);
 
 /******************************************************************************
 	グローバル変数
 ******************************************************************************/
+ float g_nCountFPS;		//FPSカウンタ
+ CManager  *g_pManager;
+
 /******************************************************************************
 	関数名：int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nCmdShow )
 	引数  ：HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nCmdShow
@@ -40,6 +48,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 ******************************************************************************/
 int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nCmdShow )
 {
+	g_pManager = new CManager;
+	HWND  Wnd;//ウィンドウのハンドル
+	//HDC   DC;
+
+	DWORD dwFrameCount;
+	DWORD dwCurrentTime;
+	DWORD dwEXecLastTime;
+	DWORD dwFPSLastTime;
+
+	dwFrameCount = 
+	dwCurrentTime = 0;
+	dwEXecLastTime = 
+	dwFPSLastTime = timeGetTime();
+
+	timeBeginPeriod(1);
+
 	WNDCLASSEX wcex = {
 		sizeof(WNDCLASSEX) ,			 //メモリサイズを指定
 		CS_CLASSDC ,                     //ウィンドウのスタイルを設定
@@ -72,16 +96,44 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 						   hInstance ,			 //
 						   NULL);//ウィンドウの作成データ
 
+	if( FAILED( Init( hInstance , Wnd , TRUE ) ) ) {//初期化処理
+		return -1;
+	}
+
 	/* ウィンドウの表示 */
 	ShowWindow(hWnd , nCmdShow);//非クライアント領域
 	UpdateWindow(hWnd);//クライアント領域
 
 	/* メッセージループ */
-	while(GetMessage(&msg, NULL, 0, 0) != 0) {
-		/* メッセージの翻訳を送出 */
-		TranslateMessage(&msg);
-		DispatchMessage(&msg);
+	while(1) {
+		if( PeekMessage( &msg , NULL , 0 , 0 , PM_REMOVE ) != 0 ) { //Windowsが処理しているとき
+			if( msg.message == WM_QUIT ) {
+				break;
+			}
+			else {
+				/* メッセージの翻訳を送出 */
+				TranslateMessage( &msg );
+				DispatchMessage( &msg );
+			}
+		}
+		else {	//OpenGLが処理
+			dwCurrentTime = timeGetTime();
+			if((dwCurrentTime - dwFPSLastTime) >= 500) {
+				g_nCountFPS = (dwFrameCount * 1000)/(dwCurrentTime - dwFPSLastTime);
+				dwFPSLastTime = dwCurrentTime;
+				dwFrameCount = 0;
+			}
+			if((dwCurrentTime - dwEXecLastTime) >= (1000/60)) {
+				dwEXecLastTime = dwCurrentTime;
+
+				Update();		//	更新処理
+				Draw();		//	描画処理
+				dwFrameCount++;
+			}
+		}	
 	}
+
+	Uninit();		//	終了処理
 
 	UnregisterClass(PROJECTNAME, wcex.hInstance);//ウィンドウクラスの登録解除
 
@@ -115,4 +167,69 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 
 	return DefWindowProc( hWnd , uMsg , wParam , lParam );
+}
+/********************************************************************
+	関数名 : HRESULT Init( HINSTANCE hInstance , HWND hWnd , BOOL bWindow )
+	引数   : hInstance, hWnd, bWindow
+	戻り値 : S_OK
+	説明   : OpenGLでの初期化処理
+********************************************************************/
+HRESULT Init( HINSTANCE hInstance , HWND hWnd , BOOL bWindow )
+{
+	// OpenGL初期化
+	g_pManager->Init(hInstance, hWnd, bWindow);
+
+	return S_OK;
+}
+
+/********************************************************************
+	関数名 : void Uninit(HWND hWnd)
+	引数   : hWnd
+	戻り値 : なし
+	説明   : OpenGLでの終了処理
+********************************************************************/
+void Uninit(void)
+{
+	// 後処理
+	g_pManager->Uninit();
+
+	//	解放してNULLをだいにゅう
+	delete g_pManager;
+	g_pManager = NULL;
+}
+
+/********************************************************************
+	関数名 :void Update(void)
+	引数   : なし
+	戻り値 : なし
+	説明   : OpenGLでの更新処理
+********************************************************************/
+void Update(void)
+{
+	//	更新
+	g_pManager->Update();
+}
+
+/********************************************************************
+	関数名 : void Draw(HDC dc)
+	引数   : dc
+	戻り値 : なし
+	説明   : OpenGLでの描画処理
+********************************************************************/
+void Draw(void)
+{
+	//	描画
+	g_pManager->Draw();
+}
+
+
+/******************************************************************************
+	関数名 : CManager *GetManager(void)
+	引数   : void
+	戻り値 : なし
+	説明   : Managerのアドレスを取得する関数
+******************************************************************************/
+CManager *GetManager(void)
+{
+	return g_pManager;
 }
