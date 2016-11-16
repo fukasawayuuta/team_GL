@@ -13,14 +13,20 @@
 	インクルードファイル
 ******************************************************************************/
 #pragma comment(lib, "OpenGL32.lib")		// OpenGLのライブラリとリンク
-#pragma comment(lib, "glu32.lib")		// OpenGLのライブラリとリンク
+#pragma comment(lib, "glu32.lib")			// OpenGLのライブラリとリンク
 #pragma comment( lib , "winmm.lib" )		//システム時刻取得に必要
+#pragma comment( lib , "dxguid.lib" )		//DirectXコンポーネント使用に必要(細かい作業に必要)
+#pragma comment( lib , "dinput8.lib" )		//入力処理に必要
 
 #include <windows.h>
 #include <gl/gl.h>
 #include <gl/GLU.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define DIRECTINPUT_VERSION ( 0x0800 )//警告対処用
+#include "dinput.h"			//入力処理に必要
+#include <math.h>
+#include "Vector.h"
 
 /******************************************************************************
 	マクロ定義
