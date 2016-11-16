@@ -1,6 +1,6 @@
 /******************************************************************************
 	タイトル名 : レンダラクラス
-	ファイル名 : rendererGL.h
+	ファイル名 : renderer.h
 	作成者     : AT-13C-284 36 深澤佑太
 	作成日     : 2016/11/14
 	更新日     : 
@@ -14,16 +14,6 @@
 	インクルードファイル
 ******************************************************************************/
 #include "main.h"
-#include <gl/gl.h>
-#include <gl/GLU.h>
-#define DIRECTINPUT_VERSION ( 0x0800 )//警告対処用
-#include "dinput.h"			//入力処理に必要
-
-#pragma comment(lib, "OpenGL32.lib")		// OpenGLのライブラリとリンク
-#pragma comment(lib, "glu32.lib")			// OpenGLのライブラリとリンク
-#pragma comment( lib , "winmm.lib" )		//システム時刻取得に必要
-#pragma comment( lib , "dxguid.lib" )		//DirectXコンポーネント使用に必要(細かい作業に必要)
-#pragma comment( lib , "dinput8.lib" )		//入力処理に必要
 
 /******************************************************************************
 	構造体宣言
