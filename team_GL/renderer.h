@@ -24,11 +24,11 @@
 /******************************************************************************
 	Class宣言
 ******************************************************************************/
-class CRerenderer
+class CRenderer
 {
 public:
-	CRerenderer(void);		//	コンストラクタ
-	~CRerenderer(void);		//	デストラクタ
+	CRenderer(void);		//	コンストラクタ
+	~CRenderer(void);		//	デストラクタ
 
 	HRESULT Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow);		//	初期化処理
 	void Uninit(void);													//	終了処理
@@ -38,7 +38,7 @@ public:
 	void Begin(void);
 	void End(void);
 
-	static CRerenderer *Create(HINSTANCE hInstance , HWND hWnd , BOOL bWindow);		//	作成関数
+	static CRenderer *Create(HINSTANCE hInstance , HWND hWnd , BOOL bWindow);		//	作成関数
 
 private:
 	 HGLRC m_GLRC;

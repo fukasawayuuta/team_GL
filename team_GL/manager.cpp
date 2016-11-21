@@ -5,11 +5,23 @@
 	作成日    ：2016/11/14
 ******************************************************************************/
 #include "main.h"
-#include "rerender.h"
+#include "lib.h"
+#include "renderer.h"
+#include "mode.h"
+#include "title.h"
+#include "game.h"
+#include "result.h"
+#include "fade.h"
 #include "scene.h"
 #include "scene2D.h"
 #include "manager.h"
+#include "input.h"
 
+/*******************************************************************************
+* グローバル変数
+*******************************************************************************/
+CRenderer *CManager::m_pRenderer;
+CMode *CManager::m_pMode;
 
 /******************************************************************************
 	関数名 : CManager::CManager()
@@ -17,7 +29,6 @@
 ******************************************************************************/
 CManager::CManager(void)
 {
-
 }
 
 /******************************************************************************
@@ -41,9 +52,15 @@ CManager::~CManager(void)
 ******************************************************************************/
 HRESULT CManager::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 {
-	//	クラスの実体化
-	m_pRenderer = CRerenderer::Create(hInstance, hWnd, bWindow);
-	CScene2D::Create();
+	// インプットの初期化
+	CInput::InitKeyboard(hInstance, hWnd);
+
+	// クラスの実体化
+	m_pRenderer = CRenderer::Create(hInstance, hWnd, bWindow);
+	// フェードの初期化
+	CFade::Init();
+	// 最初のモードの設定
+	SetMode(new CTitle);
 	return S_OK;
 }
 
@@ -55,14 +72,20 @@ HRESULT CManager::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 ******************************************************************************/
 void CManager::Uninit(void)
 {
-	m_pRenderer->Uninit();
 	if (m_pRenderer != NULL) {
 		//	レンダラクラスの破棄
+		m_pRenderer->Uninit();
 		delete m_pRenderer;
 		m_pRenderer = NULL;
 	}
-
-	CScene::ReleaseAll();
+	if (m_pMode != NULL) {
+		//	モードクラスの破棄
+		m_pMode->Uninit();
+		delete m_pMode;
+		m_pMode = NULL;
+	}
+	CInput::UninitKeyboard();
+	CFade::Uninit();
 }
 
 /******************************************************************************
@@ -73,8 +96,10 @@ void CManager::Uninit(void)
 ******************************************************************************/
 void CManager::Update(void)
 {
+	CInput::UpdateKeyboard();
 	m_pRenderer->Update();
-	CScene::UpdateAll();
+	m_pMode->Update();
+	CFade::Update();
 }
 
 /******************************************************************************
@@ -87,7 +112,27 @@ void CManager::Draw(void)
 {
 	m_pRenderer->Begin();
 
-	CScene::DrawAll();
+	m_pMode->Draw();
+	CFade::Draw();
 
 	m_pRenderer->End();
+}
+
+/*******************************************************************************
+* 関数名：void CManager::SetMode( CMode *mode )
+*
+* 引数	：
+* 戻り値：
+* 説明	：モード設定処理
+*******************************************************************************/
+void CManager::SetMode(CMode *mode)
+{
+	if (m_pMode != NULL)
+	{// モードが設定されていたら終了
+		m_pMode->Uninit();
+		delete m_pMode;
+		m_pMode = NULL;
+	}
+	m_pMode = mode;
+	m_pMode->Init();
 }

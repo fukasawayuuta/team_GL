@@ -1,6 +1,6 @@
 /******************************************************************************
 	タイトル名 : レンダラクラス
-	ファイル名 : rendererGL.cpp
+	ファイル名 : renderer.cpp
 	作成者     : AT-13C-284 36 深澤佑太
 	作成日     : 2016/11/14
 	更新日     : 
@@ -8,7 +8,7 @@
 /******************************************************************************
 	インクルードファイル
 ******************************************************************************/
-#include "rerender.h"
+#include "renderer.h"
 
 /******************************************************************************
 	マクロ定義
@@ -20,7 +20,7 @@
 	関数名 : CRerender::CRerender()
 	説明   : コンストラクタ
 ******************************************************************************/
-CRerenderer::CRerenderer(void)
+CRenderer::CRenderer(void)
 {
 }
 
@@ -28,7 +28,7 @@ CRerenderer::CRerenderer(void)
 	関数名 : CRerender::~CRerender()
 	説明   : デストラクタ
 ******************************************************************************/
-CRerenderer::~CRerenderer(void)
+CRenderer::~CRenderer(void)
 {
 }
 
@@ -42,7 +42,7 @@ CRerenderer::~CRerenderer(void)
 
 			 ポリゴンを描画するための初期化処理を入れてある。
 ******************************************************************************/
-HRESULT CRerenderer::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
+HRESULT CRenderer::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 {
 	// OpenGL初期化
 
@@ -98,7 +98,7 @@ HRESULT CRerenderer::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 			 デバイスコンテキスト解放
 			 Sceneクラスの解放処理
 ******************************************************************************/
-void CRerenderer::Uninit(void)
+void CRenderer::Uninit(void)
 {
     // カレントコンテキストを無効にする
     wglMakeCurrent(NULL, NULL);
@@ -116,7 +116,7 @@ void CRerenderer::Uninit(void)
 	戻り値 : なし
 	説明   : Sceneクラスの更新処理
 ******************************************************************************/
-void CRerenderer::Update(void)
+void CRenderer::Update(void)
 {
 	
 }
@@ -127,7 +127,7 @@ void CRerenderer::Update(void)
 	戻り値 : なし
 	説明   : ポリゴンなどの描画処理
 ******************************************************************************/
-void CRerenderer::Draw(void)
+void CRenderer::Draw(void)
 {
 
 }
@@ -138,7 +138,7 @@ void CRerenderer::Draw(void)
 	戻り値 : なし
 	説明   : 描画処理の準備
 ******************************************************************************/
-void CRerenderer::Begin(void)
+void CRenderer::Begin(void)
 {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);					//	クリアカラーの設定
 	glClearDepth(1.0f);										//	クリア時の深度値を設定
@@ -151,7 +151,7 @@ void CRerenderer::Begin(void)
 	戻り値 : なし
 	説明   : 描画処理の後処理
 ******************************************************************************/
-void CRerenderer::End(void)
+void CRenderer::End(void)
 {
 	SwapBuffers(m_DC);			//	画面の更新
 }
@@ -161,9 +161,9 @@ void CRerenderer::End(void)
 	戻り値 : なし
 	説明   : 描画処理の作成
 ******************************************************************************/
-CRerenderer *CRerenderer::Create(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
+CRenderer *CRenderer::Create(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 {
-	CRerenderer *obj = new CRerenderer;
+	CRenderer *obj = new CRenderer;
 	obj->Init(hInstance, hWnd, bWindow);
 
 	return obj;

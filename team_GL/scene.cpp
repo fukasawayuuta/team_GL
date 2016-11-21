@@ -9,7 +9,7 @@
 	インクルードファイル
 ******************************************************************************/
 #include "scene.h"
-#include "rerender.h"
+#include "renderer.h"
 #include "manager.h"
 
 /******************************************************************************
@@ -159,8 +159,7 @@ void CScene::UpdateAll(void)
 ******************************************************************************/
 void CScene::DrawAll(void)
 {
-	CManager *pManager = GetManager();
-	CRerenderer *CRerenderer = pManager->GetRenderer();
+	CRenderer *CRenderer = CManager::GetRenderer();
 
 	//	優先度が高い順に描画
 	for (int i = 0; i < PRIORITY_MAX; i++) {
