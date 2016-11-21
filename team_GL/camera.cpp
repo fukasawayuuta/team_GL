@@ -35,11 +35,11 @@ CCamera::~CCamera(void)
 ******************************************************************************/
 void CCamera::Init(void)
 {
-	m_PosV = Vector3(0.0f, 0.0f, 0.0f);
+	m_PosV = Vector3(0.0f, 0.0f, 100.0f);
 	m_PosR = Vector3(0.0f, 0.0f, 0.0f);
 	m_VecU = Vector3(0.0f, 1.0f, 0.0f);
 	m_Rot  = Vector3(0.0f, PI, 0.0f);
-	m_Distance = 10.0f;
+	m_Distance = 100.0f;
 }
 
 /******************************************************************************
@@ -61,8 +61,8 @@ void CCamera::Uninit(void)
 void CCamera::Update(void)
 {
 	//	視点の座標設定
-	m_PosV.x = m_PosR.x - sinf(m_Rot.y) * m_Distance;
-	m_PosV.z = m_PosR.z - cosf(m_Rot.y) * m_Distance;
+	/*m_PosV.x = m_PosR.x - sinf(m_Rot.y) * m_Distance;
+	m_PosV.z = m_PosR.z - cosf(m_Rot.y) * m_Distance;*/
 }
 
 /******************************************************************************
@@ -92,4 +92,12 @@ void CCamera::Set(void)
 			  m_PosR.x, m_PosR.y, m_PosR.z,		//	注視点座標
 			  m_VecU.x, m_VecU.y, m_VecU.z);	//	カメラの向き
 	//	ここまでビューマトリクスの設定//////////////////////////////
+}
+
+CCamera *CCamera::Create(void)
+{
+	CCamera *obj = new CCamera;
+	obj->Init();
+
+	return obj;
 }
