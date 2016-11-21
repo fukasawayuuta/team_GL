@@ -12,21 +12,23 @@
 /******************************************************************************
 	クラス宣言
 ******************************************************************************/
+class CTexture;
 class CScene2D : public CScene
 {
 public:
-	CScene2D();		//	コンストラクタ。
+	CScene2D(int Priority = PRIORITY_4, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
 	~CScene2D();	//	デストラクタ。
-	void Init(void);	//	初期化関数。
+	void Init(char* fileName);	//	初期化関数。
 	void Uninit(void);	//	終了関数。
 	void Update(void);	//	更新関数。
 	void Draw(void);	//	描画関数。
 
-	static CScene2D *Create(void);
+	static CScene2D *Create(char* fileName);
 private:
 	Vector2 m_Pos;		//	座標。
 	Vector2 m_Rot;		//	角度。
 	float m_Width;		//	横幅。
 	float m_Height;		//	縦幅。
+	CTexture *m_Texture;
 };
 

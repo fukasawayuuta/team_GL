@@ -8,7 +8,7 @@
 	インクルードファイル
 ******************************************************************************/
 #include "main.h"
-#include "rerender.h"
+#include "renderer.h"
 #include "manager.h"
 #include "scene.h"
 #include "scene3D.h"

@@ -8,8 +8,9 @@
 	インクルードファイル
 ******************************************************************************/
 #include "main.h"
-#include "rerender.h"
+#include "renderer.h"
 #include "manager.h"
+#include "texture.h"
 #include "scene.h"
 #include "scene2D.h"
 
@@ -17,10 +18,11 @@
 	関数名 : CScene2D::CScene2D()
 	説明   : コンストラクタ
 ******************************************************************************/
-CScene2D::CScene2D()
+CScene2D::CScene2D(int Priority, OBJ_TYPE objType)
 {
 	m_Pos = Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f);
 	m_Rot = Vector2(0.0f, 0.0f);
+	m_Texture = NULL;
 }
 
 /******************************************************************************
@@ -37,10 +39,12 @@ CScene2D::~CScene2D()
 	戻り値 : なし
 	説明   : 初期化処理
 ******************************************************************************/
-void CScene2D::Init(void)
+void CScene2D::Init(char* fileName)
 {
 	m_Width = 200.0f;
 	m_Height = 200.0f;
+	m_Texture = new CTexture;
+	m_Texture->m_nId = m_Texture->CreateTextureTGA(fileName);
 }
 
 /******************************************************************************
@@ -51,7 +55,7 @@ void CScene2D::Init(void)
 ******************************************************************************/
 void CScene2D::Uninit(void)
 {
-
+	SAFE_RELEASE(m_Texture);
 }
 
 /******************************************************************************
@@ -94,7 +98,7 @@ void CScene2D::Draw(void)
 	 //　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
     //　テクスチャをバインド
-    //glBindTexture(GL_TEXTURE_2D, m_TexIndex);
+    glBindTexture(GL_TEXTURE_2D, m_Texture->m_nId);
 
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
@@ -104,16 +108,16 @@ void CScene2D::Draw(void)
 
 	//	頂点座標設定
 	glTexCoord2d(0.0, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), 0.0f);
-	
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), 0.0f);
-	
-	glTexCoord2d(0.0, 0.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), 0.0f);
 	
-	glTexCoord2d(1.0, 0.0);
+	glTexCoord2d(1.0, 1.0);
     glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), 0.0f);
+	
+	glTexCoord2d(0.0, 0.0);
+    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), 0.0f);
+	
+	glTexCoord2d(1.0, 0.0);
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), 0.0f);
 	
 	glEnd();
 	//	描画終了
@@ -134,10 +138,10 @@ void CScene2D::Draw(void)
 	//	ここまでマトリックスを元に戻す//////////////////////////////
 }
 
-CScene2D *CScene2D::Create(void)
+CScene2D *CScene2D::Create(char* fileName)
 {
 	CScene2D *obj = new CScene2D;
-	obj->Init();
+	obj->Init(fileName);
 
 	return obj;
 }

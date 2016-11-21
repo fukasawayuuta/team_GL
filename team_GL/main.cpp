@@ -38,7 +38,6 @@ void Draw(void);
 	グローバル変数
 ******************************************************************************/
  float g_nCountFPS;		//FPSカウンタ
- CManager  *g_pManager;
 
 /******************************************************************************
 	関数名：int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nCmdShow )
@@ -48,8 +47,6 @@ void Draw(void);
 ******************************************************************************/
 int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdLine , int nCmdShow )
 {
-	g_pManager = new CManager;
-
 	DWORD dwFrameCount;
 	DWORD dwCurrentTime;
 	DWORD dwEXecLastTime;
@@ -87,8 +84,8 @@ int WINAPI WinMain( HINSTANCE hInstance , HINSTANCE hPrevInstance , LPSTR lpCmdL
 						   WS_OVERLAPPEDWINDOW , //ウィンドウのスタイル
 						   CW_USEDEFAULT ,		 //左上のX座標
 						   CW_USEDEFAULT ,		 //左上のY座標
-						   600 ,				 //幅  ( 整数で入力 )
-						   400 ,				 //高さ( 整数で入力 )
+						   SCREEN_WIDTH ,		 //幅  ( 整数で入力 )
+						   SCREEN_HEIGHT ,		 //高さ( 整数で入力 )
 						   NULL ,				 //親ウィンドウのハンドル
 						   NULL ,				 //メニューハンドル又は、子ウィンドウID
 						   hInstance ,			 //
@@ -175,7 +172,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 HRESULT Init( HINSTANCE hInstance , HWND hWnd , BOOL bWindow )
 {
 	// OpenGL初期化
-	g_pManager->Init(hInstance, hWnd, bWindow);
+	CManager::Init( hInstance, hWnd, bWindow );
 
 	return S_OK;
 }
@@ -189,11 +186,7 @@ HRESULT Init( HINSTANCE hInstance , HWND hWnd , BOOL bWindow )
 void Uninit(void)
 {
 	// 後処理
-	g_pManager->Uninit();
-
-	//	解放してNULLをだいにゅう
-	delete g_pManager;
-	g_pManager = NULL;
+	CManager::Uninit();
 }
 
 /********************************************************************
@@ -205,7 +198,7 @@ void Uninit(void)
 void Update(void)
 {
 	//	更新
-	g_pManager->Update();
+	CManager::Update();
 }
 
 /********************************************************************
@@ -217,17 +210,5 @@ void Update(void)
 void Draw(void)
 {
 	//	描画
-	g_pManager->Draw();
-}
-
-
-/******************************************************************************
-	関数名 : CManager *GetManager(void)
-	引数   : void
-	戻り値 : なし
-	説明   : Managerのアドレスを取得する関数
-******************************************************************************/
-CManager *GetManager(void)
-{
-	return g_pManager;
+	CManager::Draw();
 }

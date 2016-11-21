@@ -16,20 +16,24 @@
 /******************************************************************************
 	クラス宣言
 ******************************************************************************/
-class CRerenderer;
+class CRenderer;
+class CMode;
 class CManager
 {
 public:
 	CManager(void);
 	~CManager(void);
 
-	HRESULT Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow);		//	初期化処理
-	void Uninit(void);													//	終了処理
-	void Update(void);													//	更新処理
-	void Draw(void);													//	描画処理
+	static HRESULT Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow);		//	初期化処理
+	static void Uninit(void);													//	終了処理
+	static void Update(void);													//	更新処理
+	static void Draw(void);														//	描画処理
 
-	CRerenderer  *GetRenderer(void) { return m_pRenderer; }	
+	static CRenderer  *GetRenderer(void) { return m_pRenderer; }
+	static void SetMode(CMode *mode);
+	static CMode *GetMode(void) {return m_pMode;}
 private:
-	CRerenderer *m_pRenderer;		//	レンダラークラス。
+	static CRenderer *m_pRenderer;		//	レンダラークラス。
+	static CMode *m_pMode;
 };
 
