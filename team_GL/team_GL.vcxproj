@@ -82,6 +82,7 @@
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="rerender.cpp" />
     <ClCompile Include="scene.cpp" />
+    <ClCompile Include="scene2D.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +91,7 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="rerender.h" />
     <ClInclude Include="scene.h" />
+    <ClInclude Include="scene2D.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

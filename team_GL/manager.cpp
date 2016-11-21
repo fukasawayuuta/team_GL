@@ -6,8 +6,10 @@
 ******************************************************************************/
 #include "main.h"
 #include "rerender.h"
-#include "manager.h"
 #include "scene.h"
+#include "scene2D.h"
+#include "manager.h"
+
 
 /******************************************************************************
 	ŠÖ”–¼ : CManager::CManager()
@@ -41,6 +43,7 @@ HRESULT CManager::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 {
 	//	ƒNƒ‰ƒX‚ÌÀ‘Ì‰»
 	m_pRenderer = CRerenderer::Create(hInstance, hWnd, bWindow);
+	CScene2D::Create();
 	return S_OK;
 }
 
