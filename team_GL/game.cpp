@@ -19,8 +19,10 @@
 #include "scene.h"
 #include "scene2D.h"
 #include "scene3D.h"
+#include "score.h"
 #include "camera.h"
 #include "input.h"
+#include "texture.h"
 
 /*******************************************************************************
 * ä÷êîñºÅFCGame::CGame()
@@ -54,10 +56,9 @@ CGame::~CGame()
 *******************************************************************************/
 void CGame::Init(void)
 {
-	CScene *scene;
-
-	scene = CScene2D::Create("data\\TEXTURE\\game_test.tga");
-	scene = CScene3D::Create();
+	CScene2D::Create(TEXTURE_TYPE_GAME_BG);
+	CScene3D::Create();
+	//CScore::Create(Vector2(200.0f, 200.0f), Vector2(0.0f, 0.0f), 10.0f, 20.0f, TEXTURE_TYPE_NUMBER); 
 
 	m_pCamera = CCamera::Create();
 }

@@ -29,14 +29,21 @@
 /*******************************************************************************
 * 構造体
 *******************************************************************************/
-typedef struct                                                                          
+// テクスチャタイプ名
+typedef enum
 {
-	GLubyte *imageData;		//イメージデータ（３２ビットまで）                                                             
-	GLuint  bpp;			//ビット/ピクセル
-	GLuint  width;			//横幅                                                                   
-	GLuint  height;			//高さ                                                                
-	GLuint  texID;			//ID(複数使用時)                                                                  
-}TextureImage;
+	TEXTURE_TYPE_TITLE_BG,
+	TEXTURE_TYPE_MATCHING_BG,
+	TEXTURE_TYPE_GAME_BG,
+	TEXTURE_TYPE_RESULT_BG,
+	TEXTURE_TYPE_NUMBER,
+	TEXTURE_TYPE_MAX
+}TEXTURE_TYPE;
+// テクスチャのパラメータ
+typedef struct
+{
+	char *texName;	// ファイル名
+}TEXTURE_PARAM;
 
 /*******************************************************************************
 * 前方宣言
@@ -45,11 +52,11 @@ typedef struct
 /*******************************************************************************
 * クラス宣言
 *******************************************************************************/
-// レンダラークラス
+// テクスチャクラス
 class CTexture
 {
 	private:
-		unsigned int m_nTexture;
+		unsigned int m_nTexIdx;
 		int m_nImageSize;	// サイズ
 		int m_nWidth;		// 横幅
 		int m_nHeight;		// 高さ
@@ -58,21 +65,24 @@ class CTexture
 
 		unsigned int m_Format;
 		int m_nInternalFormat;
+
+		static CTexture *m_pTexture[TEXTURE_TYPE_MAX];
+		static TEXTURE_PARAM m_TexParam[TEXTURE_TYPE_MAX];
 	public:
 		CTexture();
 		~CTexture();
 		void Init( void );
 		void Uninit( void );
-		void Update( void );
-		void Draw( void );
 		void Release( void );
 
-		unsigned int CreateTextureTGA( char *FileName );
-		unsigned int CreateTextureTGAInverse( char *FileName );
-		unsigned int CreateTextureBMP( char *FileName );
-		//unsigned int CreateTexturePNG( char *FileName );
+		static void Load(void);
+		static void Unload(void);
 
-		int m_nId;
+		unsigned int CreateTexture( char *FileName );
+		unsigned int CreateTextureInverse( char *FileName );
+		unsigned int CreateTextureBMP( char *FileName );
+
+		static int SetTexture(int nIdx){return m_pTexture[nIdx]->m_nTexIdx;}
 };
 
 #endif

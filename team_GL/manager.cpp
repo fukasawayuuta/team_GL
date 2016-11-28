@@ -16,6 +16,7 @@
 #include "scene2D.h"
 #include "manager.h"
 #include "input.h"
+#include "texture.h"
 
 /*******************************************************************************
 * グローバル変数
@@ -54,9 +55,10 @@ HRESULT CManager::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 {
 	// インプットの初期化
 	CInput::InitKeyboard(hInstance, hWnd);
-
 	// クラスの実体化
 	m_pRenderer = CRenderer::Create(hInstance, hWnd, bWindow);
+	// テクスチャの読み込み
+	CTexture::Load();
 	// フェードの初期化
 	CFade::Init();
 	// 最初のモードの設定
@@ -85,6 +87,8 @@ void CManager::Uninit(void)
 		m_pMode = NULL;
 	}
 	CInput::UninitKeyboard();
+	// テクスチャの解放
+	CTexture::Unload();
 	CFade::Uninit();
 }
 

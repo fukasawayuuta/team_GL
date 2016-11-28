@@ -1,6 +1,6 @@
 /*******************************************************************************
 * タイトル名：
-* ファイル名：textureGL.cpp
+* ファイル名：texture.cpp
 * 作成者	：AT13B284 10 小笠原啓太
 * 作成日	：
 ********************************************************************************
@@ -26,6 +26,15 @@
 /*******************************************************************************
 * グローバル変数
 *******************************************************************************/
+CTexture *CTexture::m_pTexture[TEXTURE_TYPE_MAX];
+TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] = 
+{
+	{ "data\\TEXTURE\\title_test.tga" },		// TEXTURE_TYPE_TITLE_BG
+	{ "data\\TEXTURE\\matching_test.tga" },		// TEXTURE_TYPE_MATCHING_BG
+	{ "data\\TEXTURE\\game_test.tga" },			// TEXTURE_TYPE_GAME_BG
+	{ "data\\TEXTURE\\result_test.tga" },		// TEXTURE_TYPE_RESULT_BG
+	{ "data\\TEXTURE\\number.tga" }				// TEXTURE_TYPE_NUMBER
+};
 
 /*******************************************************************************
 * 関数名：CTexture::CTexture()
@@ -58,7 +67,6 @@ CTexture::~CTexture()
 *******************************************************************************/
 void CTexture::Init( void )
 {
-	m_nId = 0;
 }
 
 /*******************************************************************************
@@ -74,30 +82,6 @@ void CTexture::Uninit( void )
 }
 
 /*******************************************************************************
-* 関数名：void CTexture::Update( void )
-* 
-* 引数	：
-* 戻り値：
-* 説明	：更新処理
-*******************************************************************************/
-void CTexture::Update( void )
-{
-
-}
-
-/*******************************************************************************
-* 関数名：void CTexture::Draw( void )
-* 
-* 引数	：
-* 戻り値：
-* 説明	：描画処理
-*******************************************************************************/
-void CTexture::Draw( void )
-{
-
-}
-
-/*******************************************************************************
 * 関数名：void CTexture::Draw( void )
 * 
 * 引数	：
@@ -106,9 +90,47 @@ void CTexture::Draw( void )
 *******************************************************************************/
 void CTexture::Release( void )
 {
-	if( m_nTexture != NULL )
+	if( m_nTexIdx != NULL )
 	{
-		glDeleteTextures( 1, &m_nTexture );
+		glDeleteTextures( 1, &m_nTexIdx );
+	}
+}
+
+/*******************************************************************************
+* 関数名：void CTexture::Load( void )
+* 
+* 引数	：
+* 戻り値：
+* 説明	：テクスチャ読み込み処理
+*******************************************************************************/
+void CTexture::Load( void )
+{
+	for(int i = 0; i < TEXTURE_TYPE_MAX; i++)
+	{
+		m_pTexture[i] = new CTexture;
+		m_pTexture[i]->Init();
+		m_pTexture[i]->CreateTexture(m_TexParam[i].texName);
+	}
+}
+
+/*******************************************************************************
+* 関数名：void CTexture::Unload( void )
+* 
+* 引数	：
+* 戻り値：
+* 説明	：テクスチャ解放処理
+*******************************************************************************/
+void CTexture::Unload( void )
+{
+	for(int i = 0; i < TEXTURE_TYPE_MAX; i++)
+	{
+		if(m_pTexture[i] != NULL)
+		{
+			m_pTexture[i]->Uninit();
+			m_pTexture[i]->Release();
+			delete m_pTexture[i];
+			m_pTexture[i] = NULL;
+		}
 	}
 }
 
@@ -119,7 +141,7 @@ void CTexture::Release( void )
 * 戻り値：
 * 説明	：描画処理
 *******************************************************************************/
-unsigned int CTexture::CreateTextureTGA( char *FileName )
+unsigned int CTexture::CreateTexture( char *FileName )
 {
 	unsigned char header[ 18 ];
 	unsigned char *image;
@@ -185,8 +207,8 @@ unsigned int CTexture::CreateTextureTGA( char *FileName )
 
 	fclose( file );
 
-	glGenTextures( 1, &m_nTexture );				/* 空のテクスチャの生成 */
-	glBindTexture( GL_TEXTURE_2D, m_nTexture );		/* テクスチャオブジェクトの割り当て */
+	glGenTextures( 1, &m_nTexIdx );					/* 空のテクスチャの生成 */
+	glBindTexture( GL_TEXTURE_2D, m_nTexIdx );		/* テクスチャオブジェクトの割り当て */
 
 	//　
 	if ( m_nBpp == 24 ) glPixelStorei( GL_UNPACK_ALIGNMENT, 4 );
@@ -212,7 +234,7 @@ unsigned int CTexture::CreateTextureTGA( char *FileName )
 
 	delete[] image;
 
-	return m_nTexture;
+	return m_nTexIdx;
 }
 
 /*******************************************************************************
@@ -222,7 +244,7 @@ unsigned int CTexture::CreateTextureTGA( char *FileName )
 * 戻り値：
 * 説明	：描画処理
 *******************************************************************************/
-unsigned int CTexture::CreateTextureTGAInverse( char *FileName )
+unsigned int CTexture::CreateTextureInverse( char *FileName )
 {
 	unsigned char header[ 18 ];
 	unsigned char *image;
@@ -288,8 +310,8 @@ unsigned int CTexture::CreateTextureTGAInverse( char *FileName )
 
 	fclose( file );
 
-	glGenTextures( 1, &m_nTexture );				/* 空のテクスチャの生成 */
-	glBindTexture( GL_TEXTURE_2D, m_nTexture );		/* テクスチャオブジェクトの割り当て */
+	glGenTextures( 1, &m_nTexIdx );					/* 空のテクスチャの生成 */
+	glBindTexture( GL_TEXTURE_2D, m_nTexIdx );		/* テクスチャオブジェクトの割り当て */
 
 	//　
 	if ( m_nBpp == 24 ) glPixelStorei( GL_UNPACK_ALIGNMENT, 4 );
@@ -315,7 +337,7 @@ unsigned int CTexture::CreateTextureTGAInverse( char *FileName )
 
 	delete[] image;
 
-	return m_nTexture;
+	return m_nTexIdx;
 }
 
 /*******************************************************************************
@@ -369,8 +391,8 @@ unsigned int CTexture::CreateTextureBMP( char *FileName )
 
 	fclose( file );
 
-	glGenTextures( 1, &m_nTexture );				/* 空のテクスチャの生成 */
-	glBindTexture( GL_TEXTURE_2D, m_nTexture );		/* テクスチャオブジェクトの割り当て */
+	glGenTextures( 1, &m_nTexIdx );				/* 空のテクスチャの生成 */
+	glBindTexture( GL_TEXTURE_2D, m_nTexIdx );		/* テクスチャオブジェクトの割り当て */
 
 	glPixelStorei( GL_UNPACK_ALIGNMENT, 4 );
 
@@ -394,5 +416,5 @@ unsigned int CTexture::CreateTextureBMP( char *FileName )
 
 	delete[] image;
 
-	return m_nTexture;
+	return m_nTexIdx;
 }

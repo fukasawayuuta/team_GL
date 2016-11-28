@@ -22,7 +22,6 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
-#define	TEXTURE_SCORE	"data/TEXTURE/number.tga"	/* スコア ファイル名 */
 const int MAX_SCORE = 5;								/* スコアの最大表示数 */
 
 /******************************************************************************
@@ -46,13 +45,13 @@ class CScore : public CScene2D
 		public:
 			CScore();
 			~CScore();
-			void Init		( Vector2 pos, Vector2 rot, float height, float width, char* TEXTURE_FILE );
+			void Init		( Vector2 pos, Vector2 rot, float height, float width, int index );
 			void Uninit		( void );
 			void Draw		( void );
 			void Update		( void );
 			void AddScore	( int value );	// スコア 加算関数
 
-			static CScore* Create ( Vector2 pos, Vector2 rot, float height, float width, char* TEXTURE_FILE );
+			static CScore* Create ( Vector2 pos, Vector2 rot, float height, float width, int index );
 
 };
 

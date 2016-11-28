@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "scene2D.h"
 #include "input.h"
+#include "texture.h"
 
 /*******************************************************************************
 * ä÷êîñºÅFCMatching::CMatching()
@@ -51,9 +52,7 @@ CMatching::~CMatching()
 *******************************************************************************/
 void CMatching::Init(void)
 {
-	CScene *scene;
-
-	scene = CScene2D::Create("data\\TEXTURE\\matching_test.tga");
+	CScene2D::Create(TEXTURE_TYPE_MATCHING_BG);
 }
 
 /*******************************************************************************

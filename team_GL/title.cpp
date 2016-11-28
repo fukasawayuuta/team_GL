@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "scene2D.h"
 #include "input.h"
+#include "texture.h"
 
 /*******************************************************************************
 * ä÷êîñºÅFCTitle::CTitle()
@@ -51,9 +52,7 @@ CTitle::~CTitle()
 *******************************************************************************/
 void CTitle::Init(void)
 {
-	CScene *scene;
-
-	scene = CScene2D::Create("data\\TEXTURE\\title_test.tga");
+	CScene2D::Create(TEXTURE_TYPE_TITLE_BG);
 }
 
 /*******************************************************************************

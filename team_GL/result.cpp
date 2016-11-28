@@ -19,6 +19,7 @@
 #include "scene.h"
 #include "scene2D.h"
 #include "input.h"
+#include "texture.h"
 
 /*******************************************************************************
 * ä÷êîñºÅFCResult::CResult()
@@ -51,9 +52,7 @@ CResult::~CResult()
 *******************************************************************************/
 void CResult::Init(void)
 {
-	CScene *scene;
-
-	scene = CScene2D::Create("data\\TEXTURE\\result_test.tga");
+	CScene2D::Create(TEXTURE_TYPE_RESULT_BG);
 }
 
 /*******************************************************************************

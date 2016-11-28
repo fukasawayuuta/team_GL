@@ -33,8 +33,6 @@
 	グローバル変数
 ******************************************************************************/
 //	静的メンバ変数宣言/////////////////////////////////////////////////////////
-CTGAImage *m_ScoreImage;
-
 Vector2 CScore::m_Pos;	//	座標。
 Vector2 CScore::m_Rot;	//	角度。
 float CScore::m_Width;	//	横幅。
@@ -61,28 +59,28 @@ CScore::~CScore()
 }
 
 /******************************************************************************
-	関数名 : CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, char* fileName )
+	関数名 : CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, int index )
 	引数   : pos, rot, width, height, fileName
 	戻り値 : なし
 	説明   : スコアの生成処理
 ******************************************************************************/
-CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, char* fileName )
+CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, int index )
 {
 	CScore *score;
 
 	score = new CScore;
-	score -> Init( pos, rot, width, height, fileName );
+	score -> Init( pos, rot, width, height, index );
 
 	return score;
 }
 
 /******************************************************************************
-	関数名 : void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, char* fileName )
+	関数名 : void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int index )
 	引数   : pos, rot, width, height, fileName
 	戻り値 : なし
 	説明   : スコアの初期化処理
 ******************************************************************************/
-void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, char* fileName )
+void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int index )
 {
 	// 引数値を代入
 	m_Pos		= pos;
@@ -91,7 +89,7 @@ void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, char* f
 	m_Height	= height;
 
 	// テクスチャを読み込み、生成する
-	m_TexIndex = m_ScoreImage -> CreateTexture( fileName );
+	m_TexIndex = CTexture::SetTexture( index );
 }
 
 
@@ -104,7 +102,7 @@ void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, char* f
 void CScore::Uninit ( void )
 {
 	if( m_TexIndex ) {
-		m_TexIndex = NULL;
+		m_TexIndex = 0;
 	}
 }
 
@@ -139,15 +137,14 @@ void CScore::Draw ( void )
 {
 	// 描画開始
 	//CScene2D::DrawBegin();
-
 	// テクスチャマッピングを有効化
 	glEnable( GL_TEXTURE_2D );
 
 ///////////////////////////////////////
 
 	// アルファブレンドを有効化
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 	glEnable( GL_BLEND );
+	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
 
 	// テクスチャをバインドする
 	glBindTexture( GL_TEXTURE_2D, m_TexIndex );
@@ -170,7 +167,7 @@ void CScore::Draw ( void )
 	glBegin(GL_TRIANGLE_STRIP);
 
 	// RGB値
-	glColor4f( 1.0f, 1.0f, 1.0f, 1.0f);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	// UV値と頂点座標の設定 ( DirectX形式 )
 	for( int CntScore = 0; CntScore < MAX_SCORE; CntScore++ ) {

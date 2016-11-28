@@ -22,7 +22,7 @@ CScene2D::CScene2D(int Priority, OBJ_TYPE objType)
 {
 	m_Pos = Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f);
 	m_Rot = Vector2(0.0f, 0.0f);
-	m_Texture = NULL;
+	m_nTexIdx = 0;
 }
 
 /******************************************************************************
@@ -39,12 +39,12 @@ CScene2D::~CScene2D()
 	戻り値 : なし
 	説明   : 初期化処理
 ******************************************************************************/
-void CScene2D::Init(char* fileName)
+void CScene2D::Init(int nIdx)
 {
 	m_Width = 200.0f;
 	m_Height = 200.0f;
-	m_Texture = new CTexture;
-	m_Texture->m_nId = m_Texture->CreateTextureTGA(fileName);
+
+	m_nTexIdx = CTexture::SetTexture(nIdx);
 }
 
 /******************************************************************************
@@ -55,7 +55,6 @@ void CScene2D::Init(char* fileName)
 ******************************************************************************/
 void CScene2D::Uninit(void)
 {
-	SAFE_RELEASE(m_Texture);
 }
 
 /******************************************************************************
@@ -98,7 +97,7 @@ void CScene2D::Draw(void)
 	 //　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
     //　テクスチャをバインド
-    glBindTexture(GL_TEXTURE_2D, m_Texture->m_nId);
+    glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
 
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
@@ -138,10 +137,10 @@ void CScene2D::Draw(void)
 	//	ここまでマトリックスを元に戻す//////////////////////////////
 }
 
-CScene2D *CScene2D::Create(char* fileName)
+CScene2D *CScene2D::Create(int nIdx)
 {
 	CScene2D *obj = new CScene2D;
-	obj->Init(fileName);
+	obj->Init(nIdx);
 
 	return obj;
 }
