@@ -80,6 +80,7 @@
     <ClCompile Include="camera.cpp" />
     <ClCompile Include="fade.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gamebackground.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="camera.h" />
     <ClInclude Include="fade.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="gamebackground.h" />
     <ClInclude Include="input.h" />
     <ClInclude Include="lib.h" />
     <ClInclude Include="main.h" />
