@@ -31,9 +31,9 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 {
 	{ "data\\TEXTURE\\title_test.tga" },		// TEXTURE_TYPE_TITLE_BG
 	{ "data\\TEXTURE\\matching_test.tga" },		// TEXTURE_TYPE_MATCHING_BG
-	{ "data\\TEXTURE\\game_test.tga" },			// TEXTURE_TYPE_GAME_BG
+	{ "data\\TEXTURE\\background_test.tga" },			// TEXTURE_TYPE_GAME_BG
 	{ "data\\TEXTURE\\result_test.tga" },		// TEXTURE_TYPE_RESULT_BG
-	{ "data\\TEXTURE\\number.tga" }				// TEXTURE_TYPE_NUMBER
+	{ "data\\TEXTURE\\number.tga" },				// TEXTURE_TYPE_NUMBER
 };
 
 /*******************************************************************************
