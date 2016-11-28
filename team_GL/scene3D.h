@@ -24,7 +24,7 @@ public:
 	void Draw(void);		//	描画関数
 
 	static CScene3D *Create(void);	//	作成関数。
-private:
+protected:
 	Vector3 m_Pos;		//	座標。
 	Vector3 m_Rot;		//	角度。
 	Vector3 m_Scl;		//	拡縮率。
