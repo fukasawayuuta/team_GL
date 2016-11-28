@@ -43,9 +43,8 @@ float CScore::m_Height;	//	縦幅。
 //	説明   : コンストラクタ
 //			 値のデフォルト化
 //=============================================================================
-CScore::CScore()
+CScore::CScore(int Priority, OBJ_TYPE objType)
 {
-	m_TexIndex		= 0;
 	m_nScore		= 0;
 	m_WidthChange	= 0;
 }
@@ -89,7 +88,7 @@ void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int ind
 	m_Height	= height;
 
 	// テクスチャを読み込み、生成する
-	m_TexIndex = CTexture::SetTexture( index );
+	m_nTexIdx = CTexture::SetTexture( index );
 }
 
 
@@ -101,8 +100,8 @@ void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int ind
 ******************************************************************************/
 void CScore::Uninit ( void )
 {
-	if( m_TexIndex ) {
-		m_TexIndex = 0;
+	if( m_nTexIdx ) {
+		m_nTexIdx = 0;
 	}
 }
 
@@ -135,93 +134,81 @@ void CScore::Update ( void )
 ******************************************************************************/
 void CScore::Draw ( void )
 {
-	// 描画開始
-	//CScene2D::DrawBegin();
-	// テクスチャマッピングを有効化
-	glEnable( GL_TEXTURE_2D );
-
-///////////////////////////////////////
-
-	// アルファブレンドを有効化
-	glEnable( GL_BLEND );
-	glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-
-	// テクスチャをバインドする
-	glBindTexture( GL_TEXTURE_2D, m_TexIndex );
-
-	// マトリクス設定
+	glDisable(GL_LIGHTING);
+	//	ここからプロジェクションマトリクスの設定////////////////////
 	glMatrixMode(GL_PROJECTION);
-
-	glPushMatrix();
-	// 単位行列化
-	glLoadIdentity();
-
-	// 正射影 設定
-	glOrtho( 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 1 );
-
-	glMatrixMode( GL_MODELVIEW );
 	glPushMatrix();
 	glLoadIdentity();
+	glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 1);
+	//	ここまでプロジェクションマトリクスの設定////////////////////
 
-	// 描画の開始
+	//	ここからモデルビューマトリクスの設定////////////////////////
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+	glLoadIdentity();
+	//	ここまでモデルビューマトリクスの設定////////////////////////
+
+	/* 透明色を描けるようにする */
+	glEnable(GL_BLEND); 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	 //　テクスチャマッピング有効化
+    glEnable(GL_TEXTURE_2D);
+    //　テクスチャをバインド
+    glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
+
+	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
-	// RGB値
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	//	色設定
+	glColor4f(1, 1, 1, 1);
 
 	// UV値と頂点座標の設定 ( DirectX形式 )
 	for( int CntScore = 0; CntScore < MAX_SCORE; CntScore++ ) {
 		// [ 0 ]
-		glTexCoord2d( 0.1f * m_Number[ CntScore ], 1.0f );
+		glTexCoord2d( 0.1f * m_Number[ CntScore ], 0.0f );
 		glVertex3f( 
 					m_Pos.x - ( m_Width * 0.5f ) + CntScore * ( m_Width + m_WidthChange ),
 					m_Pos.y - (m_Height * 0.5f),
 					0.0f );
 		// [ 2 ]
-		glTexCoord2d( 0.1f * m_Number[ CntScore ], 0.0f );
+		glTexCoord2d( 0.1f * m_Number[ CntScore ], 1.0f );
 		glVertex3f( 
 					m_Pos.x - ( m_Width * 0.5f ) + CntScore * ( m_Width + m_WidthChange ),
 					m_Pos.y + (m_Height * 0.5f),
 					0.0f );
 		// [ 1 ]
-		glTexCoord2d( 0.1f * m_Number[ CntScore ] + 0.1f, 1.0f );
+		glTexCoord2d( 0.1f * m_Number[ CntScore ] + 0.1f, 0.0f );
 		glVertex3f( 
 					m_Pos.x + ( m_Width * 0.5f ) + CntScore * ( m_Width + m_WidthChange ),
 					m_Pos.y - (m_Height * 0.5f),
 					0.0f );
 
 		// [ 3 ]
-		glTexCoord2d( 0.1f * m_Number[ CntScore ] + 0.1f, 0.0f );
+		glTexCoord2d( 0.1f * m_Number[ CntScore ] + 0.1f, 1.0f );
 		glVertex3f( 
 					m_Pos.x + ( m_Width * 0.5f ) + CntScore * ( m_Width + m_WidthChange ),
 					m_Pos.y + (m_Height * 0.5f),
 					0.0f );
 	}
 
-	// 描画の終了
 	glEnd();
+	//	描画終了
 
-	// マトリクス終了の命令
-	glMatrixMode( GL_MODELVIEW );
-	glPopMatrix();
+	glEnable(GL_BLEND);
+	glEnable(GL_LIGHTING);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+    //　テクスチャマッピング無効化
+    glDisable(GL_TEXTURE_2D);
+
+	//	ここからマトリックスを元に戻す//////////////////////////////
 	glMatrixMode(GL_PROJECTION);
 	glPopMatrix();
 
-	// コマンドの実行
-	glFlush();
-
-	// 描画終了
-	//CScene2D::DrawEnd();
-	//////////////////////////
-
-	// テクスチャを無効化
-	glBindTexture( GL_TEXTURE_2D, 0 );
-
-	// アルファブレンドを無効化
-	glDisable( GL_BLEND );
-
-	// テクスチャマッピングを無効化
-	glDisable( GL_TEXTURE_2D );
+	glMatrixMode(GL_MODELVIEW);
+	glPopMatrix();
+	//	ここまでマトリックスを元に戻す//////////////////////////////
 }
 
 /******************************************************************************

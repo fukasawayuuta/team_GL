@@ -121,10 +121,10 @@ void CScene2D::Draw(void)
 	glEnd();
 	//	描画終了
 
-	//glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 
-	 glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);
 

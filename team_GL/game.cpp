@@ -57,12 +57,9 @@ CGame::~CGame()
 *******************************************************************************/
 void CGame::Init(void)
 {
-	//CScene2D::Create(TEXTURE_TYPE_GAME_BG);
-	//CScene3D::Create();
-	//CScore::Create(Vector2(200.0f, 200.0f), Vector2(0.0f, 0.0f), 10.0f, 20.0f, TEXTURE_TYPE_NUMBER); 
-
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
+	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER); 
 }
 
 /*******************************************************************************
