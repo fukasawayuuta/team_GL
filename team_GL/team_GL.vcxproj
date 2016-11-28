@@ -83,6 +83,7 @@
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager.cpp" />
+    <ClCompile Include="matching.cpp" />
     <ClCompile Include="mode.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="lib.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="manager.h" />
+    <ClInclude Include="matching.h" />
     <ClInclude Include="mode.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
