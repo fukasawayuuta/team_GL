@@ -32,7 +32,6 @@ class CScene2D;
 class CScore : public CScene2D
 {
 		private:
-			int		m_TexIndex;				/* テクスチャのインデクッス */
 			int		m_Number [ MAX_SCORE ];	/* スコアの表示数 */
 			int		m_nScore;				/* スコアの得点数 */
 			float	m_WidthChange;			/* スコアの幅の間隔 */
@@ -43,7 +42,7 @@ class CScore : public CScene2D
 			static float m_Height;		//	縦幅。
 
 		public:
-			CScore();
+			CScore(int Priority = PRIORITY_4, OBJ_TYPE objType = OBJ_TYPE_NONE);
 			~CScore();
 			void Init		( Vector2 pos, Vector2 rot, float height, float width, int index );
 			void Uninit		( void );
