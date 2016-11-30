@@ -24,6 +24,7 @@
 #include "input.h"
 #include "texture.h"
 #include "gamebackground.h"
+#include "soundal.h"
 
 /*******************************************************************************
 * ä÷êîñºÅFCGame::CGame()
@@ -59,7 +60,9 @@ void CGame::Init(void)
 {
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
-	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER); 
+	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
+	CSoundAL::Init();
+	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
 }
 
 /*******************************************************************************
@@ -78,6 +81,7 @@ void CGame::Uninit(void)
 		delete m_pCamera;
 		m_pCamera = NULL;
 	}
+	CSoundAL::Uninit();
 }
 
 /*******************************************************************************
@@ -95,6 +99,7 @@ void CGame::Update(void)
 	if (CInput::GetKeyboardTrigger(DIK_RETURN))
 	{
 		CFade::Start(new CResult);
+		CSoundAL::Play(m_SoundSE_ID, false);
 	}
 }
 

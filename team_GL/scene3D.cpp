@@ -17,8 +17,14 @@
 	関数名 : CScene3D::CScene3D()
 	説明   : コンストラクタ
 ******************************************************************************/
-CScene3D::CScene3D()
+CScene3D::CScene3D(int Priority, OBJ_TYPE objType) : CScene(Priority, objType)
 {
+	m_Pos = Vector3(0.0f, 0.0f, 0.0f);
+	m_Rot = Vector3(0.0f, 0.0f, 0.0f);
+	m_Scl = Vector3(1.0f, 1.0f, 1.0f);
+	m_Width = 0.0f;
+	m_Height = 0.0f;
+	m_Depth = 0.0f;
 }
 
 /******************************************************************************
@@ -91,13 +97,15 @@ void CScene3D::Draw(void)
 	glEnable(GL_BLEND); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	/* 透明色を描けるようにする */
+	glEnable(GL_BLEND); 
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	 //　テクスチャマッピング有効化
-    //glEnable(GL_TEXTURE_2D);
+    glEnable(GL_TEXTURE_2D);
     //　テクスチャをバインド
-    //glBindTexture(GL_TEXTURE_2D, m_TexIndex);
+    glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
 
-	
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
@@ -109,16 +117,16 @@ void CScene3D::Draw(void)
 
 	//	頂点座標設定
 	glTexCoord2d(0.0, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(0.0, 0.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 0.0);
+	glTexCoord2d(1.0, 1.0);
     glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(0.0, 0.0);
+    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(1.0, 0.0);
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
 	glEnd();
 	//	描画終了

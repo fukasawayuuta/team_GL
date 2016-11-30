@@ -15,7 +15,7 @@
 class CScene3D : public CScene
 {
 public:
-	CScene3D();		//	コンストラクタ。
+	CScene3D(int Priority = PRIORITY_4, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
 	~CScene3D();	//	デストラクタ。
 
 	void Init(void);		//	初期化関数。
@@ -31,5 +31,6 @@ protected:
 	float m_Width;		//	横幅。
 	float m_Height;		//	縦幅。
 	float m_Depth;		//	奥行。
+	int m_nTexIdx;		//	テクスチャタイプ。
 };
 
