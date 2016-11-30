@@ -28,5 +28,6 @@ public:
 	void Draw(void);
 private:
 	CCamera *m_pCamera;
+	int m_SoundSE_ID;
 };
 
