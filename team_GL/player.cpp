@@ -1,8 +1,8 @@
 /******************************************************************************
-	タイトル名：Scene3D
-	ファイル名：scene3D.cpp
-	作成者    ：AT-13B-284 35 深澤佑太
-	作成日    ：2016/11/21
+	タイトル名：player
+	ファイル名：player.cpp
+	作成者    ：AT-13B-284 10 小笠原啓太
+	作成日    ：2016/12/05
 ******************************************************************************/
 /******************************************************************************
 	インクルードファイル
@@ -13,6 +13,7 @@
 #include "texture.h"
 #include "scene.h"
 #include "scene3D.h"
+#include "animationBoard.h"
 #include "player.h"
 #include "input.h"
 
@@ -20,12 +21,15 @@
 	マクロ定義
 ******************************************************************************/
 const float MOVE_SPEED = 3.0f;
+const int DRAW_SPEED = 5;
+const int TEXTURE_COLUMN = 7;
+const int TEXTURE_ROW = 3;
 
 /******************************************************************************
-	関数名 : CPlayer::CPlayer()
+	関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
 	説明   : コンストラクタ
 ******************************************************************************/
-CPlayer::CPlayer()
+CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
 {
 }
 
@@ -54,7 +58,7 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Depth = 0.0f;
 
 	m_pTexture = new CTexture;
-	m_nTexIdx = m_pTexture->CreateTexture("data\\TEXTURE\\player.tga");
+	m_nTexIdx = m_pTexture->CreateTexture("data\\TEXTURE\\player000.tga");
 }
 
 /******************************************************************************
@@ -84,6 +88,17 @@ void CPlayer::Update(void)
 	{
 		m_Pos.x += MOVE_SPEED;
 	}
+	// パターン描画更新
+	m_nCntAnim++;
+	if (m_nCntAnim == DRAW_SPEED)
+	{
+		m_nCntAnim = 0;
+		m_nPatternAnim++;
+		if (m_nPatternAnim == TEXTURE_COLUMN)
+		{
+			m_nPatternAnim = 0;
+		}
+	}
 }
 
 /******************************************************************************
@@ -103,12 +118,6 @@ void CPlayer::Draw(void)
 	glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
 	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
 	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
-	
-
-	/* 透明色を描けるようにする */
-	glEnable(GL_BLEND); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 	//　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
@@ -125,25 +134,24 @@ void CPlayer::Draw(void)
 	glNormal3f(0, 1, 0);
 
 	//	頂点座標設定
-	glTexCoord2d(0.0, 1.0);
+	glTexCoord2d(0.0, 0.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(0.0, 0.0);
+	glTexCoord2d(0.0, 1.0 / TEXTURE_ROW);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 0.0);
+	glTexCoord2d(1.0 / TEXTURE_COLUMN, 0.0);
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(1.0 / TEXTURE_COLUMN, 1.0 / TEXTURE_ROW);
     glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glEnd();
-	//	描画終了
+	// 描画終了
 
-	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 
-	 glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);
 

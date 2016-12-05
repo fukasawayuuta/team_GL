@@ -48,7 +48,7 @@ CGameBackground::~CGameBackground()
 *******************************************************************************/
 void CGameBackground::Init(void)
 {
-	m_Pos = Vector3( 0.0f, 0.0f, 0.0f );
+	m_Pos = Vector3( 0.0f, 0.0f, -0.1f );
 	m_Rot = Vector3( 0.0f, 0.0f, 0.0f );
 	m_Scl = Vector3( 1.0f, 1.0f, 1.0f );
 	m_TextureIndex = CTexture::SetTexture( TEXTURE_TYPE_GAME_BG );
@@ -99,12 +99,6 @@ void CGameBackground::Draw(void)
 	glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
 	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
 	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
-	
-
-	/* 透明色を描けるようにする */
-	glEnable(GL_BLEND); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 
 	//　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
@@ -122,22 +116,21 @@ void CGameBackground::Draw(void)
 	glNormal3f(0, 1, 0);
 
 	//	頂点座標設定
-	glTexCoord2d(0.0, 1.0);
+	glTexCoord2d(0.0, 0.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(0.0, 0.0);
+	glTexCoord2d(0.0, 1.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glTexCoord2d(1.0, 0.0);
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(1.0, 1.0);
     glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glEnd();
 	//	描画終了
 
-	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 
 	 glBindTexture(GL_TEXTURE_2D, 0);

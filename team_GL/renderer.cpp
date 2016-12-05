@@ -86,6 +86,9 @@ HRESULT CRenderer::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
     if (!wglMakeCurrent(m_DC, m_GLRC)) {
         return 0; // 何か正しくないみたい…
 	}
+	/* デプステストを有効にする */
+	glEnable(GL_DEPTH_TEST);
+
 	return S_OK;
 }
 
