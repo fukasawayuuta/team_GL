@@ -34,6 +34,8 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\background_test.tga" },			// TEXTURE_TYPE_GAME_BG
 	{ "data\\TEXTURE\\result_test.tga" },		// TEXTURE_TYPE_RESULT_BG
 	{ "data\\TEXTURE\\number.tga" },				// TEXTURE_TYPE_NUMBER
+	{ "data\\TEXTURE\\gauge_frame.tga" }, 
+	{ "data\\TEXTURE\\gauge_red_in.tga" }
 };
 
 /*******************************************************************************
