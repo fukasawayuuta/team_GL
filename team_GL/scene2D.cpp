@@ -121,7 +121,6 @@ void CScene2D::Draw(void)
 	glEnd();
 	//	•`‰æI—¹
 
-	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 
 	glBindTexture(GL_TEXTURE_2D, 0);

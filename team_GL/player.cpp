@@ -10,77 +10,89 @@
 #include "main.h"
 #include "renderer.h"
 #include "manager.h"
+#include "texture.h"
 #include "scene.h"
 #include "scene3D.h"
+#include "player.h"
+#include "input.h"
 
 /******************************************************************************
-	関数名 : CScene3D::CScene3D()
+	マクロ定義
+******************************************************************************/
+const int MOVE_SPEED = 3.0f;
+
+/******************************************************************************
+	関数名 : CPlayer::CPlayer()
 	説明   : コンストラクタ
 ******************************************************************************/
-CScene3D::CScene3D(int Priority, OBJ_TYPE objType) : CScene(Priority, objType)
+CPlayer::CPlayer()
 {
-	m_Pos = Vector3(0.0f, 0.0f, 0.0f);
-	m_Rot = Vector3(0.0f, 0.0f, 0.0f);
-	m_Scl = Vector3(1.0f, 1.0f, 1.0f);
-	m_Width = 0.0f;
-	m_Height = 0.0f;
-	m_Depth = 0.0f;
 }
 
 /******************************************************************************
-	関数名 : CScene3D::~CScene3D()
+	関数名 : CPlayer::~CPlayer()
 	説明   : デストラクタ
 ******************************************************************************/
-CScene3D::~CScene3D()
+CPlayer::~CPlayer()
 {
 }
 
 /******************************************************************************
-	関数名 : void CScene3D::Init(void)
+	関数名 : void CPlayer::Init(Vector3 pos, float width, float height)
 	引数   : void
 	戻り値 : なし
 	説明   : 初期化処理
 ******************************************************************************/
-void CScene3D::Init(void)
+void CPlayer::Init(Vector3 pos, float width, float height)
 {
-	m_Pos = Vector3(0.0f, 0.0f, 0.0f);
+	m_Pos = pos;
 	m_Rot = Vector3(0.0f, 0.0f, 0.0f);
 	m_Scl = Vector3(1.0f, 1.0f, 1.0f);
 
-	m_Width = 50.0f;
-	m_Height = 50.0f;
+	m_Width = width;
+	m_Height = height;
 	m_Depth = 0.0f;
+
+	m_pTexture = new CTexture;
+	m_nTexIdx = m_pTexture->CreateTexture("data\\TEXTURE\\player.tga");
 }
 
 /******************************************************************************
-	関数名 : void CScene3D::Uninit(void)
+	関数名 : void CPlayer::Uninit(void)
 	引数   : void
 	戻り値 : なし
 	説明   : 終了処理
 ******************************************************************************/
-void CScene3D::Uninit(void)
+void CPlayer::Uninit(void)
 {
-
+	SAFE_RELEASE(m_pTexture);
 }
 
 /******************************************************************************
-	関数名 : void CScene3D::Update(void)
+	関数名 : void CPlayer::Update(void)
 	引数   : void
 	戻り値 : なし
 	説明   : 更新処理
 ******************************************************************************/
-void CScene3D::Update(void)
+void CPlayer::Update(void)
 {
-
+	if(CInput::GetKeyboardPress(DIK_A))
+	{
+		m_Pos.x -= MOVE_SPEED;
+	}
+	if(CInput::GetKeyboardPress(DIK_D))
+	{
+		m_Pos.x += MOVE_SPEED;
+	}
 }
 
 /******************************************************************************
-	関数名 : void CScene3D::Draw(void)
+	関数名 : void CPlayer::Draw(void)
 	引数   : void
 	戻り値 : なし
 	説明   : 描画処理。
 ******************************************************************************/
-void CScene3D::Draw(void)
+void CPlayer::Draw(void)
 {
 	glDisable(GL_LIGHTING);
 	//	ここからモデルビューマトリクスの設定////////////////////////
@@ -97,11 +109,12 @@ void CScene3D::Draw(void)
 	glEnable(GL_BLEND); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	 //　テクスチャマッピング有効化
+
+	//　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
     //　テクスチャをバインド
     glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-
+	
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
@@ -113,20 +126,21 @@ void CScene3D::Draw(void)
 
 	//	頂点座標設定
 	glTexCoord2d(0.0, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(0.0, 0.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 0.0);
+	glTexCoord2d(1.0, 1.0);
     glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(0.0, 0.0);
+    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(1.0, 0.0);
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glEnd();
 	//	描画終了
 
+	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);
 
 	 glBindTexture(GL_TEXTURE_2D, 0);
@@ -140,15 +154,15 @@ void CScene3D::Draw(void)
 }
 
 /******************************************************************************
-	関数名 : CScene3D *CScene3D::Create(void)
+	関数名 : CPlayer *CPlayer::Create(Vector3 pos, float width, float height)
 	引数   :void
 	戻り値 : obj
 	説明   : 作成関数。 
 ******************************************************************************/
-CScene3D *CScene3D::Create(void)
+CPlayer *CPlayer::Create(Vector3 pos, float width, float height)
 {
-	CScene3D *obj = new CScene3D;
-	obj->Init();
+	CPlayer *obj = new CPlayer;
+	obj->Init(pos, width, height);
 
 	return obj;
 }
