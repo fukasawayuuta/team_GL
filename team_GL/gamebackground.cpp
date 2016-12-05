@@ -24,7 +24,7 @@
 * 戻り値：
 * 説明	：コンストラクタ
 *******************************************************************************/
-CGameBackground::CGameBackground()
+CGameBackground::CGameBackground(int Priority, OBJ_TYPE objType) : CScene3D(Priority, objType)
 {
 }
 

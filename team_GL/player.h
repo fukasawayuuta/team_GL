@@ -12,25 +12,18 @@
 /******************************************************************************
 	クラス宣言
 ******************************************************************************/
-class CScene3D : public CScene
+class CPlayer : public CScene3D
 {
 public:
-	CScene3D(int Priority = PRIORITY_2, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
-	~CScene3D();	//	デストラクタ。
+	CPlayer();		//	コンストラクタ。
+	~CPlayer();	//	デストラクタ。
 
-	void Init(void);		//	初期化関数。
+	void Init(Vector3 pos, float width, float height);		//	初期化関数。
 	void Uninit(void);		//	終了関数。
 	void Update(void);		//	更新関数。
 	void Draw(void);		//	描画関数
 
-	static CScene3D *Create(void);	//	作成関数。
+	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 protected:
-	Vector3 m_Pos;		//	座標。
-	Vector3 m_Rot;		//	角度。
-	Vector3 m_Scl;		//	拡縮率。
-	float m_Width;		//	横幅。
-	float m_Height;		//	縦幅。
-	float m_Depth;		//	奥行。
-	int m_nTexIdx;		//	テクスチャタイプ。
+	CTexture *m_pTexture;	// テクスチャポインタ
 };
-

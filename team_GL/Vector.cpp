@@ -118,7 +118,7 @@ Vector3 Vector3::Normalize( void )
 {
 	float length;
 
-	length = sqrtf( this->x * this->x + this->y * this-> y + this->z + this->z );
+	length = sqrtf( this->x * this->x + this->y * this-> y + this->z * this->z );
 
 	if( length > 0 )
 	{
@@ -154,7 +154,7 @@ float Vector3::Length(void)
 {
 	float length;
 
-	length = sqrtf(this->x * this->x + this->y * this->y + this->z + this->z);
+	length = sqrtf(this->x * this->x + this->y * this->y + this->z * this->z);
 
 	return length;
 }
