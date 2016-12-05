@@ -26,6 +26,7 @@
 #include "gamebackground.h"
 #include "game_UI.h"
 #include "soundal.h"
+#include "sync.h"
 
 /*******************************************************************************
 * ŠÖ”–¼FCGame::CGame()
@@ -66,6 +67,7 @@ void CGame::Init(void)
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
+	CSync::Init();
 }
 
 /*******************************************************************************
@@ -85,6 +87,7 @@ void CGame::Uninit(void)
 		m_pCamera = NULL;
 	}
 	CSoundAL::Uninit();
+	CSync::Uninit();
 }
 
 /*******************************************************************************
@@ -96,6 +99,7 @@ void CGame::Uninit(void)
 *******************************************************************************/
 void CGame::Update(void)
 {
+	CSync::Recv();
 	m_pCamera->Update();
 	CScene::UpdateAll();
 
@@ -104,6 +108,7 @@ void CGame::Update(void)
 		CFade::Start(new CResult);
 		CSoundAL::Play(m_SoundSE_ID, false);
 	}
+	CSync::Send( Vector3( 0, 0, 0 ) );
 }
 
 /*******************************************************************************
