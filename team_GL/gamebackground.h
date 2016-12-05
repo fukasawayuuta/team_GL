@@ -23,7 +23,7 @@ private:
 	int m_TextureIndex;
 
 public:
-	CGameBackground(int Priority = PRIORITY_1, OBJ_TYPE objType = OBJ_TYPE_NONE);
+	CGameBackground(int Priority = PRIORITY_BACKGROUND, OBJ_TYPE objType = OBJ_TYPE_NONE);
 	~CGameBackground();
 	void Init(void);
 	void Uninit(void);

@@ -15,7 +15,7 @@
 class CGame_UI : public CScene2D
 {
 public:
-	CGame_UI(int Priority = PRIORITY_4, OBJ_TYPE objType = OBJ_TYPE_2D);		//	コンストラクタ。
+	CGame_UI(int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_2D);		//	コンストラクタ。
 	~CGame_UI(void);	//	デストラクタ。
 
 	void Init(Vector2 pos, float width, float height, int texIndex);		//	初期化関数。

@@ -42,7 +42,7 @@ class CScore : public CScene2D
 			static float m_Height;		//	ècïùÅB
 
 		public:
-			CScore(int Priority = PRIORITY_4, OBJ_TYPE objType = OBJ_TYPE_NONE);
+			CScore(int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE);
 			~CScore();
 			void Init		( Vector2 pos, Vector2 rot, float height, float width, int index );
 			void Uninit		( void );
