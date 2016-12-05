@@ -16,7 +16,7 @@ class CTexture;
 class CScene2D : public CScene
 {
 public:
-	CScene2D(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
+	CScene2D(int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
 	~CScene2D();	//	デストラクタ。
 	void Init(int nIdx);//	初期化関数。
 	void Uninit(void);	//	終了関数。
