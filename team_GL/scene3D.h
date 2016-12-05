@@ -15,7 +15,7 @@
 class CScene3D : public CScene
 {
 public:
-	CScene3D(int Priority = PRIORITY_2, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
+	CScene3D(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
 	~CScene3D();	//	デストラクタ。
 
 	void Init(void);		//	初期化関数。

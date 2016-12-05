@@ -32,19 +32,20 @@ public:
 	typedef enum {
 		OBJ_TYPE_NONE = 0,
 		OBJ_TYPE_2D,
+		OBJ_TYPE_PLAYER,
 		OBJ_TYPE_MAX
 	}OBJ_TYPE;
 
 	//	優先度の列挙型
 	typedef enum {
-		PRIORITY_1 = 0,		//	優先度1位(ドームとか床とか)
-		PRIORITY_2,			//	優先度2位(プレイヤーとか敵とか)
-		PRIORITY_3,			//	エフェクトとか
-		PRIORITY_4,			//	優先度3位(2D関連)
+		PRIORITY_BACKGROUND = 0,	//	優先度1位(ドームとか床とか)
+		PRIORITY_3D,				//	優先度2位(プレイヤーとか敵とか)
+		PRIORITY_EFFECT,			//	エフェクトとか
+		PRIORITY_2D,				//	優先度3位(2D関連)
 		PRIORITY_MAX
 	}PRIORITY;
 
-	CScene(int Priority = 1, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ
+	CScene(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ
 	~CScene();	
 
 	virtual void Init(void) {};			//	初期化関数
