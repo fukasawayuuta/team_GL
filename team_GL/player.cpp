@@ -20,11 +20,12 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
-const float MOVE_SPEED = 3.0f;
-const int DRAW_SPEED = 10;
-const int TEXTURE_COLUMN = 7;
-const int TEXTURE_ROW = 3;
-const int WALK_DRAW = 4;
+const float MOVE_SPEED = 1.0f;			// 移動速度
+const int DRAW_SPEED = 10;				// 描画スピード
+const int TEXTURE_COLUMN = 7;			// テクスチャ列分割数
+const int TEXTURE_ROW = 3;				// テクスチャ行分割数
+const int WALK_DRAW = 4;				// 歩きモーションのコマ数
+const float MOVE_ATTENUATION = 0.2f;	// 移動量減衰係数
 
 /******************************************************************************
 	関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -32,7 +33,11 @@ const int WALK_DRAW = 4;
 ******************************************************************************/
 CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
 {
-	m_nDirection = -1;
+	m_State = STATE_WALK;
+	m_Move = Vector3(0.0f, 0.0f, 0.0f);
+
+	m_nTexRow = TEXTURE_ROW;
+	m_nTexColumn = TEXTURE_COLUMN;
 }
 
 /******************************************************************************
@@ -59,8 +64,7 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Height = height;
 	m_Depth = 0.0f;
 
-	m_pTexture = new CTexture;
-	m_nTexIdx = m_pTexture->CreateTexture("data\\TEXTURE\\player000.tga");
+	m_nTexIdx = CTexture::SetTexture(TEXTURE_TYPE_PLAYER000);
 }
 
 /******************************************************************************
@@ -71,7 +75,6 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 ******************************************************************************/
 void CPlayer::Uninit(void)
 {
-	SAFE_RELEASE(m_pTexture);
 }
 
 /******************************************************************************
@@ -86,13 +89,18 @@ void CPlayer::Update(void)
 	if(CInput::GetKeyboardPress(DIK_A))
 	{
 		m_nDirection = -1;
-		m_Pos.x -= MOVE_SPEED;
+		m_Move.x -= MOVE_SPEED;
 	}
 	if(CInput::GetKeyboardPress(DIK_D))
 	{
 		m_nDirection = 1;
-		m_Pos.x += MOVE_SPEED;
+		m_Move.x += MOVE_SPEED;
 	}
+	// 移動量の減衰
+	m_Move.x += (0.0f - m_Move.x) * MOVE_ATTENUATION;
+	// 位置の更新
+	m_Pos += m_Move;
+
 	// パターン描画更新
 	m_nCntAnim++;
 	if (m_nCntAnim == DRAW_SPEED)
@@ -114,73 +122,7 @@ void CPlayer::Update(void)
 ******************************************************************************/
 void CPlayer::Draw(void)
 {
-	glDisable(GL_LIGHTING);
-	//	ここからモデルビューマトリクスの設定////////////////////////
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	//	ここまでモデルビューマトリクスの設定////////////////////////
-
-	glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
-	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
-	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
-
-	//　テクスチャマッピング有効化
-    glEnable(GL_TEXTURE_2D);
-    //　テクスチャをバインド
-    glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-	
-	//	描画開始
-	glBegin(GL_TRIANGLE_STRIP);
-
-	//	色設定
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-
-	//	法線設定
-	glNormal3f(0.0f, 1.0f, 0.0f);
-
-	//	頂点座標設定
-	if (m_nDirection < 0)
-	{
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-	}
-	else if (m_nDirection > 0)
-	{
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-	}
-
-	glEnd();
-	// 描画終了
-
-	glEnable(GL_LIGHTING);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-    //　テクスチャマッピング無効化
-    glDisable(GL_TEXTURE_2D);
-
-	//	ここからマトリックスを元に戻す//////////////////////////////
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	//	ここまでマトリックスを元に戻す//////////////////////////////
+	CAnimationBoard::Draw();
 }
 
 /******************************************************************************

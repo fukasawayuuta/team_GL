@@ -25,8 +25,10 @@ public:
 
 	static CAnimationBoard *Create(Vector3 pos, float width, float height);	//	作成関数。
 protected:
-	CTexture *m_pTexture;	// テクスチャポインタ
-
+	int m_nTexRow;			// テクスチャ行数
+	int m_nTexColumn;		// テクスチャ列数
 	int m_nCntAnim;			// アニメーションカウンタ
 	int m_nPatternAnim;		// パターンカウンタ
+
+	int m_nDirection;		// 向き 左：-1 右：1
 };

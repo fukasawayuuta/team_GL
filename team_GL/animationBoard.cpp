@@ -19,9 +19,9 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
-const int DRAW_SPEED = 30;
-const int TEXTURE_COLUMN = 7;
-const int TEXTURE_ROW = 3;
+const int DRAW_SPEED = 30;			// 描画スピード
+const int TEXTURE_COLUMN = 1;		// テクスチャ列分割数
+const int TEXTURE_ROW = 1;			// テクスチャ行分割数
 
 /******************************************************************************
 	関数名 : CAnimationBoard::CAnimationBoard(int Priority, OBJ_TYPE objType) : CScene3D(Priority, objType)
@@ -31,7 +31,10 @@ CAnimationBoard::CAnimationBoard(int Priority, OBJ_TYPE objType) : CScene3D(Prio
 {
 	m_nCntAnim = 0;		
 	m_nPatternAnim = 0;
-	m_pTexture = NULL;
+	
+	m_nDirection = -1;
+	m_nTexRow = TEXTURE_COLUMN;
+	m_nTexColumn = TEXTURE_ROW;
 }
 
 /******************************************************************************
@@ -57,9 +60,6 @@ void CAnimationBoard::Init(Vector3 pos, float width, float height)
 	m_Width = width;
 	m_Height = height;
 	m_Depth = 0.0f;
-
-	m_pTexture = new CTexture;
-	m_nTexIdx = m_pTexture->CreateTexture("data\\TEXTURE\\player000.tga");
 }
 
 /******************************************************************************
@@ -70,7 +70,6 @@ void CAnimationBoard::Init(Vector3 pos, float width, float height)
 ******************************************************************************/
 void CAnimationBoard::Uninit(void)
 {
-	SAFE_RELEASE(m_pTexture);
 }
 
 /******************************************************************************
@@ -112,12 +111,6 @@ void CAnimationBoard::Draw(void)
 	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
 	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
 
-
-	/* 透明色を描けるようにする */
-	glEnable(GL_BLEND); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
 	//　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
     //　テクスチャをバインド
@@ -127,30 +120,47 @@ void CAnimationBoard::Draw(void)
 	glBegin(GL_TRIANGLE_STRIP);
 
 	//	色設定
-	glColor4f(1 , 1 , 1, 1);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//	法線設定
-	glNormal3f(0, 1, 0);
+	glNormal3f(0.0f, 1.0f, 0.0f);
 
 	//	頂点座標設定
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
-	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+	if (m_nDirection < 0)
+	{
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 0.0);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
-	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 0.0);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	}
+	else if (m_nDirection > 0)
+	{
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 0.0);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 0.0);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	}
 
 	glEnd();
-	//	描画終了
+	// 描画終了
 
 	glEnable(GL_LIGHTING);
 
-	 glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);
 

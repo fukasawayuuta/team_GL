@@ -25,5 +25,15 @@ public:
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 protected:
-	int m_nDirection;		// プレイヤーの向き 左：-1 右：1
+	// プレイヤーの状態
+	typedef enum
+	{
+		STATE_WALK,
+		STATE_ATTACK,
+		STATE_DAMAGE,
+		STATE_MAX
+	}STATE;
+
+	STATE m_State;
+	Vector3 m_Move;			// 移動量
 };
