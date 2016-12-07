@@ -29,6 +29,7 @@
 #include "sync.h"
 #include "animationBoard.h"
 #include "player.h"
+#include "enemy.h"
 
 /*******************************************************************************
 * ä÷êîñºÅFCGame::CGame()
@@ -65,6 +66,7 @@ void CGame::Init(void)
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
 	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
+	CEnemy::Create(Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
 	CPlayer::Create(Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	CSoundAL::Init();
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
