@@ -49,16 +49,21 @@ CSync::~CSync()
 *******************************************************************************/
 int CSync::Init( void )
 {
-	int nNumber;
+	FILE *fp = fopen( "./data/CONFIG/ipdata.txt", "r" );
+	char ipaddress[ 16 ];
+	int nNumber, port;
+	fscanf( fp, "%s", &ipaddress );
+	fscanf( fp, "%d", &port );
 	WSAStartup( MAKEWORD( 2, 0 ), &m_Wsadata );
 	m_Socket = socket( AF_INET, SOCK_STREAM, 0 );
 	m_addr.sin_family = AF_INET;
-	m_addr.sin_port = htons( 55555 );
-	m_addr.sin_addr.s_addr = inet_addr( "172.29.33.157" );
+	m_addr.sin_port = htons( port );
+	m_addr.sin_addr.s_addr = inet_addr( ipaddress );
 	connect( m_Socket, ( SOCKADDR* )&m_addr, sizeof( m_addr ) );
 	memset( m_RecvData, 0, sizeof( m_RecvData ) );
 	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
 	sscanf( m_RecvData, "%d", &nNumber );
+	fclose( fp );
 	return nNumber ;
 }
 
