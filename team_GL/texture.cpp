@@ -29,13 +29,18 @@
 CTexture *CTexture::m_pTexture[TEXTURE_TYPE_MAX];
 TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] = 
 {
-	{ "data\\TEXTURE\\title_test.tga" },		// TEXTURE_TYPE_TITLE_BG
+	{ "data\\TEXTURE\\teamlogo_test.tga" },		// TEXTURE_TYPE_TEAMLOGO
+	{ "data\\TEXTURE\\title_background_test.tga" },		// TEXTURE_TYPE_TITLE_BG
+	{ "data\\TEXTURE\\titlelogo_test.tga" },	// TEXTURE_TYPE_TITLE_LOGO
+	{ "data\\TEXTURE\\titlemenu_game_test.tga" },// TEXTURE_TYPE_TITLE_MENU_GAME
+	{ "data\\TEXTURE\\titlemenu_tutorial_test.tga" },// TEXTURE_TYPE_TITLE_MENU_TUTORIAL
 	{ "data\\TEXTURE\\matching_test.tga" },		// TEXTURE_TYPE_MATCHING_BG
 	{ "data\\TEXTURE\\background_test.tga" },			// TEXTURE_TYPE_GAME_BG
 	{ "data\\TEXTURE\\result_test.tga" },		// TEXTURE_TYPE_RESULT_BG
 	{ "data\\TEXTURE\\number.tga" },				// TEXTURE_TYPE_NUMBER
 	{ "data\\TEXTURE\\gauge_frame.tga" }, 
-	{ "data\\TEXTURE\\gauge_red_in.tga" }
+	{ "data\\TEXTURE\\gauge_red_in.tga" },
+	{ "data\\TEXTURE\\Enemy001.tga" }
 };
 
 /*******************************************************************************
