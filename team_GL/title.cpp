@@ -13,6 +13,9 @@
 #include "main.h"
 #include "mode.h"
 #include "title.h"
+#include "titlebackground.h"
+#include "titlelogo.h"
+#include "titlemenu.h"
 #include "matching.h"
 #include "result.h"
 #include "fade.h"
@@ -52,7 +55,9 @@ CTitle::~CTitle()
 *******************************************************************************/
 void CTitle::Init(void)
 {
-	CScene2D::Create(TEXTURE_TYPE_TITLE_BG);
+	CTitleLogo::Create( Vector2( SCREEN_WIDTH * 0.5f, 150.0f ), Vector2( 0.0f, 0.0f ), 400.0f, 100.0f, TEXTURE_TYPE_TITLE_LOGO );
+	CTitleMenu::Create( Vector2( SCREEN_WIDTH * 0.5f, 500.0f ), Vector2( 0.0f, 0.0f ), 300.0f, 50.0f );
+	CTitleBackground::Create();
 }
 
 /*******************************************************************************

@@ -8,6 +8,7 @@
 #include "lib.h"
 #include "renderer.h"
 #include "mode.h"
+#include "opening.h"
 #include "title.h"
 #include "game.h"
 #include "result.h"
@@ -62,7 +63,7 @@ HRESULT CManager::Init(HINSTANCE hInstance , HWND hWnd , BOOL bWindow)
 	// フェードの初期化
 	CFade::Init();
 	// 最初のモードの設定
-	SetMode(new CTitle);
+	SetMode(new COpening);
 	return S_OK;
 }
 

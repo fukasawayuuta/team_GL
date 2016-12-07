@@ -55,4 +55,5 @@ public:
 	static void Draw(void);
 
 	static void Start(CMode *NextMode);
+	static bool Get( FADE State );
 };

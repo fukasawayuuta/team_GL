@@ -1,8 +1,8 @@
 /*******************************************************************************
 * タイトル名：
-* ファイル名：fade.cpp
-* 作成者	：AT13B284 10 小笠原啓太
-* 作成日	：
+* ファイル名：opening.cpp
+* 作成者	：AT13B284 02 阿部隆
+* 作成日	：2016/11/30
 ********************************************************************************
 * 更新履歴	：
 *
@@ -11,114 +11,88 @@
 * インクルードファイル
 *******************************************************************************/
 #include "main.h"
-#include "manager.h"
-#include "renderer.h"
+#include "mode.h"
+#include "opening.h"
+#include "title.h"
+#include "game.h"
+#include "result.h"
 #include "fade.h"
+#include "scene.h"
+#include "scene2D.h"
+#include "input.h"
+#include "texture.h"
 
 /*******************************************************************************
-* マクロ定義
-*******************************************************************************/
-const float WIDTH = SCREEN_WIDTH;
-const float HEIGHT = SCREEN_HEIGHT;
-const int FADE_COUNT = 30;
-
-/*******************************************************************************
-* グローバル変数
-*******************************************************************************/
-CMode *CFade::m_NextMode;
-FADE CFade::m_State = FADE_IN;
-int CFade::m_Count;
-float CFade::m_Alfa;
-
-/*******************************************************************************
-* 関数名：CFade::CFade()
+* 関数名：COpening::COpening()
 *
 * 引数	：
 * 戻り値：
 * 説明	：コンストラクタ
 *******************************************************************************/
-CFade::CFade()
+COpening::COpening()
 {
 }
 
 /*******************************************************************************
-* 関数名：CFade::~CFade()
+* 関数名：COpening::~COpening()
 *
 * 引数	：
 * 戻り値：
 * 説明	：デストラクタ
 *******************************************************************************/
-CFade::~CFade()
+COpening::~COpening()
 {
 }
 
 /*******************************************************************************
-* 関数名：void CFade::Init( void )
+* 関数名：void COpening::Init( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：初期化処理
 *******************************************************************************/
-void CFade::Init(void)
+void COpening::Init ( void )
 {
+	CScene2D::Create( TEXTURE_TYPE_TEAMLOGO );
 }
 
 /*******************************************************************************
-* 関数名：void CFade::Uninit( void )
+* 関数名：void COpening::Uninit( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：終了処理
 *******************************************************************************/
-void CFade::Uninit(void)
+void COpening::Uninit(void)
 {
-	m_NextMode = NULL;
+	CScene::ReleaseAll();
 }
 
 /*******************************************************************************
-* 関数名：void CFade::Update( void )
+* 関数名：void COpening::Update( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：更新処理
 *******************************************************************************/
-void CFade::Update(void)
+void COpening::Update(void)
 {
-	// フェードの処理
-	if (m_State == FADE_IN)
-	{// フェードイン
-		m_Alfa -= 1.0f / FADE_COUNT;
-		if (m_Count > FADE_COUNT)
-		{
-			m_State = FADE_NONE;
-			m_Count = 0;
-			m_Alfa = 0.0f;
-		}
+	CScene::UpdateAll();
+
+	if( CInput::GetKeyboardTrigger( DIK_RETURN ) )
+	{
+		CFade::Start( new CTitle );
 	}
-	else if (m_State == FADE_OUT)
-	{// フェードアウト
-		m_Alfa += 1.0f / FADE_COUNT;
-		if (m_Count > FADE_COUNT)
-		{
-			CManager::SetMode(m_NextMode);
-			m_State = FADE_IN;
-			m_Count = 0;
-			m_Alfa = 1.0f;
-		}
-	}
-	
-	// カウンタ加算
-	m_Count++;
 }
 
 /*******************************************************************************
-* 関数名：void CFade::Draw( void )
+* 関数名：void COpening::Draw( void )
 *
 * 引数	：
 * 戻り値：
-* 説明	：描画処理
+* 説明	：オープニングの背景(黒画面)の描画処理
 *******************************************************************************/
-void CFade::Draw(void)
+void COpening::Draw(void)
 {
 	/* ライトを無効 */
 	glDisable(GL_LIGHTING);
@@ -141,21 +115,21 @@ void CFade::Draw(void)
 	/* 2Dポリゴン描画開始 */
 	glBegin(GL_TRIANGLE_STRIP);
 
-	glColor4f(0.0f, 0.0f, 0.0f, m_Alfa);
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	glTexCoord2d(0.0f, 0.0f);
 	glVertex3f(0.0f, 0.0f, 0.0f);
 
-	glColor4f(0.0f, 0.0f, 0.0f, m_Alfa);
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	glTexCoord2d(1.0f, 0.0f);
-	glVertex3f(WIDTH, 0.0f, 0.0f);
+	glVertex3f( SCREEN_WIDTH, 0.0f, 0.0f);
 
-	glColor4f(0.0f, 0.0f, 0.0f, m_Alfa);
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	glTexCoord2d(0.0f, 1.0f);
-	glVertex3f(0.0f, HEIGHT, 0.0f);
+	glVertex3f(0.0f, SCREEN_HEIGHT, 0.0f);
 
-	glColor4f(0.0f, 0.0f, 0.0f, m_Alfa);
+	glColor4f(0.0f, 0.0f, 0.0f, 1.0f);
 	glTexCoord2d(1.0f, 1.0f);
-	glVertex3f(WIDTH, HEIGHT, 0.0f);
+	glVertex3f(SCREEN_WIDTH, SCREEN_HEIGHT, 0.0f);
 
 	glEnd();
 	/* 2Dポリゴン描画終了 */
@@ -175,34 +149,7 @@ void CFade::Draw(void)
 	glEnable(GL_DEPTH_TEST);
 
 	glFlush();						// コマンドの強制実行
-}
 
-/*******************************************************************************
-* 関数名：void CFade::Start( CMode *NextMode )
-*
-* 引数	：
-* 戻り値：
-* 説明	：フェード開始処理
-*******************************************************************************/
-void CFade::Start(CMode *NextMode)
-{
-	if (m_State == FADE_NONE)
-	{
-		m_NextMode = NextMode;
-		m_State = FADE_OUT;
-		m_Count = 0;
-		m_Alfa = 0.0f;
-	}
-}
 
-/*******************************************************************************
-* 関数名：void CFade::Get ( FADE State )
-*
-* 引数	：
-* 戻り値：
-* 説明	：フェード無
-*******************************************************************************/
-bool CFade::Get ( FADE State )
-{
-	return ( m_State == State ) ? true:false;
+	CScene::DrawAll();
 }
