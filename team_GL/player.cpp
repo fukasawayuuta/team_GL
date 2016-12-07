@@ -21,9 +21,10 @@
 	マクロ定義
 ******************************************************************************/
 const float MOVE_SPEED = 3.0f;
-const int DRAW_SPEED = 5;
+const int DRAW_SPEED = 10;
 const int TEXTURE_COLUMN = 7;
 const int TEXTURE_ROW = 3;
+const int WALK_DRAW = 4;
 
 /******************************************************************************
 	関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -31,6 +32,7 @@ const int TEXTURE_ROW = 3;
 ******************************************************************************/
 CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
 {
+	m_nDirection = -1;
 }
 
 /******************************************************************************
@@ -80,12 +82,15 @@ void CPlayer::Uninit(void)
 ******************************************************************************/
 void CPlayer::Update(void)
 {
+	// 移動
 	if(CInput::GetKeyboardPress(DIK_A))
 	{
+		m_nDirection = -1;
 		m_Pos.x -= MOVE_SPEED;
 	}
 	if(CInput::GetKeyboardPress(DIK_D))
 	{
+		m_nDirection = 1;
 		m_Pos.x += MOVE_SPEED;
 	}
 	// パターン描画更新
@@ -94,7 +99,7 @@ void CPlayer::Update(void)
 	{
 		m_nCntAnim = 0;
 		m_nPatternAnim++;
-		if (m_nPatternAnim == TEXTURE_COLUMN)
+		if (m_nPatternAnim == WALK_DRAW)
 		{
 			m_nPatternAnim = 0;
 		}
@@ -128,23 +133,40 @@ void CPlayer::Draw(void)
 	glBegin(GL_TRIANGLE_STRIP);
 
 	//	色設定
-	glColor4f(1 , 1 , 1, 1);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//	法線設定
-	glNormal3f(0, 1, 0);
+	glNormal3f(0.0f, 1.0f, 0.0f);
 
 	//	頂点座標設定
-	glTexCoord2d(0.0, 0.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+	if (m_nDirection < 0)
+	{
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(0.0, 1.0 / TEXTURE_ROW);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0 / TEXTURE_COLUMN, 0.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0 / TEXTURE_COLUMN, 1.0 / TEXTURE_ROW);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	}
+	else if (m_nDirection > 0)
+	{
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+		glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	}
 
 	glEnd();
 	// 描画終了

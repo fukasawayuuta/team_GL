@@ -21,7 +21,6 @@ class CGameBackground : public CScene3D
 {
 private:
 	int m_TextureIndex;
-
 public:
 	CGameBackground(int Priority = PRIORITY_BACKGROUND, OBJ_TYPE objType = OBJ_TYPE_NONE);
 	~CGameBackground();

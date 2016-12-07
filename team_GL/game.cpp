@@ -70,7 +70,7 @@ void CGame::Init(void)
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
-	CSync::Init();
+	//CSync::Init();
 }
 
 /*******************************************************************************

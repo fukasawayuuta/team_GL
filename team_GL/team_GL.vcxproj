@@ -88,6 +88,7 @@
     <ClCompile Include="manager.cpp" />
     <ClCompile Include="matching.cpp" />
     <ClCompile Include="mode.cpp" />
+    <ClCompile Include="opening.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="result.cpp" />
@@ -99,6 +100,9 @@
     <ClCompile Include="sync.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="title.cpp" />
+    <ClCompile Include="titlebackground.cpp" />
+    <ClCompile Include="titlelogo.cpp" />
+    <ClCompile Include="titlemenu.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +118,7 @@
     <ClInclude Include="manager.h" />
     <ClInclude Include="matching.h" />
     <ClInclude Include="mode.h" />
+    <ClInclude Include="opening.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="renderer.h" />
     <ClInclude Include="result.h" />
@@ -125,6 +130,9 @@
     <ClInclude Include="sync.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="title.h" />
+    <ClInclude Include="titlebackground.h" />
+    <ClInclude Include="titlelogo.h" />
+    <ClInclude Include="titlemenu.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

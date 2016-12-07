@@ -25,4 +25,5 @@ public:
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 protected:
+	int m_nDirection;		// プレイヤーの向き 左：-1 右：1
 };
