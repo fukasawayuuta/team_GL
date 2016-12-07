@@ -19,6 +19,9 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
+const int DRAW_SPEED = 30;
+const int TEXTURE_COLUMN = 7;
+const int TEXTURE_ROW = 3;
 
 /******************************************************************************
 	関数名 : CAnimationBoard::CAnimationBoard(int Priority, OBJ_TYPE objType) : CScene3D(Priority, objType)
@@ -78,6 +81,17 @@ void CAnimationBoard::Uninit(void)
 ******************************************************************************/
 void CAnimationBoard::Update(void)
 {
+	// パターン描画更新
+	m_nCntAnim++;
+	if (m_nCntAnim == DRAW_SPEED)
+	{
+		m_nCntAnim = 0;
+		m_nPatternAnim++;
+		if (m_nPatternAnim == TEXTURE_COLUMN)
+		{
+			m_nPatternAnim = 0;
+		}
+	}
 }
 
 /******************************************************************************
@@ -119,17 +133,17 @@ void CAnimationBoard::Draw(void)
 	glNormal3f(0, 1, 0);
 
 	//	頂点座標設定
-	glTexCoord2d(0.0, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
+	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(0.0, 0.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
+	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 0.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glEnd();
 	//	描画終了
