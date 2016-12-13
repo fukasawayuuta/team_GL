@@ -95,62 +95,6 @@ void CEnemy::Update(void)
 void CEnemy::Draw(void)
 {
 	CAnimationBoard::Draw();
-	//glDisable(GL_LIGHTING);
-	////	ここからモデルビューマトリクスの設定////////////////////////
-	//glMatrixMode(GL_MODELVIEW);
-	//glPushMatrix();
-	////	ここまでモデルビューマトリクスの設定////////////////////////
-
-	//glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
-	//glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
-	//glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
-
-
-	///* 透明色を描けるようにする */
-	//glEnable(GL_BLEND); 
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-
-	////　テクスチャマッピング有効化
- //   glEnable(GL_TEXTURE_2D);
- //   //　テクスチャをバインド
- //   glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-	//
-	////	描画開始
-	//glBegin(GL_TRIANGLE_STRIP);
-
-	////	色設定
-	//glColor4f(1 , 1 , 1, 1);
-
-	////	法線設定
-	//glNormal3f(0, 1, 0);
-
-	////	頂点座標設定
-	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
-	//glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-	//glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-
-	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
-	//glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-	//glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
-
-	//glEnd();
-	////	描画終了
-
-	//glEnable(GL_LIGHTING);
-
-	// glBindTexture(GL_TEXTURE_2D, 0);
- //   //　テクスチャマッピング無効化
- //   glDisable(GL_TEXTURE_2D);
-
-	////	ここからマトリックスを元に戻す//////////////////////////////
-	//glMatrixMode(GL_MODELVIEW);
-	//glPopMatrix();
-	////	ここまでマトリックスを元に戻す//////////////////////////////
 }
 
 /******************************************************************************
