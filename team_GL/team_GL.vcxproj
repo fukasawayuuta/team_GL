@@ -78,8 +78,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="animationBoard.cpp" />
+    <ClCompile Include="boss.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="fade.cpp" />
+    <ClCompile Include="fieldObject.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamebackground.cpp" />
     <ClCompile Include="game_UI.cpp" />
@@ -107,8 +110,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animationBoard.h" />
+    <ClInclude Include="boss.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="fade.h" />
+    <ClInclude Include="fieldObject.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamebackground.h" />
     <ClInclude Include="game_UI.h" />

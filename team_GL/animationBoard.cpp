@@ -31,6 +31,7 @@ CAnimationBoard::CAnimationBoard(int Priority, OBJ_TYPE objType) : CScene3D(Prio
 {
 	m_nCntAnim = 0;		
 	m_nPatternAnim = 0;
+	m_nRowAnim = 0;
 	
 	m_nDirection = -1;
 	m_nTexRow = TEXTURE_COLUMN;
@@ -82,9 +83,8 @@ void CAnimationBoard::Update(void)
 {
 	// パターン描画更新
 	m_nCntAnim++;
-	if (m_nCntAnim == DRAW_SPEED)
+	if ((m_nCntAnim % DRAW_SPEED) == 0)
 	{
-		m_nCntAnim = 0;
 		m_nPatternAnim++;
 		if (m_nPatternAnim == TEXTURE_COLUMN)
 		{
@@ -128,30 +128,30 @@ void CAnimationBoard::Draw(void)
 	//	頂点座標設定
 	if (m_nDirection < 0)
 	{
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 0.0);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 0.0);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 	}
 	else if (m_nDirection > 0)
 	{
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 0.0);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 0.0);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), 1.0 / m_nTexRow);
+		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
 		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 	}
 
