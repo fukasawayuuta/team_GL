@@ -255,6 +255,10 @@ void CTitleMenu::Draw ( void )
 	glEnable(GL_BLEND); 
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	// αテスト 有効化
+	glAlphaFunc(GL_GEQUAL, 0.09f );
+	glEnable(GL_ALPHA_TEST);
+
 	// テクスチャマッピング有効化
 	glEnable(GL_TEXTURE_2D);
 
@@ -291,6 +295,9 @@ void CTitleMenu::Draw ( void )
 	glEnable(GL_LIGHTING);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	// αテスト無効化
+	glDisable(GL_ALPHA_TEST);
 
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);
