@@ -115,7 +115,7 @@ void CAnimationBoard::Draw(void)
     glEnable(GL_TEXTURE_2D);
     //　テクスチャをバインド
     glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-	
+	glDepthMask(GL_FALSE);
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
@@ -159,7 +159,7 @@ void CAnimationBoard::Draw(void)
 	// 描画終了
 
 	glEnable(GL_LIGHTING);
-
+	glDepthMask(GL_TRUE);
 	glBindTexture(GL_TEXTURE_2D, 0);
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);
