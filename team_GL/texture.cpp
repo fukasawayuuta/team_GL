@@ -36,14 +36,19 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\titlemenu_tutorial_test.tga" },	// TEXTURE_TYPE_TITLE_MENU_TUTORIAL
 	{ "data\\TEXTURE\\matching_test.tga" },				// TEXTURE_TYPE_MATCHING_BG
 	{ "data\\TEXTURE\\background_test.tga" },			// TEXTURE_TYPE_GAME_BG
-	{ "data\\TEXTURE\\result_test.tga" },				// TEXTURE_TYPE_RESULT_BG
 	{ "data\\TEXTURE\\number.tga" },					// TEXTURE_TYPE_NUMBER
 	{ "data\\TEXTURE\\gauge_frame.tga" },				// TEXTURE_TYPE_GAUGE_FRAME
 	{ "data\\TEXTURE\\gauge_red_in.tga" },				// TEXTURE_TYPE_GAUGE_IN
 	{ "data\\TEXTURE\\player000.tga" },					// TEXTURE_TYPE_PLAYER000
 	{ "data\\TEXTURE\\enemy_bat.tga" },					// TEXTURE_TYPE_ENEMY001
 	{ "data\\TEXTURE\\dragon.tga" },					// TEXTURE_TYPE_BOSS
-	{ "data\\TEXTURE\\block002.tga" }
+	{ "data\\TEXTURE\\block002.tga" },
+	{ "data\\TEXTURE\\result_bg.tga" },					// TEXTURE_TYPE_RESULT_BG
+	{ "data\\TEXTURE\\ranking.tga" },					// TEXTURE_TYPE_RESULT_LOGO
+	{ "data\\TEXTURE\\1st.tga" },						// TEXTURE_TYPE_RANK_FIRST
+	{ "data\\TEXTURE\\2nd.tga" },						// TEXTURE_TYPE_RANK_SECOND
+	{ "data\\TEXTURE\\3rd.tga" },						// TEXTURE_TYPE_RANK_THIRD
+	{ "data\\TEXTURE\\4th.tga" },						// TEXTURE_TYPE_RANK_FOURTH
 };
 
 /*******************************************************************************
