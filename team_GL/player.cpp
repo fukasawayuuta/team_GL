@@ -26,6 +26,9 @@ const int TEXTURE_COLUMN = 7;			// テクスチャ列分割数
 const int TEXTURE_ROW = 3;				// テクスチャ行分割数
 const int WALK_DRAW = 4;				// 歩きモーションのコマ数
 const float MOVE_ATTENUATION = 0.2f;	// 移動量減衰係数
+const int GRAVITY = -5.0f;
+const float GROUND = 0.0f;
+const int JUMP_POWER = 30.0f;
 
 /******************************************************************************
 	関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -64,6 +67,9 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Height = height;
 	m_Depth = 0.0f;
 
+	m_Hp = 100;
+	m_Jump = false;
+
 	m_nTexIdx = CTexture::SetTexture(TEXTURE_TYPE_PLAYER000);
 }
 
@@ -98,8 +104,23 @@ void CPlayer::Update(void)
 	}
 	// 移動量の減衰
 	m_Move.x += (0.0f - m_Move.x) * MOVE_ATTENUATION;
+	
+	if( CInput::GetKeyboardTrigger( DIK_SPACE ) && !m_Jump )
+	{
+		m_Jump = true;
+		m_Move.y = JUMP_POWER;
+	}
+	
+	m_Move.y += GRAVITY;
+	
 	// 位置の更新
 	m_Pos += m_Move;
+
+	if( m_Pos.y - m_Width / 2 <= GROUND )
+	{
+		m_Jump = false;
+		m_Pos.y = GROUND + m_Width / 2;
+	}
 
 	// パターン描画更新
 	m_nCntAnim++;
@@ -137,4 +158,19 @@ CPlayer *CPlayer::Create(Vector3 pos, float width, float height)
 	obj->Init(pos, width, height);
 
 	return obj;
+}
+
+/******************************************************************************
+	関数名 : HitCheck
+	引数   : Vector3 pos
+	戻り値 : void
+	説明   : 当たり判定 
+******************************************************************************/
+void CPlayer::HitCheck( Vector3 pos )
+{
+	if( m_Pos.x + m_Width / 2 > pos.x && m_Pos.x - m_Width / 2 < pos.x
+		&& m_Pos.y + m_Width / 2 > pos.y && m_Pos.y - m_Width / 2 < pos.z )
+	{
+		m_Hp --;
+	}
 }
