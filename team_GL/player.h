@@ -23,8 +23,10 @@ public:
 	void Update(void);		//	更新関数。
 	void Draw(void);		//	描画関数
 
+	void HitCheck( Vector3 pos );
+
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
-protected:
+private:
 	// プレイヤーの状態
 	typedef enum
 	{
@@ -33,6 +35,9 @@ protected:
 		STATE_DAMAGE,
 		STATE_MAX
 	}STATE;
+
+	int m_Hp;
+	bool m_Jump;
 
 	STATE m_State;
 	Vector3 m_Move;			// 移動量
