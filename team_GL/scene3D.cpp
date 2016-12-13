@@ -82,27 +82,24 @@ void CScene3D::Update(void)
 ******************************************************************************/
 void CScene3D::Draw(void)
 {
+	glDisable(GL_LIGHTING);
 	//	ここからモデルビューマトリクスの設定////////////////////////
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	//	ここまでモデルビューマトリクスの設定////////////////////////
 
-	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
-	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
 	glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
-	
-
-	/* 透明色を描けるようにする */
-	glEnable(GL_BLEND); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glDisable(GL_LIGHTING);
+	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
+	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
 
 	//　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
+
+	glEnable(GL_BLEND);
+
     //　テクスチャをバインド
     glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-
+	
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
@@ -113,24 +110,24 @@ void CScene3D::Draw(void)
 	glNormal3f(0, 1, 0);
 
 	//	頂点座標設定
-	glTexCoord2d(0.0, 1.0);
+	glTexCoord2d(0.0, 0.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
-
-	glTexCoord2d(0.0, 0.0);
+	glTexCoord2d(0.0, 1.0);
     glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glTexCoord2d(1.0, 0.0);
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+
+	glTexCoord2d(1.0, 1.0);
     glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
 	glEnd();
-	//	描画終了
+	// 描画終了
 
 	glEnable(GL_LIGHTING);
 
-	 glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);
 

@@ -17,9 +17,9 @@
 #include "enemy.h"
 
 const int DRAW_SPEED = 30;
-const int TEXTURE_COLUMN = 12;
-const int TEXTURE_ROW = 8;
-const int WALK_DRAW = 3;
+const int TEXTURE_COLUMN = 5;
+const int TEXTURE_ROW = 1;
+const int WALK_DRAW = 5;
 
 /******************************************************************************
 	関数名 : CEnemy::CEnemy()
@@ -27,7 +27,8 @@ const int WALK_DRAW = 3;
 ******************************************************************************/
 CEnemy::CEnemy(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
 {
-
+	m_nTexRow = TEXTURE_ROW;
+	m_nTexColumn = TEXTURE_COLUMN;
 }
 
 /******************************************************************************
@@ -49,6 +50,7 @@ void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
 	m_Pos = pos;
 	m_Width = width;
 	m_Height = height;
+	m_nDirection = 1;
 	m_nTexIdx = CTexture::SetTexture(texIndex);
 }
 
@@ -92,62 +94,63 @@ void CEnemy::Update(void)
 ******************************************************************************/
 void CEnemy::Draw(void)
 {
-	glDisable(GL_LIGHTING);
-	//	ここからモデルビューマトリクスの設定////////////////////////
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	//	ここまでモデルビューマトリクスの設定////////////////////////
+	CAnimationBoard::Draw();
+	//glDisable(GL_LIGHTING);
+	////	ここからモデルビューマトリクスの設定////////////////////////
+	//glMatrixMode(GL_MODELVIEW);
+	//glPushMatrix();
+	////	ここまでモデルビューマトリクスの設定////////////////////////
 
-	glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
-	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
-	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
-
-
-	/* 透明色を描けるようにする */
-	glEnable(GL_BLEND); 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
+	//glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
+	//glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
 
 
-	//　テクスチャマッピング有効化
-    glEnable(GL_TEXTURE_2D);
-    //　テクスチャをバインド
-    glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-	
-	//	描画開始
-	glBegin(GL_TRIANGLE_STRIP);
+	///* 透明色を描けるようにする */
+	//glEnable(GL_BLEND); 
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//	色設定
-	glColor4f(1 , 1 , 1, 1);
 
-	//	法線設定
-	glNormal3f(0, 1, 0);
+	////　テクスチャマッピング有効化
+ //   glEnable(GL_TEXTURE_2D);
+ //   //　テクスチャをバインド
+ //   glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
+	//
+	////	描画開始
+	//glBegin(GL_TRIANGLE_STRIP);
 
-	//	頂点座標設定
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
-	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+	////	色設定
+	//glColor4f(1 , 1 , 1, 1);
 
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	////	法線設定
+	//glNormal3f(0, 1, 0);
 
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
-	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+	////	頂点座標設定
+	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 0.0);
+	//glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
-	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+	//glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	glEnd();
-	//	描画終了
+	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 0.0);
+	//glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
 
-	glEnable(GL_LIGHTING);
+	//glTexCoord2d(m_nPatternAnim * (1.0 / TEXTURE_COLUMN) + (1.0 / TEXTURE_COLUMN), 1.0 / TEXTURE_ROW);
+	//glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
 
-	 glBindTexture(GL_TEXTURE_2D, 0);
-    //　テクスチャマッピング無効化
-    glDisable(GL_TEXTURE_2D);
+	//glEnd();
+	////	描画終了
 
-	//	ここからマトリックスを元に戻す//////////////////////////////
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	//	ここまでマトリックスを元に戻す//////////////////////////////
+	//glEnable(GL_LIGHTING);
+
+	// glBindTexture(GL_TEXTURE_2D, 0);
+ //   //　テクスチャマッピング無効化
+ //   glDisable(GL_TEXTURE_2D);
+
+	////	ここからマトリックスを元に戻す//////////////////////////////
+	//glMatrixMode(GL_MODELVIEW);
+	//glPopMatrix();
+	////	ここまでマトリックスを元に戻す//////////////////////////////
 }
 
 /******************************************************************************
