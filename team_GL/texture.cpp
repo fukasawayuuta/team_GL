@@ -41,7 +41,9 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\gauge_frame.tga" },				// TEXTURE_TYPE_GAUGE_FRAME
 	{ "data\\TEXTURE\\gauge_red_in.tga" },				// TEXTURE_TYPE_GAUGE_IN
 	{ "data\\TEXTURE\\player000.tga" },					// TEXTURE_TYPE_PLAYER000
-	{ "data\\TEXTURE\\enemy_bat.tga" }					// TEXTURE_TYPE_ENEMY001
+	{ "data\\TEXTURE\\enemy_bat.tga" },					// TEXTURE_TYPE_ENEMY001
+	{ "data\\TEXTURE\\dragon.tga" },					// TEXTURE_TYPE_BOSS
+	{ "data\\TEXTURE\\block002.tga" }
 };
 
 /*******************************************************************************

@@ -22,7 +22,7 @@ public:
 		OBJECT_TYPE_MAX
 	};
 
-	CFieldObject(int Priority = PRIORITY_2, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
+	CFieldObject(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
 	~CFieldObject();	//	デストラクタ。
 
 	void Init(Vector3 pos, Vector3 rot, float width, float height, int index);		//	初期化関数。
