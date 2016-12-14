@@ -62,7 +62,7 @@ void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
 ******************************************************************************/
 void CEnemy::Uninit(void)
 {
-
+	m_Delete = true;
 }
 
 /******************************************************************************
@@ -107,4 +107,19 @@ void CEnemy::Create(Vector3 pos, float width, float height, int texIndex)
 {
 	CEnemy *obj = new CEnemy;
 	obj->Init(pos, width, height, texIndex);
+}
+
+/******************************************************************************
+	ä÷êîñº : HitCheck
+	à¯êî   : pos, width, height
+	ñﬂÇËíl : Ç»Çµ
+	ê‡ñæ   : ìñÇΩÇËîªíË
+******************************************************************************/
+void CEnemy::HitCheck( Vector3 pos, float width, float height )
+{
+	float distance = atan2f( m_Pos.x - pos.x, m_Pos.y - pos.y );
+	if( abs( m_Pos.x - pos.x ) < m_Width / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Height / 2 + height / 2 )
+	{
+		this->Uninit();
+	}
 }

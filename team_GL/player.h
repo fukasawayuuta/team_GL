@@ -23,7 +23,7 @@ public:
 	void Update(void);		//	更新関数。
 	void Draw(void);		//	描画関数
 
-	void HitCheck( Vector3 pos );
+	void HitCheck( Vector3 pos, float width, float height );
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 private:

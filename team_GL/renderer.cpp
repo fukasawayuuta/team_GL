@@ -9,6 +9,7 @@
 	インクルードファイル
 ******************************************************************************/
 #include "renderer.h"
+#include "input.h"
 
 /******************************************************************************
 	マクロ定義
@@ -121,7 +122,16 @@ void CRenderer::Uninit(void)
 ******************************************************************************/
 void CRenderer::Update(void)
 {
-	
+#ifdef _DEBUG
+	if( CInput::GetKeyboardPress( DIK_F1 ) )
+	{
+		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	}
+	if( CInput::GetKeyboardPress( DIK_F2 ) )
+	{
+		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+	}
+#endif
 }
 
 /******************************************************************************
@@ -143,7 +153,7 @@ void CRenderer::Draw(void)
 ******************************************************************************/
 void CRenderer::Begin(void)
 {
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);					//	クリアカラーの設定
+	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);					//	クリアカラーの設定
 	glClearDepth(1.0f);										//	クリア時の深度値を設定
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		//	(バックバッファ | Zバッファ)
 	glEnable(GL_DEPTH_TEST);								//「Zテスト」を有効にする

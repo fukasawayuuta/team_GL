@@ -25,27 +25,28 @@
 /******************************************************************************
 	Class宣言
 ******************************************************************************/
+//	オブジェクトタイプの列挙型
+typedef enum {
+	OBJ_TYPE_NONE = 0,
+	OBJ_TYPE_2D,
+	OBJ_TYPE_PLAYER,
+	OBJ_TYPE_ENEMY,
+	OBJ_TYPE_BOSS,
+	OBJ_TYPE_MAX
+}OBJ_TYPE;
+
+//	優先度の列挙型
+typedef enum {
+	PRIORITY_BACKGROUND = 0,	//	優先度1位(ドームとか床とか)
+	PRIORITY_3D,				//	優先度2位(プレイヤーとか敵とか)
+	PRIORITY_EFFECT,			//	エフェクトとか
+	PRIORITY_2D,				//	優先度3位(2D関連)
+	PRIORITY_MAX
+}PRIORITY;
+
 class CScene
 {
 public:
-	//	オブジェクトタイプの列挙型
-	typedef enum {
-		OBJ_TYPE_NONE = 0,
-		OBJ_TYPE_2D,
-		OBJ_TYPE_PLAYER,
-		OBJ_TYPE_ENEMY,
-		OBJ_TYPE_BOSS,
-		OBJ_TYPE_MAX
-	}OBJ_TYPE;
-
-	//	優先度の列挙型
-	typedef enum {
-		PRIORITY_BACKGROUND = 0,	//	優先度1位(ドームとか床とか)
-		PRIORITY_3D,				//	優先度2位(プレイヤーとか敵とか)
-		PRIORITY_EFFECT,			//	エフェクトとか
-		PRIORITY_2D,				//	優先度3位(2D関連)
-		PRIORITY_MAX
-	}PRIORITY;
 
 	CScene(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ
 	~CScene();	
@@ -61,6 +62,10 @@ public:
 	static void ReleaseAll(void);		//	一括解放関数
 	void Release(int Priority);			//	選択解放関数
 	//	一括関数/////////////////////////////////////////////////////////////////////////////////////
+
+	static CScene *GetList( int nPriority ){ return m_Top[ nPriority ] ; };
+	static CScene *GetNext( CScene *pScene ){ return pScene->m_Next ; };
+	static OBJ_TYPE GetObjtype( CScene *pScene ){ return pScene->m_type ; };
 
 protected:
 	OBJ_TYPE  m_type;			//	オブジェクトタイプ
