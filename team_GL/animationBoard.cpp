@@ -129,30 +129,30 @@ void CAnimationBoard::Draw(void)
 	if (m_nDirection < 0)
 	{
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(-m_Width * 0.5f, m_Height * 0.5f, 0.0f);
 
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(-m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
 
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(m_Width * 0.5f, m_Height * 0.5f, 0.0f);
 
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
 	}
 	else if (m_nDirection > 0)
 	{
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(-m_Width * 0.5f, m_Height * 0.5f, 0.0f);
 
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn) + (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(-m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
 
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(m_Width * 0.5f, m_Height * 0.5f, 0.0f);
 
 		glTexCoord2d(m_nPatternAnim * (1.0 / m_nTexColumn), m_nRowAnim * (1.0 / m_nTexRow) + (1.0 / m_nTexRow));
-		glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+		glVertex3f(m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
 	}
 
 	glEnd();

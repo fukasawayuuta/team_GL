@@ -26,6 +26,8 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+
+	CCamera* GetCamera(void) { return m_pCamera; }		// ƒJƒƒ‰æ“¾ŠÖ”
 private:
 	CCamera *m_pCamera;
 	int m_SoundSE_ID;

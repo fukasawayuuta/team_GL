@@ -61,8 +61,7 @@ void CCamera::Uninit(void)
 void CCamera::Update(void)
 {
 	//	éãì_ÇÃç¿ïWê›íË
-	/*m_PosV.x = m_PosR.x - sinf(m_Rot.y) * m_Distance;
-	m_PosV.z = m_PosR.z - cosf(m_Rot.y) * m_Distance;*/
+
 }
 
 /******************************************************************************

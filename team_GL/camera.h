@@ -24,8 +24,8 @@ public:
 
 	void Set(void);			//	セット関数
 
-	static CCamera *Create(void);		//	作成関数。
-
+	static CCamera *Create(void);				// 作成関数。
+	void SetPosition(float x) { m_PosV.x = x; m_PosR.x = x; }	// 座標セット
 private:
 	Vector3 m_PosV;		//	視点座標。
 	Vector3 m_PosR;		//	注視点座標。

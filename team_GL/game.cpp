@@ -72,7 +72,7 @@ CGame::~CGame()
 *******************************************************************************/
 void CGame::Init(void)
 {
-	CSync::Init();
+	//CSync::Init();
 	hth =  (HANDLE)_beginthreadex(NULL,
 			0,
 			Recv,	//	スレッドとして実行する関数名
