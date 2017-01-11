@@ -61,7 +61,6 @@ int CSync::Init( void )
 	m_addr.sin_addr.s_addr = inet_addr( ipaddress );
 	connect( m_Socket, ( SOCKADDR* )&m_addr, sizeof( m_addr ) );
 	memset( m_RecvData, 0, sizeof( m_RecvData ) );
-	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
 	sscanf( m_RecvData, "%d", &nNumber );
 	fclose( fp );
 	return nNumber ;

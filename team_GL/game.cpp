@@ -35,6 +35,11 @@
 #include "bat.h"
 
 /*******************************************************************************
+* 静的変数宣言
+*******************************************************************************/
+static int SEND_TIMING_COUNT = 10;
+
+/*******************************************************************************
 * 関数名：CGame::CGame()
 *
 * 引数	：
@@ -44,6 +49,7 @@
 CGame::CGame()
 {
 	m_pCamera = NULL;
+	m_SendCnt = 0;
 }
 
 /*******************************************************************************
@@ -66,6 +72,14 @@ CGame::~CGame()
 *******************************************************************************/
 void CGame::Init(void)
 {
+	CSync::Init();
+	hth =  (HANDLE)_beginthreadex(NULL,
+			0,
+			Recv,	//	スレッドとして実行する関数名
+			NULL,
+			0,
+			&thID);	//	スレッドのID
+
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
 	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
@@ -78,7 +92,6 @@ void CGame::Init(void)
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
 	//CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BLOCK);
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
-	//CSync::Init();
 }
 
 /*******************************************************************************
@@ -90,6 +103,13 @@ void CGame::Init(void)
 *******************************************************************************/
 void CGame::Uninit(void)
 {
+	//	スレッドの状態取得。
+	GetExitCodeThread(hth, &m_ExitCode);
+	//	スレッドがうごていたら終了。
+	if (m_ExitCode == STILL_ACTIVE) {
+		TerminateThread(hth, m_ExitCode);
+	}
+
 	CScene::ReleaseAll();
 	if(m_pCamera)
 	{
@@ -110,7 +130,6 @@ void CGame::Uninit(void)
 *******************************************************************************/
 void CGame::Update(void)
 {
-	CSync::Recv();
 	m_pCamera->Update();
 	CScene::UpdateAll();
 	bool bEnd = true;
@@ -129,8 +148,9 @@ void CGame::Update(void)
 		CFade::Start(new CResult);
 		CSoundAL::Play(m_SoundSE_ID, false);
 	}
+	if (m_SendCnt == 0)	CSync::Send( Vector3( 0, 0, 0 ) );
 
-	CSync::Send( Vector3( 0, 0, 0 ) );
+	m_SendCnt = (m_SendCnt + 1) % SEND_TIMING_COUNT;
 }
 
 /*******************************************************************************
@@ -144,4 +164,11 @@ void CGame::Draw(void)
 {
 	m_pCamera->Set();
 	CScene::DrawAll();
+}
+
+unsigned int CGame::Recv(void*)
+{
+	while (1) {
+		CSync::Recv();
+	}
 }

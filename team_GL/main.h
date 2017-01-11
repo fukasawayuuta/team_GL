@@ -31,6 +31,7 @@
 #include <math.h>
 #include "Vector.h"
 #include "lib.h"
+#include <process.h>
 
 /******************************************************************************
 	É}ÉNÉçíËã`
