@@ -29,8 +29,12 @@ public:
 private:
 	CCamera *m_pCamera;
 	int m_SoundSE_ID;
+
+	DWORD m_ExitCode;					//	スレッドの終了判定。
 	static unsigned int __stdcall Recv( void* );
 	unsigned int thID;
 	HANDLE hth;
+
+	int m_SendCnt;		//	情報を送るタイミングカウンタ。
 };
 
