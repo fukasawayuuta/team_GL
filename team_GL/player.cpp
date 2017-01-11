@@ -33,6 +33,8 @@ const float MOVE_ATTENUATION = 0.2f;	// ˆÚ“®—ÊŒ¸ŠŒW”
 const int GRAVITY = -5.0f;
 const float GROUND = 0.0f;
 const int JUMP_POWER = 30.0f;
+const float PLAYER_COLLISIONWIDTH = 15.0f;
+const float PLAYER_COLLISIONHEIGHT = 80.0f;
 
 /******************************************************************************
 	ŠÖ”–¼ : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -74,6 +76,9 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Hp = 200;
 	m_Jump = false;
 
+	m_fCollisionWidth = PLAYER_COLLISIONWIDTH;
+	m_fCollisionHeight = PLAYER_COLLISIONHEIGHT;
+
 	m_nTexIdx = CTexture::SetTexture(TEXTURE_TYPE_PLAYER000);
 }
 
@@ -104,10 +109,7 @@ void CPlayer::Update(void)
 			Vector3 pos = pEnemy->GetPosition();
 			float width = pEnemy->GetWidth();
 			float height = pEnemy->GetHeight();
-			float distance =  sqrtf( ( m_Pos.x - pos.x ) * ( m_Pos.x - pos.x ) + ( m_Pos.y - pos.y ) * ( m_Pos.y - pos.y ) );
-			if( abs( m_Pos.x - pos.x ) < m_Width / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Height / 2 + height / 2 )
-			//if( m_Pos.x + m_Width / 2 > pos.x - width / 2 && m_Pos.x - m_Width / 2 < m_Pos.x + width / 2
-			//	&& m_Pos.y + m_Height / 2 > pos.y - height / 2 && m_Pos.y - m_Height / 2 < m_Pos.y + height / 2 )
+			if( abs( m_Pos.x - pos.x ) < m_fCollisionWidth / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_fCollisionHeight / 2 + height / 2 )
 			{
 				m_Hp --;
 			}
@@ -207,7 +209,7 @@ CPlayer *CPlayer::Create(Vector3 pos, float width, float height)
 ******************************************************************************/
 void CPlayer::HitCheck( Vector3 pos, float width, float height )
 {
-	if( abs( m_Pos.x - pos.x ) < m_Width / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Height / 2 + height / 2 )
+	if( abs( m_Pos.x - pos.x ) < m_fCollisionWidth / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_fCollisionHeight / 2 + height / 2 )
 	{
 		m_Hp --;
 	}

@@ -20,6 +20,8 @@ const int DRAW_SPEED = 30;
 const int TEXTURE_COLUMN = 5;
 const int TEXTURE_ROW = 1;
 const int WALK_DRAW = 5;
+const float ENEMY_COLLISIONWIDTH = 15.0f;
+const float ENEMY_COLLISIONHEIGHT = 80.0f;
 
 /******************************************************************************
 	ä÷êîñº : CEnemy::CEnemy()
@@ -51,6 +53,8 @@ void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
 	m_Width = width;
 	m_Height = height;
 	m_nDirection = 1;
+	m_fCollisionWidth = ENEMY_COLLISIONWIDTH;
+	m_fCollisionHeight = ENEMY_COLLISIONHEIGHT;
 	m_nTexIdx = CTexture::SetTexture(texIndex);
 }
 
@@ -117,8 +121,7 @@ void CEnemy::Create(Vector3 pos, float width, float height, int texIndex)
 ******************************************************************************/
 void CEnemy::HitCheck( Vector3 pos, float width, float height )
 {
-	float distance = atan2f( m_Pos.x - pos.x, m_Pos.y - pos.y );
-	if( abs( m_Pos.x - pos.x ) < m_Width / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Height / 2 + height / 2 )
+	if( abs( m_Pos.x - pos.x ) < m_fCollisionWidth / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_fCollisionHeight / 2 + height / 2 )
 	{
 		this->Uninit();
 	}

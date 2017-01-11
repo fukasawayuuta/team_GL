@@ -32,4 +32,7 @@ protected:
 	int m_nRowAnim;			// 段カウンタ
 
 	int m_nDirection;		// 向き 左：-1 右：1
+
+	float m_fCollisionWidth;
+	float m_fCollisionHeight;
 };
