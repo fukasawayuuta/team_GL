@@ -68,13 +68,13 @@ void CGame::Init(void)
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
 	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
-	CEnemy::Create(Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
-	CPlayer::Create(Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f);
-	CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
+	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
+	CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
+	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
 	CSoundAL::Init();
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
-	CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BLOCK);
+	//CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BLOCK);
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
 	//CSync::Init();
 }
@@ -111,12 +111,23 @@ void CGame::Update(void)
 	CSync::Recv();
 	m_pCamera->Update();
 	CScene::UpdateAll();
+	bool bEnd = true;
+	CScene *pScene = CScene::GetList( PRIORITY_3D );
+	while( pScene )
+	{
+		if( pScene->GetObjtype( pScene ) == OBJ_TYPE_ENEMY )
+		{
+			bEnd = false;
+		}
+		pScene = pScene->GetNext( pScene );
+	}
 
-	if (CInput::GetKeyboardTrigger(DIK_RETURN))
+	if (bEnd)
 	{
 		CFade::Start(new CResult);
 		CSoundAL::Play(m_SoundSE_ID, false);
 	}
+
 	CSync::Send( Vector3( 0, 0, 0 ) );
 }
 

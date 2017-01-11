@@ -16,6 +16,10 @@
 #include "animationBoard.h"
 #include "player.h"
 #include "input.h"
+#include "enemy.h"
+#include "fade.h"
+#include "mode.h"
+#include "result.h"
 
 /******************************************************************************
 	マクロ定義
@@ -67,7 +71,7 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Height = height;
 	m_Depth = 0.0f;
 
-	m_Hp = 100;
+	m_Hp = 200;
 	m_Jump = false;
 
 	m_nTexIdx = CTexture::SetTexture(TEXTURE_TYPE_PLAYER000);
@@ -91,6 +95,41 @@ void CPlayer::Uninit(void)
 ******************************************************************************/
 void CPlayer::Update(void)
 {
+	CScene *pScene = CScene::GetList( PRIORITY_3D );
+	while( pScene )
+	{
+		if( pScene->GetObjtype( pScene ) == OBJ_TYPE_ENEMY )
+		{
+			CEnemy *pEnemy = ( CEnemy* )pScene;
+			Vector3 pos = pEnemy->GetPosition();
+			float width = pEnemy->GetWidth();
+			float height = pEnemy->GetHeight();
+			float distance =  sqrtf( ( m_Pos.x - pos.x ) * ( m_Pos.x - pos.x ) + ( m_Pos.y - pos.y ) * ( m_Pos.y - pos.y ) );
+			if( abs( m_Pos.x - pos.x ) < m_Width / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Height / 2 + height / 2 )
+			//if( m_Pos.x + m_Width / 2 > pos.x - width / 2 && m_Pos.x - m_Width / 2 < m_Pos.x + width / 2
+			//	&& m_Pos.y + m_Height / 2 > pos.y - height / 2 && m_Pos.y - m_Height / 2 < m_Pos.y + height / 2 )
+			{
+				m_Hp --;
+			}
+
+			if( m_State == STATE_ATTACK )
+			{
+				pEnemy->Uninit();
+			}
+		}
+		pScene = pScene->GetNext( pScene );
+	}
+
+	if( m_Hp <= 0 && CFade::Get( FADE_NONE ) )
+	{
+		//CFade::Start( new CResult );
+	}
+
+	if( CInput::GetKeyboardTrigger( DIK_G ) )
+	{
+		m_State = STATE_ATTACK;
+	}
+
 	// 移動
 	if(CInput::GetKeyboardPress(DIK_A))
 	{
@@ -166,10 +205,9 @@ CPlayer *CPlayer::Create(Vector3 pos, float width, float height)
 	戻り値 : void
 	説明   : 当たり判定 
 ******************************************************************************/
-void CPlayer::HitCheck( Vector3 pos )
+void CPlayer::HitCheck( Vector3 pos, float width, float height )
 {
-	if( m_Pos.x + m_Width / 2 > pos.x && m_Pos.x - m_Width / 2 < pos.x
-		&& m_Pos.y + m_Width / 2 > pos.y && m_Pos.y - m_Width / 2 < pos.z )
+	if( abs( m_Pos.x - pos.x ) < m_Width / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Height / 2 + height / 2 )
 	{
 		m_Hp --;
 	}

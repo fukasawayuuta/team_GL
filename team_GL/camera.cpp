@@ -35,8 +35,8 @@ CCamera::~CCamera(void)
 ******************************************************************************/
 void CCamera::Init(void)
 {
-	m_PosV = Vector3(0.0f, 0.0f, 800.0f);
-	m_PosR = Vector3(0.0f, 0.0f, 0.0f);
+	m_PosV = Vector3(0.0f, 50.0f, 800.0f);
+	m_PosR = Vector3(0.0f, 50.0f, 0.0f);
 	m_VecU = Vector3(0.0f, 1.0f, 0.0f);
 	m_Rot  = Vector3(0.0f, PI, 0.0f);
 	m_Distance = 100.0f;
