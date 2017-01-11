@@ -29,5 +29,8 @@ public:
 private:
 	CCamera *m_pCamera;
 	int m_SoundSE_ID;
+	static unsigned int __stdcall Recv( void* );
+	unsigned int thID;
+	HANDLE hth;
 };
 
