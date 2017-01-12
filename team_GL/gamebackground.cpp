@@ -117,16 +117,16 @@ void CGameBackground::Draw(void)
 
 	//	í∏ì_ç¿ïWê›íË
 	glTexCoord2d(0.0, 0.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(-m_Width * 0.5f, m_Height * 0.5f, 0.0f);
 
 	glTexCoord2d(0.0, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(-m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
 
 	glTexCoord2d(1.0, 0.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(m_Width * 0.5f, m_Height * 0.5f, 0.0f);
 
 	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
 
 	glEnd();
 	//	ï`âÊèIóπ

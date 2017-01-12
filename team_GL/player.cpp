@@ -19,7 +19,9 @@
 #include "enemy.h"
 #include "fade.h"
 #include "mode.h"
+#include "game.h"
 #include "result.h"
+#include "camera.h"
 
 /******************************************************************************
 	マクロ定義
@@ -174,6 +176,11 @@ void CPlayer::Update(void)
 			m_nPatternAnim = 0;
 		}
 	}
+
+	// カメラの追従
+	CGame *game = (CGame*)CManager::GetMode();
+	CCamera *camera = game->GetCamera();
+	camera->SetPosition(m_Pos.x);
 }
 
 /******************************************************************************
