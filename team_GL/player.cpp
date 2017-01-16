@@ -32,9 +32,9 @@ const int TEXTURE_COLUMN = 7;			// テクスチャ列分割数
 const int TEXTURE_ROW = 3;				// テクスチャ行分割数
 const int WALK_DRAW = 4;				// 歩きモーションのコマ数
 const float MOVE_ATTENUATION = 0.2f;	// 移動量減衰係数
-const int GRAVITY = -5.0f;
+const float GRAVITY = -5.0f;
 const float GROUND = 0.0f;
-const int JUMP_POWER = 30.0f;
+const float JUMP_POWER = 30.0f;
 const float PLAYER_COLLISIONWIDTH = 15.0f;
 const float PLAYER_COLLISIONHEIGHT = 80.0f;
 

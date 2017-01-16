@@ -12,10 +12,16 @@
 *******************************************************************************/
 #include "main.h"
 #include "renderer.h"
+#include "manager.h"
+#include "mode.h"
+#include "game.h"
 #include "scene.h"
+#include "scene2D.h"
 #include "scene3D.h"
 #include "texture.h"
 #include "gamebackground.h"
+#include "animationBoard.h"
+#include "player.h"
 
 /*******************************************************************************
 * 関数名：CGameBackground::CGameBackground()
@@ -24,8 +30,9 @@
 * 戻り値：
 * 説明	：コンストラクタ
 *******************************************************************************/
-CGameBackground::CGameBackground(int Priority, OBJ_TYPE objType) : CScene3D(Priority, objType)
+CGameBackground::CGameBackground(int Priority, OBJ_TYPE objType) : CScene2D(Priority, objType)
 {
+	m_dTexCoord = 0.0f;
 }
 
 /*******************************************************************************
@@ -48,13 +55,12 @@ CGameBackground::~CGameBackground()
 *******************************************************************************/
 void CGameBackground::Init(void)
 {
-	m_Pos = Vector3( 0.0f, 0.0f, -0.1f );
-	m_Rot = Vector3( 0.0f, 0.0f, 0.0f );
-	m_Scl = Vector3( 1.0f, 1.0f, 1.0f );
-	m_TextureIndex = CTexture::SetTexture( TEXTURE_TYPE_GAME_BG );
+	m_Pos = Vector2(SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f);
+	m_Rot = Vector2(0.0f, 0.0f);
+	m_TextureIndex = CTexture::SetTexture(TEXTURE_TYPE_GAME_BG);
 	m_Width = SCREEN_WIDTH;
 	m_Height = SCREEN_HEIGHT;
-	m_Depth = 0.0f;
+	m_dTexCoord = 0.5f;
 }
 
 /*******************************************************************************
@@ -78,7 +84,10 @@ void CGameBackground::Uninit(void)
 *******************************************************************************/
 void CGameBackground::Update(void)
 {
-	
+	CGame *game = (CGame*)CManager::GetMode();
+	CPlayer *player = game->GetPlayer();
+	Vector3 move = player->GetMove();
+	m_dTexCoord += (double)move.x / SCREEN_WIDTH;
 }
 
 /*******************************************************************************
@@ -91,53 +100,60 @@ void CGameBackground::Update(void)
 void CGameBackground::Draw(void)
 {
 	glDisable(GL_LIGHTING);
+	//	ここからプロジェクションマトリクスの設定////////////////////
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, 1);
+	//	ここまでプロジェクションマトリクスの設定////////////////////
+
 	//	ここからモデルビューマトリクスの設定////////////////////////
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
+	glLoadIdentity();
 	//	ここまでモデルビューマトリクスの設定////////////////////////
 
-	glScalef(m_Scl.x, m_Scl.y, m_Scl.z);
-	glTranslatef(m_Pos.x, m_Pos.y, m_Pos.z);
-	glRotatef(m_Rot.y, 0.0f ,1.0f, 0.0f);
+	/* 透明色を描けるようにする */
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	//　テクスチャマッピング有効化
-    glEnable(GL_TEXTURE_2D);
-    //　テクスチャをバインド
-    glBindTexture(GL_TEXTURE_2D, m_TextureIndex);
+	glEnable(GL_TEXTURE_2D);
+	//　テクスチャをバインド
+	glBindTexture(GL_TEXTURE_2D, m_TextureIndex);
 
-	
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
 	//	色設定
-	glColor4f(1 , 1 , 1, 1);
-
-	//	法線設定
-	glNormal3f(0, 1, 0);
+	glColor4f(1, 1, 1, 1);
 
 	//	頂点座標設定
-	glTexCoord2d(0.0, 0.0);
-    glVertex3f(-m_Width * 0.5f, m_Height * 0.5f, 0.0f);
+	glTexCoord2d(m_dTexCoord - 0.5f, 1.0);
+	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), -0.999f);
 
-	glTexCoord2d(0.0, 1.0);
-    glVertex3f(-m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
+	glTexCoord2d(m_dTexCoord + 0.5f, 1.0);
+	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), -0.999f);
 
-	glTexCoord2d(1.0, 0.0);
-    glVertex3f(m_Width * 0.5f, m_Height * 0.5f, 0.0f);
+	glTexCoord2d(m_dTexCoord - 0.5f, 0.0);
+	glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), -0.999f);
 
-	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Width * 0.5f, -m_Height * 0.5f, 0.0f);
+	glTexCoord2d(m_dTexCoord + 0.5f, 0.0);
+	glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), -0.999f);
 
 	glEnd();
 	//	描画終了
 
 	glEnable(GL_LIGHTING);
 
-	 glBindTexture(GL_TEXTURE_2D, 0);
-    //　テクスチャマッピング無効化
-    glDisable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	//　テクスチャマッピング無効化
+	glDisable(GL_TEXTURE_2D);
 
 	//	ここからマトリックスを元に戻す//////////////////////////////
+	glMatrixMode(GL_PROJECTION);
+	glPopMatrix();
+
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 	//	ここまでマトリックスを元に戻す//////////////////////////////

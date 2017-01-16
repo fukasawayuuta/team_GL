@@ -81,7 +81,7 @@ void CCamera::Set(void)
 	gluPerspective(180.0f * 0.25f,					//視野角PI * 0.25f
 		(float)SCREEN_WIDTH / (float)SCREEN_HEIGHT,	//アスペクト比, 
 		1.0f,		//	near
-		1000.0f);	//	far
+		5000.0f);	//	far
 	//	ここまでプロジェクションマトリクスの設定////////////////////
 
 	//	ここからビューマトリクスの設定//////////////////////////////

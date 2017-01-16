@@ -17,10 +17,11 @@
 *******************************************************************************/
 // ÉQÅ[ÉÄÉNÉâÉX
 class CTexture;
-class CGameBackground : public CScene3D
+class CGameBackground : public CScene2D
 {
 private:
 	int m_TextureIndex;
+	double m_dTexCoord;
 public:
 	CGameBackground(int Priority = PRIORITY_BACKGROUND, OBJ_TYPE objType = OBJ_TYPE_NONE);
 	~CGameBackground();

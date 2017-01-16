@@ -24,6 +24,7 @@ public:
 	void Draw(void);		//	•`‰æŠÖ”
 
 	void HitCheck( Vector3 pos, float width, float height );
+	Vector3 GetMove(void) { return m_Move; }
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	ì¬ŠÖ”B
 private:
