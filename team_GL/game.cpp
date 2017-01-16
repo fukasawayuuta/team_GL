@@ -50,6 +50,7 @@ CGame::CGame()
 {
 	m_pCamera = NULL;
 	m_SendCnt = 0;
+	m_pPlayer = NULL;
 }
 
 /*******************************************************************************
@@ -84,7 +85,7 @@ void CGame::Init(void)
 	CGameBackground::Create();
 	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
 	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
-	CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
+	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
 	//CBat::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
 	CSoundAL::Init();

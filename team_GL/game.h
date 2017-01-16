@@ -17,6 +17,7 @@
 *******************************************************************************/
 // ゲームクラス
 class CCamera;
+class CPlayer;
 class CGame : public CMode
 {
 public:
@@ -28,8 +29,10 @@ public:
 	void Draw(void);
 
 	CCamera* GetCamera(void) { return m_pCamera; }		// カメラ取得関数
+	CPlayer* GetPlayer(void) { return m_pPlayer; }		// プレイヤー取得関数
 private:
 	CCamera *m_pCamera;
+	CPlayer *m_pPlayer;
 	int m_SoundSE_ID;
 
 	DWORD m_ExitCode;					//	スレッドの終了判定。
