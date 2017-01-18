@@ -22,6 +22,8 @@ public:
 	void Uninit(void);		//	終了関数。
 	void Update(void);		//	更新関数。
 	void Draw(void);		//	描画関数
+	void SetID(int id) {m_PlayerID = id;}		//	ID設定。
+	int GetID(void) {return m_PlayerID;}		//	ID取得。
 
 	void HitCheck( Vector3 pos, float width, float height );
 	Vector3 GetMove(void) { return m_Move; }
@@ -38,6 +40,7 @@ private:
 	}STATE;
 
 	int m_Hp;
+	int m_PlayerID;
 	bool m_Jump;
 
 	STATE m_State;

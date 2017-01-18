@@ -31,4 +31,5 @@ public:
 	static void Uninit( void );
 	static void Send( Vector3 pos );
 	static Vector3 Recv( void );
+	static char *GetRecvData(void) {return m_RecvData;}
 };
