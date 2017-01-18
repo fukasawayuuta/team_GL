@@ -10,7 +10,17 @@
 /*******************************************************************************
 * インクルードファイル
 *******************************************************************************/
+#include "main.h"
+#include "renderer.h"
+#include "manager.h"
+#include "texture.h"
+#include "scene.h"
+#include "scene3D.h"
+#include "animationBoard.h"
+#include "player.h"
+#include "otherPlayer.h"
 #include "sync.h"
+#include "otherPlayerManager.h"
 
 WSADATA CSync::m_Wsadata;
 SOCKET CSync::m_Socket;
@@ -61,6 +71,7 @@ int CSync::Init( void )
 	m_addr.sin_addr.s_addr = inet_addr( ipaddress );
 	connect( m_Socket, ( SOCKADDR* )&m_addr, sizeof( m_addr ) );
 	memset( m_RecvData, 0, sizeof( m_RecvData ) );
+	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
 	sscanf( m_RecvData, "%d", &nNumber );
 	fclose( fp );
 	return nNumber ;
@@ -89,7 +100,7 @@ void CSync::Uninit( void )
 void CSync::Send( Vector3 pos )
 {
 	memset( m_SendData, 0, sizeof( m_SendData ) );
-	sprintf( m_SendData, "%f %f %f", pos.x, pos.y, pos.z );
+	sprintf( m_SendData, "%5.3f %5.3f %5.3f", pos.x, pos.y, pos.z );
 	send( m_Socket, m_SendData, sizeof( m_SendData ), 0 );
 }
 
@@ -106,5 +117,7 @@ Vector3 CSync::Recv( void )
 	memset( m_RecvData, 0, sizeof( m_RecvData ) );
 	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
 	sscanf( m_RecvData, "%f %f %f", &pos.x, &pos.y, &pos.z );
+	COtherPlayerManager::CopyRecvData(m_RecvData);
+
 	return pos ;
 }

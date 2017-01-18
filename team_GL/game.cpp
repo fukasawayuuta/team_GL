@@ -33,6 +33,8 @@
 #include "boss.h"
 #include "fieldObject.h"
 #include "bat.h"
+#include "otherPlayer.h"
+#include "otherPlayerManager.h"
 
 /*******************************************************************************
 * 静的変数宣言
@@ -74,18 +76,20 @@ CGame::~CGame()
 void CGame::Init(void)
 {
 	//CSync::Init();
+	m_pCamera = CCamera::Create();
+	CGameBackground::Create();
+	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
+	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
+	//m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
+	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
+	m_pPlayer->SetID(CSync::Init());
 	hth =  (HANDLE)_beginthreadex(NULL,
 			0,
 			Recv,	//	スレッドとして実行する関数名
 			NULL,
 			0,
 			&thID);	//	スレッドのID
-
-	m_pCamera = CCamera::Create();
-	CGameBackground::Create();
-	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
-	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
-	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
+	//COtherPlayerManager::Create();
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
 	//CBat::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
 	CSoundAL::Init();
