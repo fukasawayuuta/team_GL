@@ -44,6 +44,7 @@ private:
 
 	int m_Hp;
 	int m_PlayerID;
+	int m_Score;
 	bool m_Jump;
 
 	int m_nState;			// Œ»İ‚Ìó‘Ô
