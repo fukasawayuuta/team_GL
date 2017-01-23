@@ -33,6 +33,5 @@ protected:
 
 	int m_nDirection;		// Œü‚« ¶F-1 ‰EF1
 
-	float m_fCollisionWidth;
-	float m_fCollisionHeight;
+	Vector2 m_Collision;
 };

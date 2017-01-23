@@ -26,17 +26,23 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
-const float MOVE_SPEED = 1.0f;			// 移動速度
-const int DRAW_SPEED = 10;				// 描画スピード
-const int TEXTURE_COLUMN = 7;			// テクスチャ列分割数
-const int TEXTURE_ROW = 3;				// テクスチャ行分割数
-const int WALK_DRAW = 4;				// 歩きモーションのコマ数
-const float MOVE_ATTENUATION = 0.2f;	// 移動量減衰係数
-const float GRAVITY = -5.0f;
-const float GROUND = 0.0f;
-const float JUMP_POWER = 30.0f;
-const float PLAYER_COLLISIONWIDTH = 15.0f;
-const float PLAYER_COLLISIONHEIGHT = 80.0f;
+const float MOVE_SPEED = 1.0f;								// 移動速度
+const int DRAW_SPEED_WALK = 10;								// 描画スピード(歩き)
+const int DRAW_SPEED_ATTACK = 5;							// 描画スピード(攻撃)
+const int DRAW_SPEED_DAMAGE = 10;							// 描画スピード(被弾)
+const int TEXTURE_COLUMN = 7;								// テクスチャ列分割数
+const int TEXTURE_ROW = 3;									// テクスチャ行分割数
+const int WALK_PATTERN = 4;									// 歩きモーションのコマ数
+const int ATTACK_PATTERN = 7;								// 攻撃モーションのコマ数
+const int DAMAGE_PATTERN = 2;								// 被弾モーションのコマ数
+const float MOVE_ATTENUATION = 0.2f;						// 移動量減衰係数
+const float GRAVITY = -5.0f;								// 重力
+const float GROUND = 0.0f;									// 地面の高さ
+const float JUMP_POWER = 30.0f;								// ジャンプ量
+const float PLAYER_COLLISIONWIDTH = 15.0f;					// 当たり判定幅
+const float PLAYER_COLLISIONHEIGHT = 80.0f;					// 当たり判定高さ
+const int ATTACK_CNT = DRAW_SPEED_ATTACK * ATTACK_PATTERN;  // 攻撃カウンタ
+const int DAMAGE_CNT = DRAW_SPEED_DAMAGE * DAMAGE_PATTERN;  // ダメージカウンタ
 
 /******************************************************************************
 	関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -44,11 +50,13 @@ const float PLAYER_COLLISIONHEIGHT = 80.0f;
 ******************************************************************************/
 CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
 {
-	m_State = STATE_WALK;
+	m_nState = STATE_WALK;
+	m_nStateCnt = 0;
 	m_Move = Vector3(0.0f, 0.0f, 0.0f);
 
 	m_nTexRow = TEXTURE_ROW;
 	m_nTexColumn = TEXTURE_COLUMN;
+	m_nDirection = 1;
 }
 
 /******************************************************************************
@@ -78,8 +86,7 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Hp = 200;
 	m_Jump = false;
 
-	m_fCollisionWidth = PLAYER_COLLISIONWIDTH;
-	m_fCollisionHeight = PLAYER_COLLISIONHEIGHT;
+	m_Collision = Vector2(PLAYER_COLLISIONWIDTH, PLAYER_COLLISIONHEIGHT);
 
 	m_nTexIdx = CTexture::SetTexture(TEXTURE_TYPE_PLAYER000);
 }
@@ -109,16 +116,17 @@ void CPlayer::Update(void)
 		{
 			CEnemy *pEnemy = ( CEnemy* )pScene;
 			Vector3 pos = pEnemy->GetPosition();
-			float width = pEnemy->GetWidth();
-			float height = pEnemy->GetHeight();
-			if( abs( m_Pos.x - pos.x ) < m_fCollisionWidth / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_fCollisionHeight / 2 + height / 2 )
+			Vector2 collision = pEnemy->GetCollision();
+			if( abs( m_Pos.x - pos.x ) < (m_Collision.x + collision.x) * 0.5f && abs( m_Pos.y - pos.y ) < (m_Collision.y + collision.y) * 0.5f )
 			{
 				m_Hp --;
+				// 状態を被弾状態に
+				SetState(STATE_DAMAGE);
 			}
 
-			if( m_State == STATE_ATTACK )
+			if(m_nState == STATE_ATTACK )
 			{
-				pEnemy->Uninit();
+				//pEnemy->Uninit();
 			}
 		}
 		pScene = pScene->GetNext( pScene );
@@ -130,18 +138,18 @@ void CPlayer::Update(void)
 	}
 
 	if( CInput::GetKeyboardTrigger( DIK_G ) )
-	{
-		m_State = STATE_ATTACK;
+	{// 攻撃
+		SetState(STATE_ATTACK);
 	}
 
 	// 移動
 	if(CInput::GetKeyboardPress(DIK_A))
-	{
+	{// 左移動
 		m_nDirection = -1;
 		m_Move.x -= MOVE_SPEED;
 	}
 	if(CInput::GetKeyboardPress(DIK_D))
-	{
+	{// 右移動
 		m_nDirection = 1;
 		m_Move.x += MOVE_SPEED;
 	}
@@ -149,11 +157,12 @@ void CPlayer::Update(void)
 	m_Move.x += (0.0f - m_Move.x) * MOVE_ATTENUATION;
 	
 	if( CInput::GetKeyboardTrigger( DIK_SPACE ) && !m_Jump )
-	{
+	{// ジャンプ
 		m_Jump = true;
 		m_Move.y = JUMP_POWER;
 	}
 	
+	// 重力の加算
 	m_Move.y += GRAVITY;
 	
 	// 位置の更新
@@ -165,17 +174,11 @@ void CPlayer::Update(void)
 		m_Pos.y = GROUND + m_Width / 2;
 	}
 
-	// パターン描画更新
-	m_nCntAnim++;
-	if (m_nCntAnim == DRAW_SPEED)
-	{
-		m_nCntAnim = 0;
-		m_nPatternAnim++;
-		if (m_nPatternAnim == WALK_DRAW)
-		{
-			m_nPatternAnim = 0;
-		}
-	}
+	// 状態更新
+	UpdateState();
+
+	// アニメーション更新
+	UpdateAnimation();
 
 	// カメラの追従
 	CGame *game = (CGame*)CManager::GetMode();
@@ -216,8 +219,81 @@ CPlayer *CPlayer::Create(Vector3 pos, float width, float height)
 ******************************************************************************/
 void CPlayer::HitCheck( Vector3 pos, float width, float height )
 {
-	if( abs( m_Pos.x - pos.x ) < m_fCollisionWidth / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_fCollisionHeight / 2 + height / 2 )
+	if( abs( m_Pos.x - pos.x ) < (m_Collision.x + width) * 0.5f && abs( m_Pos.y - pos.y ) < (m_Collision.y + height) * 0.5f )
 	{
-		m_Hp --;
+		m_Hp--;
+	}
+}
+
+/******************************************************************************
+関数名 : UpdateAnimation
+引数   : void
+戻り値 : void
+説明   : アニメーション処理
+******************************************************************************/
+void CPlayer::UpdateAnimation(void)
+{
+	int drawCnt[STATE_MAX] = { DRAW_SPEED_WALK, DRAW_SPEED_ATTACK, DRAW_SPEED_DAMAGE };
+	int patternCnt[STATE_MAX] = { WALK_PATTERN, ATTACK_PATTERN, DAMAGE_PATTERN };
+
+	m_nRowAnim = m_nState;
+
+	// パターン描画更新
+	m_nCntAnim++;
+	if (m_nCntAnim >= drawCnt[m_nState])
+	{
+		m_nCntAnim = 0;
+		m_nPatternAnim++;
+		if (m_nPatternAnim >= patternCnt[m_nState])
+		{
+			m_nPatternAnim = 0;
+		}
+	}
+}
+
+/******************************************************************************
+関数名 : SetState
+引数   : int state
+戻り値 : void
+説明   : 状態設定
+******************************************************************************/
+void CPlayer::SetState(int state)
+{
+	if (m_nState != state)
+	{
+		m_nState = state;
+		m_nPatternAnim = 0;
+		m_nStateCnt = 0;
+	}
+}
+
+/******************************************************************************
+関数名 : UpdateState
+引数   : void
+戻り値 : void
+説明   : 状態更新
+******************************************************************************/
+void CPlayer::UpdateState(void)
+{
+	m_nStateCnt++;
+
+	switch (m_nState)
+	{
+	case STATE_WALK:
+		break;
+	case STATE_ATTACK:
+		if (m_nStateCnt >= ATTACK_CNT)
+		{
+			SetState(STATE_WALK);
+		}
+		break;
+	case STATE_DAMAGE:
+		if (m_nStateCnt >= DAMAGE_CNT)
+		{
+			SetState(STATE_WALK);
+		}
+		break;
+	default:
+		break;
 	}
 }
