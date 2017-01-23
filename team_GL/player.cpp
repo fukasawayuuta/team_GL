@@ -22,6 +22,7 @@
 #include "game.h"
 #include "result.h"
 #include "camera.h"
+#include "sync.h"
 
 /******************************************************************************
 	マクロ定義
@@ -53,7 +54,7 @@ CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, obj
 	m_nState = STATE_WALK;
 	m_nStateCnt = 0;
 	m_Move = Vector3(0.0f, 0.0f, 0.0f);
-
+	m_Score = 0;
 	m_nTexRow = TEXTURE_ROW;
 	m_nTexColumn = TEXTURE_COLUMN;
 	m_nDirection = 1;
@@ -179,7 +180,8 @@ void CPlayer::Update(void)
 
 	// アニメーション更新
 	UpdateAnimation();
-
+	//	データ送信。
+	CSync::Send(m_Pos, m_Score);
 	// カメラの追従
 	CGame *game = (CGame*)CManager::GetMode();
 	CCamera *camera = game->GetCamera();
