@@ -53,8 +53,7 @@ void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
 	m_Width = width;
 	m_Height = height;
 	m_nDirection = 1;
-	m_fCollisionWidth = ENEMY_COLLISIONWIDTH;
-	m_fCollisionHeight = ENEMY_COLLISIONHEIGHT;
+	m_Collision = Vector2(ENEMY_COLLISIONWIDTH, ENEMY_COLLISIONHEIGHT);
 	m_nTexIdx = CTexture::SetTexture(texIndex);
 }
 
@@ -121,7 +120,7 @@ void CEnemy::Create(Vector3 pos, float width, float height, int texIndex)
 ******************************************************************************/
 void CEnemy::HitCheck( Vector3 pos, float width, float height )
 {
-	if( abs( m_Pos.x - pos.x ) < m_fCollisionWidth / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_fCollisionHeight / 2 + height / 2 )
+	if( abs( m_Pos.x - pos.x ) < m_Collision.x / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Collision.y / 2 + height / 2 )
 	{
 		this->Uninit();
 	}

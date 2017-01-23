@@ -25,8 +25,11 @@ public:
 	void SetID(int id) {m_PlayerID = id;}		//	ID設定。
 	int GetID(void) {return m_PlayerID;}		//	ID取得。
 
-	void HitCheck( Vector3 pos, float width, float height );
-	Vector3 GetMove(void) { return m_Move; }
+	void HitCheck( Vector3 pos, float width, float height );	// 当たり判定チェック
+	Vector3 GetMove(void) { return m_Move; }					// 移動量取得
+	void SetState(int state);									// 状態設定
+	void UpdateState(void);										// 状態更新
+	void UpdateAnimation(void);									// アニメーションの更新
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 private:
@@ -43,6 +46,7 @@ private:
 	int m_PlayerID;
 	bool m_Jump;
 
-	STATE m_State;
+	int m_nState;			// 現在の状態
+	int m_nStateCnt;		// 状態カウンタ
 	Vector3 m_Move;			// 移動量
 };

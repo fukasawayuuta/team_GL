@@ -82,7 +82,7 @@ void CGame::Init(void)
 	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
 	//m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
-	m_pPlayer->SetID(CSync::Init());
+	//m_pPlayer->SetID(CSync::Init());
 	hth =  (HANDLE)_beginthreadex(NULL,
 			0,
 			Recv,	//	スレッドとして実行する関数名

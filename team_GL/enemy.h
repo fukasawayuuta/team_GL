@@ -24,9 +24,8 @@ public:
 	void Draw(void);		//	ï`âÊä÷êîÅB
 
 	static void Create(Vector3 pos, float width, float height, int texIndex);		//	ê∂ê¨ä÷êîÅB
-	Vector3 GetPosition( void ){ return m_Pos ; };
-	float GetWidth( void ){ return m_fCollisionWidth ; };
-	float GetHeight( void ){ return m_fCollisionHeight ; };
+	Vector3 GetPosition( void ){ return m_Pos ; }
+	Vector2 GetCollision( void ){ return m_Collision ; }
 	void HitCheck( Vector3 pos, float width, float height );
 };
 
