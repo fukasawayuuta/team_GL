@@ -49,6 +49,8 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\2nd.tga" },						// TEXTURE_TYPE_RANK_SECOND
 	{ "data\\TEXTURE\\3rd.tga" },						// TEXTURE_TYPE_RANK_THIRD
 	{ "data\\TEXTURE\\4th.tga" },						// TEXTURE_TYPE_RANK_FOURTH
+	{ "data\\TEXTURE\\slash_effect.tga" },				// TEXTURE_TYPE_EFFECT_SLASH
+	{ "data\\TEXTURE\\item.tga" },						// TEXTURE_TYPE_ITEM
 };
 
 /*******************************************************************************
@@ -182,7 +184,7 @@ unsigned int CTexture::CreateTexture( char *FileName )
 		m_nInternalFormat = GL_RGB;
 	}
 	// 32 bit
-	else if ( m_nBpp = 32 )
+	else if ( m_nBpp == 32 )
 	{
 		m_Format = GL_RGBA;
 		m_nInternalFormat = GL_RGBA;
