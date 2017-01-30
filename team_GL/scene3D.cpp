@@ -82,7 +82,7 @@ void CScene3D::Update(void)
 ******************************************************************************/
 void CScene3D::Draw(void)
 {
-	glDisable(GL_LIGHTING);
+glDisable(GL_LIGHTING);
 	//	ここからモデルビューマトリクスの設定////////////////////////
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
@@ -94,20 +94,17 @@ void CScene3D::Draw(void)
 
 	//　テクスチャマッピング有効化
     glEnable(GL_TEXTURE_2D);
-
-	glEnable(GL_BLEND);
-
     //　テクスチャをバインド
     glBindTexture(GL_TEXTURE_2D, m_nTexIdx);
-	
+	glDepthMask(GL_FALSE);
 	//	描画開始
 	glBegin(GL_TRIANGLE_STRIP);
 
 	//	色設定
-	glColor4f(1 , 1 , 1, 1);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//	法線設定
-	glNormal3f(0, 1, 0);
+	glNormal3f(0.0f, 1.0f, 0.0f);
 
 	//	頂点座標設定
 	glTexCoord2d(0.0, 0.0);
@@ -126,7 +123,7 @@ void CScene3D::Draw(void)
 	// 描画終了
 
 	glEnable(GL_LIGHTING);
-
+	glDepthMask(GL_TRUE);
 	glBindTexture(GL_TEXTURE_2D, 0);
     //　テクスチャマッピング無効化
     glDisable(GL_TEXTURE_2D);

@@ -82,7 +82,7 @@ void CGame::Init(void)
 	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
 	//m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
-	m_pPlayer->SetID(CSync::Init());
+	//m_pPlayer->SetID(CSync::Init());
 	hth =  (HANDLE)_beginthreadex(NULL,
 			0,
 			Recv,	//	スレッドとして実行する関数名
@@ -95,7 +95,7 @@ void CGame::Init(void)
 	CSoundAL::Init();
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
-	//CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BLOCK);
+	CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BLOCK);
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
 }
 
