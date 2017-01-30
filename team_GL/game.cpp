@@ -148,6 +148,10 @@ void CGame::Update(void)
 		pScene = pScene->GetNext( pScene );
 	}
 
+	if( CInput::GetKeyboardTrigger( DIK_RETURN ) ) {
+		bEnd = true;
+	}
+
 	if (bEnd)
 	{
 		CFade::Start(new CResult);

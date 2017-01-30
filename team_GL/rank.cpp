@@ -65,12 +65,18 @@ void CRank::Init ( Vector2 pos, Vector2 rot, float width, float height )
 	m_Height	= height;
 
 	// 各項目の構造体の初期化
-	for( int CntRank = 0; CntRank < RANK_MAX; CntRank++ ) {
+	for( int CntRank = 0; CntRank < RANK_ALL; CntRank++ ) {
 		m_Rank[ CntRank ].pos		= Vector2( 0.0f, 0.0f );
 		m_Rank[ CntRank ].fWidth	= 0.0f;
 		m_Rank[ CntRank ].fHeight	= m_Height;
 		m_Rank[ CntRank ].alfa		= 1.0f;
 	}
+
+	// 各順位の高さの初期化
+	m_HeightChange = m_Height + 30;
+
+	// 各順位の割り当て
+	m_RankID = RANK_ALL - 1;
 
 	// テクスチャを読み込み、生成する
 	m_TexIdx[ 0 ] = CTexture::SetTexture( TEXTURE_TYPE_RANK_FIRST );
@@ -98,8 +104,15 @@ void CRank::Uninit ( void )
 ******************************************************************************/
 void CRank::Update ( void )
 {
-
-
+	// ランクの割り当てが尽きるまで処理を行う
+	if( m_RankID > -1 ) {
+		// ランクが一定距離まで動いていない場合
+		if( m_Rank[ m_RankID ].pos.x < RANK_PLACE ) {
+			m_Rank[ m_RankID ].pos.x += 20;
+		} else if( m_Rank[ m_RankID ].pos.x >= RANK_PLACE ) {
+			m_RankID--;	// ランクの割り当てを変えてる
+		}
+	}
 } // Updaterank関数の終了
 
 /******************************************************************************
@@ -130,14 +143,14 @@ void CRank::Draw ( void )
 	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// αテスト 有効化
-	glAlphaFunc(GL_GEQUAL, 0.09f );
+	glAlphaFunc(GL_GEQUAL, 0.5f );
 	glEnable(GL_ALPHA_TEST);
 
 	// テクスチャマッピング有効化
 	glEnable(GL_TEXTURE_2D);
 
 	// UV値と頂点座標の設定 ( DirectX形式 )
-	for( int CntRank = 0; CntRank < RANK_MAX; CntRank++ ) {
+	for( int CntRank = 0; CntRank < RANK_ALL; CntRank++ ) {
 
 		// テクスチャをバインド
 		glBindTexture( GL_TEXTURE_2D, m_TexIdx[ CntRank ] );
@@ -150,20 +163,21 @@ void CRank::Draw ( void )
 
 		//	頂点座標設定
 		glTexCoord2d( 0.0f, 1.0f );
-		glVertex3f( m_Pos.x - ( m_Width * 0.5f ), m_Pos.y + ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
+		glVertex3f( m_Pos.x - ( m_Width * 0.5f ) + m_Rank[ CntRank ].pos.x, m_Pos.y + ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
 	
 		glTexCoord2d( 1.0f, 1.0f );
-		glVertex3f( m_Pos.x + ( m_Width * 0.5f ), m_Pos.y + ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
+		glVertex3f( m_Pos.x + ( m_Width * 0.5f ) + m_Rank[ CntRank ].pos.x, m_Pos.y + ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
 	
 		glTexCoord2d( 0.0f, 0.0f );
-		glVertex3f( m_Pos.x - ( m_Width * 0.5f ), m_Pos.y - ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
+		glVertex3f( m_Pos.x - ( m_Width * 0.5f ) + m_Rank[ CntRank ].pos.x, m_Pos.y - ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
 	
 		glTexCoord2d( 1.0f, 0.0f );
-		glVertex3f( m_Pos.x + ( m_Width * 0.5f ), m_Pos.y - ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
+		glVertex3f( m_Pos.x + ( m_Width * 0.5f ) + m_Rank[ CntRank ].pos.x, m_Pos.y - ( m_Rank[ CntRank ].fHeight * 0.5f ) + ( m_HeightChange * CntRank ), 0.0f );
 
 		glEnd();
 		//	描画終了
 	}
+
 
 	glEnable(GL_BLEND);
 	glEnable(GL_LIGHTING);

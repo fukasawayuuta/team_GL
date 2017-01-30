@@ -37,6 +37,7 @@ Vector2 CScore::m_Pos;	//	座標。
 Vector2 CScore::m_Rot;	//	角度。
 float CScore::m_Width;	//	横幅。
 float CScore::m_Height;	//	縦幅。
+int CScore::m_nScore;	
 
 //=============================================================================
 //	関数名 : CScore::CScore()
@@ -220,4 +221,15 @@ void CScore::Draw ( void )
 void CScore::AddScore( int value )
 {
 	m_nScore += value;
+}
+
+/******************************************************************************
+	関数名 : int CScore::GetScore ( void )
+	引数   : 無し
+	戻り値 : int型
+	説明   : スコアの持ち込み処理
+******************************************************************************/
+int CScore::GetScore ( void )
+{
+	return m_nScore;
 }

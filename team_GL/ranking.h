@@ -1,6 +1,6 @@
 /******************************************************************************
-	タイトル名 : rank
-	ファイル名 : rank.h
+	タイトル名 : ranking
+	ファイル名 : ranking.h
 	作成者     : AT-13B-284 02 阿部隆
 	作成日     : 2016/12/13
 	更新日     : 
@@ -20,42 +20,37 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
-const int RANK_ALL		= 4;	// ランクの最大数
-const int RANK_PLACE	= 480;	// ランク位置の固定
-const int RANK_MOVE		= 20;	// ランクの移動量
+const int RANKING_ALL = 4;				// スコアの桁数
 
 /******************************************************************************
 	型定義
 ******************************************************************************/
 
-// ランクのクラス
-class CRank : CScene2D
+// ランキングクラス 設定
+class CRanking : public CScene2D
 {
 	private:
-		// 順位の構造体
-		struct RANK
-		{
-			Vector2 pos;		// 項目の位置
-			float	fWidth;		// 項目の幅
-			float	fHeight;	// 項目の高さ
-			float	alfa;		// 項目のα値
-		};
+		//LPDIRECT3DTEXTURE9		m_Texture;
+		//LPDIRECT3DVERTEXBUFFER9 m_VtxBuff;
+		//int m_RankNumColor;
 
-		RANK m_Rank[ RANK_ALL ];		// 各順位の種類
-		int		m_RankID;				// 各順位の割り当て
-		int		m_TexIdx[ RANK_ALL ];	// 各順位の画像データのワーク
-		float	m_HeightChange;			// 各順位の高さの間隔
+		int	m_TexIdx;						// ランキングの画像データのワーク
+		int m_nRanking[ RANKING_ALL + 1 ];	// ランキングの値
+		int m_RankNum;
+		int m_TimeCnt;						// 時間計測
+
+		int m_PlayerRankTexIdx[ RANKING_ALL ];// プレイヤー番号の画像データのワーク
+
+		float m_RankNumColor_a;
 
 	public:
-		CRank( int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE );
-		~CRank();
+		CRanking( int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE );
+		~CRanking();
+		void Init	( Vector2 pos, Vector2 rot, float width, float height, int index );
+		void Update	( void );
+		void Draw	( void );
+		void Uninit	( void );
 
-		void Init		( Vector2 pos, Vector2 rot, float width, float height );
-		void Uninit		( void );
-		void Update		( void );
-		void Draw		( void );
-
-		static CRank *Create ( Vector2 pos, Vector2 rot, float width, float height );
+		int Set		( int *RankingValue );
+		static CRanking *Create ( Vector2 pos, Vector2 rot, float width, float height, int index );
 };
-
-// =================================================================================== titleMenu.hの終了
