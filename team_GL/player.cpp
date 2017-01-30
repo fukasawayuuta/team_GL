@@ -23,6 +23,7 @@
 #include "result.h"
 #include "camera.h"
 #include "sync.h"
+#include "slashEffect.h"
 
 /******************************************************************************
 	マクロ定義
@@ -44,6 +45,7 @@ const float PLAYER_COLLISIONWIDTH = 15.0f;					// 当たり判定幅
 const float PLAYER_COLLISIONHEIGHT = 80.0f;					// 当たり判定高さ
 const int ATTACK_CNT = DRAW_SPEED_ATTACK * ATTACK_PATTERN;  // 攻撃カウンタ
 const int DAMAGE_CNT = DRAW_SPEED_DAMAGE * DAMAGE_PATTERN;  // ダメージカウンタ
+const int SLASH_CNT = 20;
 
 /******************************************************************************
 	関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -124,11 +126,6 @@ void CPlayer::Update(void)
 				// 状態を被弾状態に
 				SetState(STATE_DAMAGE);
 			}
-
-			if(m_nState == STATE_ATTACK )
-			{
-				//pEnemy->Uninit();
-			}
 		}
 		pScene = pScene->GetNext( pScene );
 	}
@@ -138,18 +135,18 @@ void CPlayer::Update(void)
 		//CFade::Start( new CResult );
 	}
 
-	if( CInput::GetKeyboardTrigger( DIK_G ) )
+	if( CInput::GetKeyboardTrigger( DIK_G ) && m_nState == STATE_WALK)
 	{// 攻撃
 		SetState(STATE_ATTACK);
 	}
 
 	// 移動
-	if(CInput::GetKeyboardPress(DIK_A))
+	if(CInput::GetKeyboardPress(DIK_A) && m_nState != STATE_ATTACK)
 	{// 左移動
 		m_nDirection = -1;
 		m_Move.x -= MOVE_SPEED;
 	}
-	if(CInput::GetKeyboardPress(DIK_D))
+	if(CInput::GetKeyboardPress(DIK_D) && m_nState != STATE_ATTACK)
 	{// 右移動
 		m_nDirection = 1;
 		m_Move.x += MOVE_SPEED;
@@ -284,6 +281,10 @@ void CPlayer::UpdateState(void)
 	case STATE_WALK:
 		break;
 	case STATE_ATTACK:
+		if (m_nStateCnt == SLASH_CNT)
+		{
+			CSlashEffect::Create(m_Pos, m_nDirection, 40.0f, 80.0f, TEXTURE_TYPE_EFFECT_SLASH);
+		}
 		if (m_nStateCnt >= ATTACK_CNT)
 		{
 			SetState(STATE_WALK);
