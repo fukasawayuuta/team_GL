@@ -33,7 +33,7 @@ class CScore : public CScene2D
 {
 		private:
 			int		m_Number [ MAX_SCORE ];	/* スコアの表示数 */
-			int		m_nScore;				/* スコアの得点数 */
+			static int		m_nScore;				/* スコアの得点数 */
 			float	m_WidthChange;			/* スコアの幅の間隔 */
 
 			static Vector2 m_Pos;		//	座標。
@@ -49,7 +49,7 @@ class CScore : public CScene2D
 			void Draw		( void );
 			void Update		( void );
 			void AddScore	( int value );	// スコア 加算関数
-
+			static int GetScore	( void );	// スコア 持ち込み関数
 			static CScore* Create ( Vector2 pos, Vector2 rot, float height, float width, int index );
 
 };

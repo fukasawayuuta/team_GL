@@ -77,7 +77,7 @@ void CTitleMenu::Init ( Vector2 pos, Vector2 rot, float width, float height )
 		m_aTitleMenu[ CntTitleMenu ].fWidth		= 0.0f;
 		m_aTitleMenu[ CntTitleMenu ].fHeight	= m_Height;
 		m_aTitleMenu[ CntTitleMenu ].bUse		= false;
-		m_aTitleMenu[ CntTitleMenu ].alfa		= 0.3f;
+		m_aTitleMenu[ CntTitleMenu ].alfa		= 0.2f;
 	}
 	// ゲーム項目のみ フラグon
 	m_aTitleMenu[ TITLE_MENU_GAME ].bUse = true;
@@ -210,18 +210,18 @@ void CTitleMenu::Update ( void )
 	for( int nCntTitleMenu = 0; nCntTitleMenu < TITLE_MENU_MAX; nCntTitleMenu++ ) {
 		// 選択時の項目の処理
 		if( m_aTitleMenu[ nCntTitleMenu ].bUse ) {
-			// α値を一定の周期( 0.5f ~ 1.0f )と間隔で変える
+			// α値を一定の周期( 0.7f ~ 1.0f )と間隔で変える
 			m_TimeCntSelect++;
 			m_aTitleMenu[ nCntTitleMenu ].alfa = ( cosf( PI / FADETERM_TITLE_MENU * m_TimeCntSelect ) + 1 ) / 2 + FADETERM_MIN_SELECT;
 			// 項目が決定されたとき
-			if( CFade::Get( FADE_NONE ) == false ) {
+			if( CFade::Get( FADE_OUT ) ) {
 				m_aTitleMenu[ nCntTitleMenu ].alfa = ( cosf( PI / 2 * m_TimeCntSelect ) + 1 ) / 2 + FADETERM_MIN_SELECT;
 			}
 		}
 		// 非選択時の項目の処理
 		else {
 			// α値を固定
-			m_aTitleMenu[ nCntTitleMenu ].alfa = 0.3f;
+			m_aTitleMenu[ nCntTitleMenu ].alfa = 0.0f;
 		}
 	}
 
@@ -256,7 +256,7 @@ void CTitleMenu::Draw ( void )
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// αテスト 有効化
-	glAlphaFunc(GL_GEQUAL, 0.09f );
+	glAlphaFunc(GL_GEQUAL, 1.0f );
 	glEnable(GL_ALPHA_TEST);
 
 	// テクスチャマッピング有効化
@@ -272,7 +272,7 @@ void CTitleMenu::Draw ( void )
 		glBegin( GL_TRIANGLE_STRIP );
 
 		//	色設定
-		glColor4f( 1.0f, 1.0f, 1.0f, m_aTitleMenu[ CntTitleMenu ].alfa );
+		glColor4f( m_aTitleMenu[ CntTitleMenu ].alfa, 0.0f, 0.0f, 1.0f );
 
 		//	頂点座標設定
 		glTexCoord2d( 0.0f, 1.0f );

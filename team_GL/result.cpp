@@ -17,6 +17,7 @@
 #include "result.h"
 #include "resultlogo.h"
 #include "resultbackground.h"
+#include "ranking.h"
 #include "rank.h"
 #include "fade.h"
 #include "scene.h"
@@ -56,7 +57,8 @@ CResult::~CResult()
 void CResult::Init(void)
 {
 	CResultLogo::Create( Vector2( SCREEN_WIDTH * 0.5f, 150.0f ), Vector2( 0.0f, 0.0f ), 400.0f, 100.0f, TEXTURE_TYPE_RESULT_LOGO );
-	CRank::Create( Vector2( SCREEN_WIDTH * 0.3f, 300.0f ), Vector2( 0.0f, 0.0f ), 150.0f, 60.0f );
+	CRank::Create( Vector2( SCREEN_WIDTH * -0.1f, SCREEN_HEIGHT * 0.39f ), Vector2( 0.0f, 0.0f ), 150.0f, 60.0f );
+	CRanking::Create( Vector2( SCREEN_WIDTH * 0.7f, SCREEN_HEIGHT * 0.32f ), Vector2( 0.0f, 0.0f ), 60.0f, 90.0f, TEXTURE_TYPE_NUMBER );
 	CResultBackground::Create();
 }
 
