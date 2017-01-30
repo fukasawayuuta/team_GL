@@ -22,6 +22,7 @@ const int TEXTURE_ROW = 1;
 const int WALK_DRAW = 5;
 const float ENEMY_COLLISIONWIDTH = 15.0f;
 const float ENEMY_COLLISIONHEIGHT = 80.0f;
+const int HP_MAX = 100;
 
 /******************************************************************************
 	ä÷êîñº : CEnemy::CEnemy()
@@ -31,6 +32,7 @@ CEnemy::CEnemy(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objTy
 {
 	m_nTexRow = TEXTURE_ROW;
 	m_nTexColumn = TEXTURE_COLUMN;
+	m_Hp = HP_MAX;
 }
 
 /******************************************************************************
@@ -87,6 +89,7 @@ void CEnemy::Update(void)
 			m_nPatternAnim = 0;
 		}
 	}
+	LifeCheck();
 }
 
 /******************************************************************************
@@ -123,5 +126,19 @@ void CEnemy::HitCheck( Vector3 pos, float width, float height )
 	if( abs( m_Pos.x - pos.x ) < m_Collision.x / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Collision.y / 2 + height / 2 )
 	{
 		this->Uninit();
+	}
+}
+
+/******************************************************************************
+ä÷êîñº : LifeCheck
+à¯êî   : void
+ñﬂÇËíl : Ç»Çµ
+ê‡ñæ   : ìñÇΩÇËîªíË
+******************************************************************************/
+void CEnemy::LifeCheck(void)
+{
+	if (m_Hp <= 0)
+	{
+		Uninit();
 	}
 }
