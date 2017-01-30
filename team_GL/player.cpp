@@ -28,7 +28,7 @@
 /******************************************************************************
 	マクロ定義
 ******************************************************************************/
-const float MOVE_SPEED = 1.0f;								// 移動速度
+const float MOVE_SPEED = 1.3f;								// 移動速度
 const int DRAW_SPEED_WALK = 10;								// 描画スピード(歩き)
 const int DRAW_SPEED_ATTACK = 5;							// 描画スピード(攻撃)
 const int DRAW_SPEED_DAMAGE = 10;							// 描画スピード(被弾)
@@ -38,9 +38,9 @@ const int WALK_PATTERN = 4;									// 歩きモーションのコマ数
 const int ATTACK_PATTERN = 7;								// 攻撃モーションのコマ数
 const int DAMAGE_PATTERN = 2;								// 被弾モーションのコマ数
 const float MOVE_ATTENUATION = 0.2f;						// 移動量減衰係数
-const float GRAVITY = -5.0f;								// 重力
+const float GRAVITY = -0.8f;								// 重力
 const float GROUND = 0.0f;									// 地面の高さ
-const float JUMP_POWER = 30.0f;								// ジャンプ量
+const float JUMP_POWER = 15.0f;								// ジャンプ量
 const float PLAYER_COLLISIONWIDTH = 15.0f;					// 当たり判定幅
 const float PLAYER_COLLISIONHEIGHT = 80.0f;					// 当たり判定高さ
 const int ATTACK_CNT = DRAW_SPEED_ATTACK * ATTACK_PATTERN;  // 攻撃カウンタ
@@ -283,7 +283,7 @@ void CPlayer::UpdateState(void)
 	case STATE_ATTACK:
 		if (m_nStateCnt == SLASH_CNT)
 		{
-			CSlashEffect::Create(m_Pos, m_nDirection, 40.0f, 80.0f, TEXTURE_TYPE_EFFECT_SLASH);
+			CSlashEffect::Create(m_Pos, m_nDirection, 160.0f, 80.0f, TEXTURE_TYPE_EFFECT_SLASH);
 		}
 		if (m_nStateCnt >= ATTACK_CNT)
 		{

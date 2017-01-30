@@ -28,4 +28,6 @@ public:
 	void HitCheck( Vector3 pos, float width, float height );
 protected:
 	Vector3 m_Move;			// ˆÚ“®—Ê
+
+	void UpdateCollision(void); // “–‚½‚è”»’èXV
 };

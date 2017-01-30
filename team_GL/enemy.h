@@ -27,5 +27,10 @@ public:
 	Vector3 GetPosition( void ){ return m_Pos ; }
 	Vector2 GetCollision( void ){ return m_Collision ; }
 	void HitCheck( Vector3 pos, float width, float height );
+	void SetDamage(int damage) { m_Hp -= damage; }
+protected:
+	int m_Hp;		// ヒットポイント
+
+	void LifeCheck(void);
 };
 
