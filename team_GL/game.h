@@ -18,6 +18,8 @@
 // ゲームクラス
 class CCamera;
 class CPlayer;
+class COtherPlayer;
+class COtherPlayerManager;
 class CGame : public CMode
 {
 public:
@@ -33,7 +35,9 @@ public:
 private:
 	CCamera *m_pCamera;
 	CPlayer *m_pPlayer;
+	COtherPlayer *m_pOtherPlayer[ 3 ];
 	int m_SoundSE_ID;
+	COtherPlayerManager *m_pOtherManager;
 
 	DWORD m_ExitCode;					//	スレッドの終了判定。
 	static unsigned int __stdcall Recv( void* );
