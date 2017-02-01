@@ -18,6 +18,7 @@
 // ƒQ[ƒ€ƒNƒ‰ƒX
 class CCamera;
 class CPlayer;
+class COtherPlayer;
 class COtherPlayerManager;
 class CGame : public CMode
 {
@@ -34,6 +35,7 @@ public:
 private:
 	CCamera *m_pCamera;
 	CPlayer *m_pPlayer;
+	COtherPlayer *m_pOtherPlayer[ 3 ];
 	int m_SoundSE_ID;
 	COtherPlayerManager *m_pOtherManager;
 

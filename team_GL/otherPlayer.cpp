@@ -20,18 +20,19 @@
 
 COtherPlayer::COtherPlayer(void)
 {
+	int dummy = 0;
 }
 
 COtherPlayer::~COtherPlayer(void)
 {
 }
 
-void COtherPlayer::Init( int nId )
+void COtherPlayer::Init( int nId, Vector3 pos, float width, float height )
 {
 	m_Score = 0;
-	m_Pos = Vector3( 0, 0, 0 );
-	m_Width = 50.0f;
-	m_Height = 100.0f;
+	m_Pos = pos;
+	m_Width = width;
+	m_Height = height;
 
 	switch( nId )
 	{
@@ -39,20 +40,20 @@ void COtherPlayer::Init( int nId )
 		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER000 );
 		break;
 	case 1:
-		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER000 );
+		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER001 );
 		break;
 	case 2:
-		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER000 );
+		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER002 );
 		break;
 	case 3:
-		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER000 );
+		m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER003 );
 		break;
 	}
 }
 
 void COtherPlayer::Uninit(void)
 {
-
+	int dummy = 0;
 }
 
 void COtherPlayer::Update(void)
@@ -72,4 +73,11 @@ void COtherPlayer::Update(void)
 void COtherPlayer::Draw(void)
 {
 	CPlayer::Draw();
+}
+
+COtherPlayer *COtherPlayer::Create( int nId, Vector3 pos, float width, float height )
+{
+	COtherPlayer *pScene = new COtherPlayer;
+	pScene->Init( nId, pos, width, height );
+	return pScene ;
 }
