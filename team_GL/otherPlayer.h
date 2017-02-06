@@ -19,5 +19,6 @@ public:
 
 private:
 	int m_Score;
+	int m_nId;
 };
 
