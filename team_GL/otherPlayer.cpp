@@ -16,6 +16,7 @@
 #include "animationBoard.h"
 #include "player.h"
 #include "otherPlayer.h"
+#include "sync.h"
 
 
 COtherPlayer::COtherPlayer(void)
@@ -33,6 +34,7 @@ void COtherPlayer::Init( int nId, Vector3 pos, float width, float height )
 	m_Pos = pos;
 	m_Width = width;
 	m_Height = height;
+	m_nId = nId;
 
 	switch( nId )
 	{
@@ -58,6 +60,7 @@ void COtherPlayer::Uninit(void)
 
 void COtherPlayer::Update(void)
 {
+	m_Pos = CSync::SetPos( m_nId );
 	m_nCntAnim++;
 	if (m_nCntAnim == DRAW_SPEED)
 	{

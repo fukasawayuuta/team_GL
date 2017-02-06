@@ -75,31 +75,28 @@ CGame::~CGame()
 *******************************************************************************/
 void CGame::Init(void)
 {
-	//CSync::Init();
+	CSync::Init();
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
 	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
 	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
-	//m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	m_pOtherPlayer[ 0 ] = COtherPlayer::Create( 1, Vector3( -150.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
 	m_pOtherPlayer[ 1 ] = COtherPlayer::Create( 2, Vector3( -50.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
 	m_pOtherPlayer[ 2 ] = COtherPlayer::Create( 3, Vector3( -200.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
-	//m_pPlayer->SetID(CSync::Init());
+	m_pPlayer->SetID(CSync::Init());
 	hth =  (HANDLE)_beginthreadex(NULL,
 			0,
 			Recv,	//	スレッドとして実行する関数名
 			NULL,
 			0,
 			&thID);	//	スレッドのID
-	//COtherPlayerManager::Create();
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
 	//CBat::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
 	CSoundAL::Init();
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
 	CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BLOCK);
-	//m_pOtherManager = COtherPlayerManager::Create();
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
 }
 
@@ -161,7 +158,7 @@ void CGame::Update(void)
 		CFade::Start(new CResult);
 		CSoundAL::Play(m_SoundSE_ID, false);
 	}
-	//if (m_SendCnt == 0)	CSync::Send( Vector3( 0, 0, 0 ) );
+	if (m_SendCnt == 0)	CSync::Send( Vector3( 0, 0, 0 ), 0 );
 
 	//m_pOtherManager->Update();
 	m_SendCnt = (m_SendCnt + 1) % SEND_TIMING_COUNT;

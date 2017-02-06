@@ -172,6 +172,7 @@ void CPlayer::Update(void)
 		m_Pos.y = GROUND + m_Width / 2;
 	}
 
+	m_PlayerID;
 	// ó‘ÔXV
 	UpdateState();
 

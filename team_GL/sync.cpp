@@ -27,6 +27,8 @@ SOCKET CSync::m_Socket;
 char CSync::m_RecvData[ 128 ];
 char CSync::m_SendData[ 128 ];
 SOCKADDR_IN CSync::m_addr;
+Vector3 CSync::playerPos[ 4 ];
+int CSync::playerScore[ 4 ];
 
 /*******************************************************************************
 * ä÷êîñºÅFCSync
@@ -113,11 +115,12 @@ void CSync::Send( Vector3 pos, int score )
 *******************************************************************************/
 Vector3 CSync::Recv( void )
 {
-	Vector3 pos;
 	memset( m_RecvData, 0, sizeof( m_RecvData ) );
 	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
-	sscanf( m_RecvData, "%f %f %f", &pos.x, &pos.y, &pos.z );
+	sscanf( m_RecvData, "%5.3f %5.3f %5.3f %d %5.3f %5.3f %5.3f %d %5.3f %5.3f %5.3f %d %5.3f %5.3f %5.3f %d",
+		&playerPos[ 0 ].x, &playerPos[ 0 ].y, &playerPos[ 0 ].z, &playerScore[ 0 ], &playerPos[ 1 ].x, &playerPos[ 1 ].y, &playerPos[ 1 ].z, &playerScore[ 1 ],
+		&playerPos[ 2 ].x, &playerPos[ 2 ].y, &playerPos[ 2 ].z, &playerScore[ 2 ], &playerPos[ 3 ].x, &playerPos[ 3 ].y, &playerPos[ 3 ].z, &playerScore[ 3 ] );
 	COtherPlayerManager::CopyRecvData(m_RecvData);
 
-	return pos ;
+	return Vector3( 0, 0, 0 ) ;
 }

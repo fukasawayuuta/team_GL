@@ -22,6 +22,8 @@ private:
 	static char m_SendData[ 128 ];
 	static char m_RecvData[ 128 ];
 	static SOCKADDR_IN m_addr;
+	static Vector3 playerPos[ 4 ];
+	static int playerScore[ 4 ];
 
 public:
 	CSync();
@@ -32,4 +34,5 @@ public:
 	static void Send( Vector3 pos, int score );
 	static Vector3 Recv( void );
 	static char *GetRecvData(void) {return m_RecvData;}
+	static Vector3 SetPos( int id ){ return playerPos[ id ] ; }
 };
