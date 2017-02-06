@@ -24,6 +24,9 @@ public:
 	void Draw(void);		//	描画関数
 
 	static CScene3D *Create(void);	//	作成関数。
+
+	Vector3 GetPos(void) { return m_Pos; }
+	Vector2 GetCollision(void) { return m_Collision; }
 protected:
 	Vector3 m_Pos;		//	座標。
 	Vector3 m_Rot;		//	角度。
@@ -32,5 +35,7 @@ protected:
 	float m_Height;		//	縦幅。
 	float m_Depth;		//	奥行。
 	int m_nTexIdx;		//	テクスチャタイプ。
+
+	Vector2 m_Collision;	// 当たり判定
 };
 

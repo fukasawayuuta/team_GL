@@ -22,7 +22,7 @@ public:
 		OBJECT_TYPE_MAX
 	};
 
-	CFieldObject(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_NONE);		//	コンストラクタ。
+	CFieldObject(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_FIELDOBJ);		//	コンストラクタ。
 	~CFieldObject();	//	デストラクタ。
 
 	void Init(Vector3 pos, Vector3 rot, float width, float height, int index);		//	初期化関数。
@@ -32,6 +32,7 @@ public:
 
 	void SetActive(bool active) {m_IsActive = active;}		//	フラグをセットする関数。
 	static CFieldObject *Create(Vector3 pos, Vector3 rot, float width, float height, int index);		//	生成関数。
+	bool HitCheck(Vector3 pos, float width, float height);
 
 private:
 	bool m_IsBreak;			//	壊れるかどうかのフラグ。

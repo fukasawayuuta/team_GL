@@ -108,16 +108,16 @@ glDisable(GL_LIGHTING);
 
 	//	í∏ì_ç¿ïWê›íË
 	glTexCoord2d(0.0, 0.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(-m_Width * 0.5f, m_Height * 0.5f, m_Pos.z);
 
 	glTexCoord2d(0.0, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(-m_Width * 0.5f, -m_Height * 0.5f, m_Pos.z);
 
 	glTexCoord2d(1.0, 0.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(m_Width * 0.5f, m_Height * 0.5f, m_Pos.z);
 
 	glTexCoord2d(1.0, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), m_Pos.z);
+    glVertex3f(m_Width * 0.5f, -m_Height * 0.5f, m_Pos.z);
 
 	glEnd();
 	// ï`âÊèIóπ

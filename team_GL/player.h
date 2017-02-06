@@ -50,4 +50,7 @@ private:
 	int m_nState;			// 現在の状態
 	int m_nStateCnt;		// 状態カウンタ
 	Vector3 m_Move;			// 移動量
+	Vector3 m_OldPos;		// 1フレーム前の座標
+
+	void UpdateCollision(void);	// 当たり判定更新
 };

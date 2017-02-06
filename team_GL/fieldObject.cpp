@@ -15,6 +15,14 @@
 #include "scene3D.h"
 #include "fieldObject.h"
 
+/*******************************************************************************
+* マクロ定義
+*******************************************************************************/
+const float WIDTH = SCREEN_WIDTH;
+const float HEIGHT = SCREEN_HEIGHT;
+const int FADE_COUNT = 30;
+const float GROUND = 0.0f;
+
 /******************************************************************************
 	関数名 : CFieldObject::CFieldObject()
 	説明   : コンストラクタ
@@ -23,6 +31,7 @@ CFieldObject::CFieldObject(int Priority, OBJ_TYPE objType) : CScene3D(Priority, 
 {
 	m_IsBreak = true;
 	m_IsActive = true;
+	m_Collision = Vector2(0.0f, 0.0f);
 }
 
 /******************************************************************************
@@ -45,6 +54,7 @@ void CFieldObject::Init(Vector3 pos, Vector3 rot, float width, float height, int
 	m_Rot = rot;
 	m_Width = width;
 	m_Height = height;
+	m_Collision = Vector2(width, height);
 	m_nTexIdx = CTexture::SetTexture(index);
 }
 
@@ -67,7 +77,10 @@ void CFieldObject::Uninit(void)
 ******************************************************************************/
 void CFieldObject::Update(void)
 {
-
+	if (m_Pos.y - m_Height * 0.5f <= GROUND)
+	{
+		m_Pos.y = GROUND + m_Height * 0.5f;
+	}
 }
 
 /******************************************************************************
@@ -93,4 +106,19 @@ CFieldObject *CFieldObject::Create(Vector3 pos, Vector3 rot, float width, float 
 	obj->Init(pos, rot, width, height, index);
 
 	return obj;
+}
+
+/******************************************************************************
+関数名 : HitCheck
+引数   : pos, width, height
+戻り値 : なし
+説明   : 当たり判定
+******************************************************************************/
+bool CFieldObject::HitCheck(Vector3 pos, float width, float height)
+{
+	if (abs(m_Pos.x - pos.x) < (m_Collision.x + width) * 0.5f && abs(m_Pos.y - pos.y) <  (m_Collision.y + height) * 0.5f)
+	{
+		return true;
+	}
+	return false;
 }
