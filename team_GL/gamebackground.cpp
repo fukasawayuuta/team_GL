@@ -86,8 +86,8 @@ void CGameBackground::Update(void)
 {
 	CGame *game = (CGame*)CManager::GetMode();
 	CPlayer *player = game->GetPlayer();
-	Vector3 move = player->GetMove();
-	m_dTexCoord += (double)move.x / SCREEN_WIDTH;
+	Vector3 move = player->GetPos();
+	m_dTexCoord = (double)move.x / SCREEN_WIDTH;
 }
 
 /*******************************************************************************
