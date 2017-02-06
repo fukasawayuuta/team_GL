@@ -25,8 +25,8 @@ const int TEXTURE_COLUMN = 5;
 const int TEXTURE_ROW = 1;
 const int WALK_DRAW = 5;
 
-#define TURN_CNT (180)
-#define MOVEMENT (1.0f)
+const int TURN_CNT = 180;
+const float MOVEMENT = 1.0f;
 
 
 /******************************************************************************
@@ -36,6 +36,8 @@ const int WALK_DRAW = 5;
 CBat::CBat(int Priority, OBJ_TYPE objType) : CEnemy(Priority, objType)
 {
 	m_StateCnt = 0;
+	m_FirstYCoordinate = 0.0f;
+	m_SinAngle = 0.0f;
 	m_TurnFlag = false;
 	m_Movement = MOVEMENT;
 }
@@ -46,6 +48,12 @@ CBat::CBat(int Priority, OBJ_TYPE objType) : CEnemy(Priority, objType)
 ******************************************************************************/
 CBat::~CBat()
 {
+}
+
+void CBat::Init(Vector3 pos, float width, float height, int texIndex)
+{
+	CEnemy::Init(pos, width, height, texIndex);
+	m_FirstYCoordinate = pos.y;
 }
 
 /******************************************************************************
@@ -67,7 +75,11 @@ void CBat::Update(void)
 		m_nDirection = -1;
 	}
 
-	m_StateCnt = (m_StateCnt + 1) % 60;
+	m_Pos.y = m_FirstYCoordinate + sinf(m_SinAngle) * 10.0f;
+
+	m_SinAngle += 0.1f;
+
+	m_StateCnt = (m_StateCnt + 1) % 180;
 
 	if (m_StateCnt == 0) {
 		m_TurnFlag = !m_TurnFlag;

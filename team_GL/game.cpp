@@ -35,6 +35,7 @@
 #include "bat.h"
 #include "otherPlayer.h"
 #include "otherPlayerManager.h"
+#include "skeleton.h"
 
 /*******************************************************************************
 * 静的変数宣言
@@ -92,7 +93,8 @@ void CGame::Init(void)
 			0,
 			&thID);	//	スレッドのID
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
-	//CBat::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
+	CBat::Create(Vector3(200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
+	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002);
 	CSoundAL::Init();
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);

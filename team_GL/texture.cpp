@@ -44,6 +44,7 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\player002.tga" },
 	{ "data\\TEXTURE\\player003.tga" },
 	{ "data\\TEXTURE\\enemy_bat.tga" },					// TEXTURE_TYPE_ENEMY001
+	{ "data\\TEXTURE\\enemy_skeleton.tga" },			// TEXTURE_TYPE_ENEMY002
 	{ "data\\TEXTURE\\dragon.tga" },					// TEXTURE_TYPE_BOSS
 	{ "data\\TEXTURE\\block.tga" },
 	{ "data\\TEXTURE\\result_bg.tga" },					// TEXTURE_TYPE_RESULT_BG
