@@ -40,7 +40,7 @@
 /*******************************************************************************
 * 静的変数宣言
 *******************************************************************************/
-static int SEND_TIMING_COUNT = 10;
+static int SEND_TIMING_COUNT = 2;
 
 /*******************************************************************************
 * 関数名：CGame::CGame()
@@ -82,10 +82,18 @@ void CGame::Init(void)
 	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
 	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
 	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
-	m_pOtherPlayer[ 0 ] = COtherPlayer::Create( 1, Vector3( -150.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
-	m_pOtherPlayer[ 1 ] = COtherPlayer::Create( 2, Vector3( -50.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
-	m_pOtherPlayer[ 2 ] = COtherPlayer::Create( 3, Vector3( -200.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
-	//m_pPlayer->SetID(CSync::Init());
+	m_pPlayer->SetID(CSync::Init());
+	for( int i = 0; i < 3; i ++ )
+	{
+		if( i != m_pPlayer->GetID() )
+		{
+			m_pOtherPlayer[ i ] = COtherPlayer::Create( i, Vector3( -150.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
+		}
+		else
+		{
+			m_pOtherPlayer[ i ] = COtherPlayer::Create( 3, Vector3( -150.0f, 0.0f, 0.0f ), 50.0f, 100.0f );
+		}
+	}
 	hth =  (HANDLE)_beginthreadex(NULL,
 			0,
 			Recv,	//	スレッドとして実行する関数名
@@ -161,7 +169,7 @@ void CGame::Update(void)
 		CFade::Start(new CResult);
 		CSoundAL::Play(m_SoundSE_ID, false);
 	}
-	if (m_SendCnt == 0)	CSync::Send( Vector3( 0, 0, 0 ), 0 );
+	//if (m_SendCnt == 0)	CSync::Send( Vector3( 0, 0, 0 ), 0 );
 
 	//m_pOtherManager->Update();
 	m_SendCnt = (m_SendCnt + 1) % SEND_TIMING_COUNT;

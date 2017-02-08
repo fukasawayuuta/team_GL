@@ -101,7 +101,7 @@ void CSync::Uninit( void )
 *******************************************************************************/
 void CSync::Send( Vector3 pos, int score )
 {
-	memset( m_SendData, 0, sizeof( m_SendData ) );
+	//memset( m_SendData, 0, sizeof( m_SendData ) );
 	sprintf( m_SendData, "%5.3f %5.3f %5.3f &d", pos.x, pos.y, pos.z, score);
 	send( m_Socket, m_SendData, sizeof( m_SendData ), 0 );
 }
@@ -115,9 +115,9 @@ void CSync::Send( Vector3 pos, int score )
 *******************************************************************************/
 Vector3 CSync::Recv( void )
 {
-	memset( m_RecvData, 0, sizeof( m_RecvData ) );
+	//memset( m_RecvData, 0, sizeof( m_RecvData ) );
 	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
-	sscanf( m_RecvData, "%5.3f %5.3f %5.3f %d %5.3f %5.3f %5.3f %d %5.3f %5.3f %5.3f %d %5.3f %5.3f %5.3f %d",
+	sscanf( m_RecvData, "%f %f %f %d, %f %f %f %d, %f %f %f %d, %f %f %f %d",
 		&playerPos[ 0 ].x, &playerPos[ 0 ].y, &playerPos[ 0 ].z, &playerScore[ 0 ], &playerPos[ 1 ].x, &playerPos[ 1 ].y, &playerPos[ 1 ].z, &playerScore[ 1 ],
 		&playerPos[ 2 ].x, &playerPos[ 2 ].y, &playerPos[ 2 ].z, &playerScore[ 2 ], &playerPos[ 3 ].x, &playerPos[ 3 ].y, &playerPos[ 3 ].z, &playerScore[ 3 ] );
 	COtherPlayerManager::CopyRecvData(m_RecvData);
