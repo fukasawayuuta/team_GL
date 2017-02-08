@@ -60,7 +60,13 @@ void COtherPlayer::Uninit(void)
 
 void COtherPlayer::Update(void)
 {
-	m_Pos = CSync::SetPos( m_nId );
+	Vector3 syncPos;
+	syncPos = CSync::SetPos( m_nId );
+	/*if( syncPos.x >= 0 && syncPos.y >= 0 && syncPos.z >= 0 )
+	{
+		m_Pos = syncPos;
+	}*/
+	m_Pos = syncPos;
 	m_nCntAnim++;
 	if (m_nCntAnim == DRAW_SPEED)
 	{
