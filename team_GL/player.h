@@ -22,7 +22,24 @@ public:
 	void Uninit(void);		//	終了関数。
 	void Update(void);		//	更新関数。
 	void Draw(void);		//	描画関数
-	void SetID(int id) {m_PlayerID = id;}		//	ID設定。
+	void SetID(int id) {
+		m_PlayerID = id;
+		switch( m_PlayerID )
+		{
+		case 0:
+			m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER000 );
+			break;
+		case 1:
+			m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER001 );
+			break;
+		case 2:
+			m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER002 );
+			break;
+		case 3:
+			m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_PLAYER003 );
+			break;
+		}
+	}		//	ID設定。
 	int GetID(void) {return m_PlayerID;}		//	ID取得。
 
 	void HitCheck( Vector3 pos, float width, float height );	// 当たり判定チェック
