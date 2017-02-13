@@ -18,10 +18,10 @@ public:
 	CGame_UI(int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_2D);		//	コンストラクタ。
 	~CGame_UI(void);	//	デストラクタ。
 
-	void Init(Vector2 pos, float width, float height, int texIndex);		//	初期化関数。
-	void Uninit(void);		//	終了関数。
-	void Update(void);		//	更新関数。
-	void Draw(void);		//	描画関数。
+	virtual void Init(Vector2 pos, float width, float height, int texIndex);		//	初期化関数。
+	virtual void Uninit(void);				//	終了関数。
+	virtual void Update(void);				//	更新関数。
+	virtual void Draw(void);				//	描画関数。
 
 	static void Create(Vector2 pos, float width, float height, int texIndex);
 };
