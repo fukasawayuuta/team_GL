@@ -32,6 +32,7 @@ public:
 
 	void SetActive(bool active) {m_IsActive = active;}		//	フラグをセットする関数。
 	static CFieldObject *Create(Vector3 pos, Vector3 rot, float width, float height, int index);		//	生成関数。
+	static void Load(void);
 	bool HitCheck(Vector3 pos, float width, float height);
 
 private:

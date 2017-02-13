@@ -40,13 +40,13 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\gauge_frame.tga" },				// TEXTURE_TYPE_GAUGE_FRAME
 	{ "data\\TEXTURE\\gauge_red_in.tga" },				// TEXTURE_TYPE_GAUGE_IN
 	{ "data\\TEXTURE\\player000.tga" },					// TEXTURE_TYPE_PLAYER000
-	{ "data\\TEXTURE\\player001.tga" },
-	{ "data\\TEXTURE\\player002.tga" },
-	{ "data\\TEXTURE\\player003.tga" },
+	{ "data\\TEXTURE\\player001.tga" },					// TEXTURE_TYPE_PLAYER001
+	{ "data\\TEXTURE\\player002.tga" },					// TEXTURE_TYPE_PLAYER002
+	{ "data\\TEXTURE\\player003.tga" },					// TEXTURE_TYPE_PLAYER003
 	{ "data\\TEXTURE\\enemy_bat.tga" },					// TEXTURE_TYPE_ENEMY001
 	{ "data\\TEXTURE\\enemy_skeleton.tga" },			// TEXTURE_TYPE_ENEMY002
 	{ "data\\TEXTURE\\dragon.tga" },					// TEXTURE_TYPE_BOSS
-	{ "data\\TEXTURE\\block.tga" },
+	{ "data\\TEXTURE\\brown_block.tga" },				// TEXTURE_TYPE_BLOCK
 	{ "data\\TEXTURE\\result_bg.tga" },					// TEXTURE_TYPE_RESULT_BG
 	{ "data\\TEXTURE\\ranking.tga" },					// TEXTURE_TYPE_RESULT_LOGO
 	{ "data\\TEXTURE\\1st.tga" },						// TEXTURE_TYPE_RANK_FIRST
@@ -55,6 +55,7 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\4th.tga" },						// TEXTURE_TYPE_RANK_FOURTH
 	{ "data\\TEXTURE\\slash_effect.tga" },				// TEXTURE_TYPE_EFFECT_SLASH
 	{ "data\\TEXTURE\\item.tga" },						// TEXTURE_TYPE_ITEM
+	{ "data\\TEXTURE\\UI_HP.tga" },						// TEXTURE_TYPE_UI_HP
 };
 
 /*******************************************************************************
