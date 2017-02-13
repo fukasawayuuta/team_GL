@@ -79,7 +79,6 @@ void CGame::Init(void)
 	//CSync::Init();
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
-	CScore::Create(Vector2(300.0f, 200.0f), Vector2(0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_NUMBER);
 	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
 	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	m_pPlayer->SetID(CSync::Init());
@@ -104,10 +103,11 @@ void CGame::Init(void)
 	CBat::Create(Vector3(200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
 	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002);
 	CSoundAL::Init();
-	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 295.0f, 95.0f, TEXTURE_TYPE_GAUGE_IN);
-	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.15f, SCREEN_HEIGHT * 0.15f), 300.0f, 100.0f, TEXTURE_TYPE_GAUGE_FRAME);
-	/*CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_BLOCK);
-	CFieldObject::Create(Vector3(100.0f, 100.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_BLOCK);*/
+
+	CScore::Create(Vector2(SCREEN_WIDTH * 0.80f, SCREEN_HEIGHT * 0.1f), Vector2(0.0f, 0.0f), 40.0f, 45.0f, TEXTURE_TYPE_NUMBER);
+	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_IN);
+	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_FRAME);
+	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.03f, SCREEN_HEIGHT * 0.1f), 37.0f, 37.0f, TEXTURE_TYPE_UI_HP);
 	CFieldObject::Load();
 	m_SoundSE_ID = CSoundAL::Load("data/SOUND/Select_SE.wav");
 }
