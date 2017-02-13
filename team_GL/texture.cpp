@@ -56,6 +56,10 @@ TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] =
 	{ "data\\TEXTURE\\slash_effect.tga" },				// TEXTURE_TYPE_EFFECT_SLASH
 	{ "data\\TEXTURE\\item.tga" },						// TEXTURE_TYPE_ITEM
 	{ "data\\TEXTURE\\UI_HP.tga" },						// TEXTURE_TYPE_UI_HP
+	{ "data\\TEXTURE\\1P.tga" },
+	{ "data\\TEXTURE\\2P.tga" },
+	{ "data\\TEXTURE\\3P.tga" },
+	{ "data\\TEXTURE\\4P.tga" }
 };
 
 /*******************************************************************************

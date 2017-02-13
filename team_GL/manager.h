@@ -32,8 +32,10 @@ public:
 	static CRenderer  *GetRenderer(void) { return m_pRenderer; }
 	static void SetMode(CMode *mode);
 	static CMode *GetMode(void) {return m_pMode;}
+	static void SetScore( int id ,int score ){ m_nScore[ id ] = score; }
 private:
 	static CRenderer *m_pRenderer;		//	レンダラークラス。
 	static CMode *m_pMode;
+	static int m_nScore[ 4 ];
 };
 

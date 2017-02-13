@@ -20,6 +20,7 @@ class CCamera;
 class CPlayer;
 class COtherPlayer;
 class COtherPlayerManager;
+class CScore;
 class CGame : public CMode
 {
 public:
@@ -38,6 +39,7 @@ private:
 	COtherPlayer *m_pOtherPlayer[ 3 ];
 	int m_SoundSE_ID;
 	COtherPlayerManager *m_pOtherManager;
+	CScore *m_pScore[ 4 ];
 
 	DWORD m_ExitCode;					//	スレッドの終了判定。
 	static unsigned int __stdcall Recv( void* );

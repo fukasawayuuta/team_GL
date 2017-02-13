@@ -25,6 +25,7 @@
 #include "sync.h"
 #include "slashEffect.h"
 #include "fieldObject.h"
+#include "score.h"
 
 /******************************************************************************
 マクロ定義
@@ -183,6 +184,7 @@ void CPlayer::Update(void)
 	// アニメーション更新
 	UpdateAnimation();
 	//	データ送信。
+	m_Score = m_pMyscore->GetScore();
 	CSync::Send(m_Pos, m_Score);
 	// カメラの追従
 	CGame *game = (CGame*)CManager::GetMode();
