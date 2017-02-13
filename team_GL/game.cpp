@@ -38,6 +38,7 @@
 #include "skeleton.h"
 #include "manager.h"
 #include "slime.h"
+#include "playerLifeGauge.h"
 
 /*******************************************************************************
 * ê√ìIïœêîêÈåæ
@@ -120,7 +121,7 @@ void CGame::Init(void)
 		}
 		CGame_UI::Create( Vector2( SCREEN_WIDTH * 0.75, SCREEN_HEIGHT * 0.1f + 45.0f * i ), 40.0f, 45.0f, TEXTURE_TYPE_UI_1P + i );
 	}
-	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_IN);
+	CPlayerLifeGauge::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_FRAME);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.03f, SCREEN_HEIGHT * 0.1f), 37.0f, 37.0f, TEXTURE_TYPE_UI_HP);
 	CFieldObject::Load();

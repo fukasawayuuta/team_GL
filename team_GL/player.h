@@ -49,6 +49,8 @@ public:
 	void UpdateState(void);										// 状態更新
 	void UpdateAnimation(void);									// アニメーションの更新
 	void SetMyscore( CScore *pScore ){ m_pMyscore = pScore; }
+	int GetLife(void) { return m_Hp; }							// 現在ライフの取得
+	int GetLifeMax(void) { return m_HpMax; }					// 最大ライフの取得
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 private:
@@ -62,6 +64,7 @@ private:
 	}STATE;
 
 	int m_Hp;
+	int m_HpMax;
 	int m_PlayerID;
 	int m_Score;
 	bool m_Jump;

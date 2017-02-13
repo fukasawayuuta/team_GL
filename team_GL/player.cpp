@@ -49,6 +49,7 @@ const int ATTACK_CNT = DRAW_SPEED_ATTACK * ATTACK_PATTERN;  // 攻撃カウンタ
 const int DAMAGE_CNT = DRAW_SPEED_DAMAGE * DAMAGE_PATTERN;  // ダメージカウンタ
 const int SLASH_CNT = 20;									// 斬撃の発生
 const float MOVE_MAX = 50.0f;								// 速度の制限
+const int LIFE_MAX = 100;									// ライフ最大値
 
 /******************************************************************************
 関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -63,6 +64,7 @@ CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, obj
 	m_nTexRow = TEXTURE_ROW;
 	m_nTexColumn = TEXTURE_COLUMN;
 	m_nDirection = 1;
+	m_Hp = m_HpMax = LIFE_MAX;
 }
 
 /******************************************************************************
@@ -89,7 +91,6 @@ void CPlayer::Init(Vector3 pos, float width, float height)
 	m_Height = height;
 	m_Depth = 0.0f;
 
-	m_Hp = 200;
 	m_Jump = false;
 
 	m_Collision = Vector2(PLAYER_COLLISIONWIDTH, PLAYER_COLLISIONHEIGHT);
