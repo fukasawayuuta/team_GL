@@ -37,6 +37,7 @@
 #include "otherPlayerManager.h"
 #include "skeleton.h"
 #include "manager.h"
+#include "slime.h"
 
 /*******************************************************************************
 * ê√ìIïœêîêÈåæ
@@ -103,6 +104,7 @@ void CGame::Init(void)
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
 	CBat::Create(Vector3(200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
 	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002);
+	CSlime::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003);
 	CSoundAL::Init();
 
 	for( int i = 0; i < 4; i ++ )
