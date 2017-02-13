@@ -24,6 +24,8 @@ private:
 	static SOCKADDR_IN m_addr;
 	static Vector3 playerPos[ 4 ];
 	static int playerScore[ 4 ];
+	static int enemyId[ 20 ];
+	static bool enemyUse[ 20 ];
 
 public:
 	CSync();
