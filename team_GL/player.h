@@ -12,6 +12,7 @@
 /******************************************************************************
 	クラス宣言
 ******************************************************************************/
+class CScore;
 class CPlayer : public CAnimationBoard
 {
 public:
@@ -47,6 +48,7 @@ public:
 	void SetState(int state);									// 状態設定
 	void UpdateState(void);										// 状態更新
 	void UpdateAnimation(void);									// アニメーションの更新
+	void SetMyscore( CScore *pScore ){ m_pMyscore = pScore; }
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 private:
@@ -68,6 +70,7 @@ private:
 	int m_nStateCnt;		// 状態カウンタ
 	Vector3 m_Move;			// 移動量
 	Vector3 m_OldPos;		// 1フレーム前の座標
+	CScore *m_pMyscore;
 
 	void UpdateCollision(void);	// 当たり判定更新
 };

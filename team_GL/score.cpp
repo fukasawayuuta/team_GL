@@ -16,9 +16,10 @@
 #include "main.h"
 #include "manager.h"
 #include "scene.h"
-#include "scene2D.h"
+
 
 #include "score.h"
+#include "sync.h"
 
 /******************************************************************************
 	マクロ定義
@@ -33,11 +34,6 @@
 	グローバル変数
 ******************************************************************************/
 //	静的メンバ変数宣言/////////////////////////////////////////////////////////
-Vector2 CScore::m_Pos;	//	座標。
-Vector2 CScore::m_Rot;	//	角度。
-float CScore::m_Width;	//	横幅。
-float CScore::m_Height;	//	縦幅。
-int CScore::m_nScore;	
 
 //=============================================================================
 //	関数名 : CScore::CScore()
@@ -64,12 +60,12 @@ CScore::~CScore()
 	戻り値 : なし
 	説明   : スコアの生成処理
 ******************************************************************************/
-CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, int index )
+CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, int index, int id )
 {
 	CScore *score;
 
 	score = new CScore;
-	score -> Init( pos, rot, width, height, index );
+	score -> Init( pos, rot, width, height, index, id );
 
 	return score;
 }
@@ -80,13 +76,15 @@ CScore *CScore::Create ( Vector2 pos, Vector2 rot, float width, float height, in
 	戻り値 : なし
 	説明   : スコアの初期化処理
 ******************************************************************************/
-void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int index )
+void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int index, int id )
 {
 	// 引数値を代入
 	m_Pos		= pos;
 	m_Rot		= rot;
 	m_Width		= width;
 	m_Height	= height;
+
+	m_nId = id;
 
 	// テクスチャを読み込み、生成する
 	m_nTexIdx = CTexture::SetTexture( index );
@@ -115,6 +113,8 @@ void CScore::Uninit ( void )
 ******************************************************************************/
 void CScore::Update ( void )
 {
+	m_nScore = CSync::SetScore( m_nId );
+
 	// スコアの更新順序
 	m_Number[ 0 ] = m_nScore / 10000 % 10;
 	m_Number[ 1 ] = m_nScore / 1000 % 10;
@@ -123,7 +123,7 @@ void CScore::Update ( void )
 	m_Number[ 4 ] = m_nScore / 1 % 10;
 
 	// スコアの動作確認関数( +1ずつ加算する )
-	AddScore(1);
+	//AddScore(1);
 
 }
 

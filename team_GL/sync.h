@@ -35,4 +35,5 @@ public:
 	static Vector3 Recv( void );
 	static char *GetRecvData(void) {return m_RecvData;}
 	static Vector3 SetPos( int id ){ return playerPos[ id ] ; }
+	static int SetScore( int id ){ return playerScore[ id ] ; }
 };

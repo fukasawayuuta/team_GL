@@ -82,7 +82,7 @@ void CRanking::Init ( Vector2 pos, Vector2 rot, float width, float height, int i
 	}
 
 	// プレイヤーのスコアを入れる
-	m_nRanking[ RANKING_ALL ] = CScore::GetScore();
+	//m_nRanking[ RANKING_ALL ] = CScore::GetScore();
 
 	// ランキングの順位を設定する
 	m_RankNum = Set( m_nRanking );

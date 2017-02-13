@@ -36,6 +36,7 @@
 #include "otherPlayer.h"
 #include "otherPlayerManager.h"
 #include "skeleton.h"
+#include "manager.h"
 
 /*******************************************************************************
 * 静的変数宣言
@@ -104,7 +105,19 @@ void CGame::Init(void)
 	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002);
 	CSoundAL::Init();
 
-	CScore::Create(Vector2(SCREEN_WIDTH * 0.80f, SCREEN_HEIGHT * 0.1f), Vector2(0.0f, 0.0f), 40.0f, 45.0f, TEXTURE_TYPE_NUMBER);
+	for( int i = 0; i < 4; i ++ )
+	{
+		if( m_pPlayer->GetID() == i )
+		{
+			m_pScore[ i ] = CScore::Create(Vector2(SCREEN_WIDTH * 0.80f, SCREEN_HEIGHT * 0.1f + 45.0f * i), Vector2(0.0f, 0.0f), 40.0f, 45.0f, TEXTURE_TYPE_NUMBER, i );
+			m_pPlayer->SetMyscore( m_pScore[ i ] );
+		}
+		else
+		{
+			m_pScore[ i ] = CScore::Create(Vector2(SCREEN_WIDTH * 0.80f, SCREEN_HEIGHT * 0.1f + 45.0f * i), Vector2(0.0f, 0.0f), 40.0f, 45.0f, TEXTURE_TYPE_NUMBER, i );
+		}
+		CGame_UI::Create( Vector2( SCREEN_WIDTH * 0.75, SCREEN_HEIGHT * 0.1f + 45.0f * i ), 40.0f, 45.0f, TEXTURE_TYPE_UI_1P + i );
+	}
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_IN);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.30f, SCREEN_HEIGHT * 0.1f), SCREEN_WIDTH * 0.5f, 40.0f, TEXTURE_TYPE_GAUGE_FRAME);
 	CGame_UI::Create(Vector2(SCREEN_WIDTH * 0.03f, SCREEN_HEIGHT * 0.1f), 37.0f, 37.0f, TEXTURE_TYPE_UI_HP);
@@ -121,6 +134,11 @@ void CGame::Init(void)
 *******************************************************************************/
 void CGame::Uninit(void)
 {
+	for( int i = 0 ; i < 4; i ++ )
+	{
+		CManager::SetScore( i, m_pScore[ i ]->GetScore() );
+	}
+
 	//	スレッドの状態取得。
 	GetExitCodeThread(hth, &m_ExitCode);
 	//	スレッドがうごていたら終了。

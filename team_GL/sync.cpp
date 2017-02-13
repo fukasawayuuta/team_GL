@@ -102,7 +102,7 @@ void CSync::Uninit( void )
 void CSync::Send( Vector3 pos, int score )
 {
 	//memset( m_SendData, 0, sizeof( m_SendData ) );
-	sprintf( m_SendData, "%5.3f %5.3f %5.3f &d", pos.x, pos.y, pos.z, score);
+	sprintf( m_SendData, "%5.3f %5.3f %5.3f %d", pos.x, pos.y, pos.z, score);
 	send( m_Socket, m_SendData, sizeof( m_SendData ), 0 );
 }
 
