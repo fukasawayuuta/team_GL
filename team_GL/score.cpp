@@ -113,7 +113,7 @@ void CScore::Uninit ( void )
 ******************************************************************************/
 void CScore::Update ( void )
 {
-	m_nScore = CSync::SetScore( m_nId );
+	m_nScore = CSync::GetScore( m_nId );
 
 	// スコアの更新順序
 	m_Number[ 0 ] = m_nScore / 10000 % 10;

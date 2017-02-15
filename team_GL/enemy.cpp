@@ -15,6 +15,7 @@
 #include "scene3D.h"
 #include "animationBoard.h"
 #include "enemy.h"
+#include "sync.h"
 
 const int DRAW_SPEED = 30;
 const int TEXTURE_COLUMN = 5;
@@ -57,6 +58,8 @@ void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
 	m_nDirection = 1;
 	m_Collision = Vector2(ENEMY_COLLISIONWIDTH, ENEMY_COLLISIONHEIGHT);
 	m_nTexIdx = CTexture::SetTexture(texIndex);
+	m_bUse = true;
+	m_nId = 0;
 }
 
 /******************************************************************************
@@ -78,6 +81,12 @@ void CEnemy::Uninit(void)
 ******************************************************************************/
 void CEnemy::Update(void)
 {
+	CSync::SetEnemyState( m_nId, m_bUse );
+	m_bUse = CSync::GetEnemyUse( m_nId );
+
+	if( !m_bUse )
+		return;
+
 	// パターン描画更新
 	m_nCntAnim++;
 	if (m_nCntAnim == DRAW_SPEED)
@@ -100,7 +109,8 @@ void CEnemy::Update(void)
 ******************************************************************************/
 void CEnemy::Draw(void)
 {
-	CAnimationBoard::Draw();
+	if( m_bUse )
+		CAnimationBoard::Draw();
 }
 
 /******************************************************************************
@@ -139,6 +149,7 @@ void CEnemy::LifeCheck(void)
 {
 	if (m_Hp <= 0)
 	{
-		Uninit();
+		//Uninit();
+		m_bUse = false;
 	}
 }

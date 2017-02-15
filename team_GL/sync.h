@@ -36,6 +36,9 @@ public:
 	static void Send( Vector3 pos, int score );
 	static Vector3 Recv( void );
 	static char *GetRecvData(void) {return m_RecvData;}
-	static Vector3 SetPos( int id ){ return playerPos[ id ] ; }
-	static int SetScore( int id ){ return playerScore[ id ] ; }
+	static Vector3 GetPos( int id ){ return playerPos[ id ] ; }
+	static int GetScore( int id ){ return playerScore[ id ] ; }
+	static void SetEnemyState( int id, bool use ){ enemyUse[ id ] = use ; }
+	static int GetEnemyId( int id ){ return enemyId[ id ] ; }
+	static bool GetEnemyUse( int id ){ return enemyUse[ id ] ; }
 };
