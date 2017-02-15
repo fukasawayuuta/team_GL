@@ -61,7 +61,7 @@ void COtherPlayer::Uninit(void)
 void COtherPlayer::Update(void)
 {
 	Vector3 syncPos;
-	syncPos = CSync::SetPos( m_nId );
+	syncPos = CSync::GetPos( m_nId );
 	/*if( syncPos.x >= 0 && syncPos.y >= 0 && syncPos.z >= 0 )
 	{
 		m_Pos = syncPos;
