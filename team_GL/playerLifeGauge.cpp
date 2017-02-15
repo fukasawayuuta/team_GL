@@ -24,6 +24,7 @@
 /******************************************************************************
 マクロ定義
 ******************************************************************************/
+const float CURRENT_ATTENUATION = 0.1f;
 
 /*******************************************************************************
 * グローバル変数
@@ -39,7 +40,7 @@
 CPlayerLifeGauge::CPlayerLifeGauge(int Priority, OBJ_TYPE objType) : CGame_UI(Priority, objType)
 {
 	m_fMax = 1.0f;
-	m_fCurrent = 1.0f;
+	m_fCurrent = m_fCurrentNext = 1.0f;
 }
 
 /*******************************************************************************
@@ -64,7 +65,8 @@ void CPlayerLifeGauge::Update(void)
 {
 	CGame *game = (CGame*)CManager::GetMode();
 	CPlayer *player = game->GetPlayer();
-	m_fCurrent = (float)player->GetLife();
+	m_fCurrentNext = (float)player->GetLife();
+	m_fCurrent += (m_fCurrentNext - m_fCurrent) * CURRENT_ATTENUATION;
 	m_fCurrent = m_fCurrent <= 0.0f ? 0.0f : m_fCurrent;
 	m_fMax = (float)player->GetLifeMax();
 }
