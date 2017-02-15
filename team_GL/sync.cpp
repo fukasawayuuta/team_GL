@@ -21,6 +21,7 @@
 #include "otherPlayer.h"
 #include "sync.h"
 #include "otherPlayerManager.h"
+#include "enemy.h"
 
 WSADATA CSync::m_Wsadata;
 SOCKET CSync::m_Socket;
@@ -29,6 +30,8 @@ char CSync::m_SendData[ 128 ];
 SOCKADDR_IN CSync::m_addr;
 Vector3 CSync::playerPos[ 4 ];
 int CSync::playerScore[ 4 ];
+int CSync::enemyId[ 20 ];
+bool CSync::enemyUse[ 20 ];
 
 /*******************************************************************************
 * ŠÖ”–¼FCSync
@@ -102,6 +105,20 @@ void CSync::Uninit( void )
 void CSync::Send( Vector3 pos, int score )
 {
 	//memset( m_SendData, 0, sizeof( m_SendData ) );
+
+	CScene *pScene = CScene::GetList( PRIORITY_3D );
+	while( pScene )
+	{
+		if( pScene->GetObjtype( pScene ) == OBJ_TYPE_ENEMY )
+		{
+			CEnemy *pEnemy = ( CEnemy* )pScene;
+			if( pEnemy )
+			{
+			}
+		}
+		pScene = pScene->GetNext( pScene );
+	}
+
 	sprintf( m_SendData, "%5.3f %5.3f %5.3f %d", pos.x, pos.y, pos.z, score);
 	send( m_Socket, m_SendData, sizeof( m_SendData ), 0 );
 }
@@ -117,9 +134,13 @@ Vector3 CSync::Recv( void )
 {
 	//memset( m_RecvData, 0, sizeof( m_RecvData ) );
 	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
-	sscanf( m_RecvData, "%f %f %f %d, %f %f %f %d, %f %f %f %d, %f %f %f %d",
+	sscanf( m_RecvData, "%f %f %f %d, %f %f %f %d, %f %f %f %d, %f %f %f %d;%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,",
 		&playerPos[ 0 ].x, &playerPos[ 0 ].y, &playerPos[ 0 ].z, &playerScore[ 0 ], &playerPos[ 1 ].x, &playerPos[ 1 ].y, &playerPos[ 1 ].z, &playerScore[ 1 ],
-		&playerPos[ 2 ].x, &playerPos[ 2 ].y, &playerPos[ 2 ].z, &playerScore[ 2 ], &playerPos[ 3 ].x, &playerPos[ 3 ].y, &playerPos[ 3 ].z, &playerScore[ 3 ] );
+		&playerPos[ 2 ].x, &playerPos[ 2 ].y, &playerPos[ 2 ].z, &playerScore[ 2 ], &playerPos[ 3 ].x, &playerPos[ 3 ].y, &playerPos[ 3 ].z, &playerScore[ 3 ],
+		&enemyId[ 0 ], &enemyUse[ 0 ], &enemyId[ 1 ], &enemyUse[ 1 ],&enemyId[ 2 ], &enemyUse[ 2 ],&enemyId[ 3 ], &enemyUse[ 3 ],&enemyId[ 4 ], &enemyUse[ 4 ],
+		&enemyId[ 5 ], &enemyUse[ 5 ],&enemyId[ 6 ], &enemyUse[ 6 ],&enemyId[ 7 ], &enemyUse[ 7 ],&enemyId[ 8 ], &enemyUse[ 8 ],&enemyId[ 9 ], &enemyUse[ 9 ],
+		&enemyId[ 10 ], &enemyUse[ 10 ],&enemyId[ 11 ], &enemyUse[ 11 ],&enemyId[ 12 ], &enemyUse[ 12 ],&enemyId[ 13 ], &enemyUse[ 13 ],&enemyId[ 14 ], &enemyUse[ 14 ], 
+		&enemyId[ 15 ], &enemyUse[ 15 ],&enemyId[ 16 ], &enemyUse[ 16 ],&enemyId[ 17 ], &enemyUse[ 17 ],&enemyId[ 18 ], &enemyUse[ 18 ],&enemyId[ 19 ], &enemyUse[ 19 ] );
 	COtherPlayerManager::CopyRecvData(m_RecvData);
 
 	return Vector3( 0, 0, 0 ) ;

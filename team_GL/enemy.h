@@ -28,8 +28,12 @@ public:
 	Vector2 GetCollision( void ){ return m_Collision ; }
 	void HitCheck( Vector3 pos, float width, float height );
 	void SetDamage(int damage) { m_Hp -= damage; }
+	int GetId( void ){ return m_nId ; }
+	bool GetUse( void ){ return m_bUse ;}
 protected:
 	int m_Hp;		// ヒットポイント
+	int m_nId;
+	bool m_bUse;
 
 	void LifeCheck(void);
 };
