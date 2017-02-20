@@ -132,8 +132,8 @@ bool CFieldObject::HitCheck(Vector3 pos, float width, float height)
 void CFieldObject::Load(void)
 {
 	// ‚PŒÂ–Ú‚Ì’n–Ê‰ò
-	CFieldObject::Create(Vector3(0.0f, 0.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_BLOCK);
 	CFieldObject::Create(Vector3(0.0f, 25.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_BLOCK);
+	CFieldObject::Create(Vector3(0.0f, 75.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_BLOCK);
 
 	// ‹ó’†‰ò
 	CFieldObject::Create(Vector3(75.0f, 75.0f, 0.0f), Vector3(0.0f, 0.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_BLOCK);

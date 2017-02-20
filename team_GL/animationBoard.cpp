@@ -36,6 +36,7 @@ CAnimationBoard::CAnimationBoard(int Priority, OBJ_TYPE objType) : CScene3D(Prio
 	m_nDirection = -1;
 	m_nTexRow = TEXTURE_COLUMN;
 	m_nTexColumn = TEXTURE_ROW;
+	m_fAlfa = 1.0f;
 }
 
 /******************************************************************************
@@ -120,7 +121,7 @@ void CAnimationBoard::Draw(void)
 	glBegin(GL_TRIANGLE_STRIP);
 
 	//	êFê›íË
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glColor4f(1.0f, 1.0f, 1.0f, m_fAlfa);
 
 	//	ñ@ê¸ê›íË
 	glNormal3f(0.0f, 1.0f, 0.0f);

@@ -60,8 +60,18 @@ private:
 		STATE_WALK,
 		STATE_ATTACK,
 		STATE_DAMAGE,
+		STATE_DEATH,
 		STATE_MAX
 	}STATE;
+
+	typedef enum
+	{
+		ANIM_ROW_WALK = 0,
+		ANIM_ROW_ATTACK = 1,
+		ANIM_ROW_DAMAGE = 2,
+		ANIM_ROW_DEATH = 2,
+		ANIM_ROW_MAX,
+	}ANIM_ROW;
 
 	int m_Hp;
 	int m_HpMax;
@@ -73,7 +83,8 @@ private:
 	int m_nStateCnt;		// 状態カウンタ
 	Vector3 m_Move;			// 移動量
 	Vector3 m_OldPos;		// 1フレーム前の座標
-	CScore *m_pMyscore;
+	CScore *m_pMyscore;		// スコアポインタ
+	float m_fAlfaSpeed;		// アルファ値の加減速度
 
 	void UpdateCollision(void);	// 当たり判定更新
 };

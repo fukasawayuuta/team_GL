@@ -34,11 +34,13 @@ const float MOVE_SPEED = 1.3f;								// 移動速度
 const int DRAW_SPEED_WALK = 10;								// 描画スピード(歩き)
 const int DRAW_SPEED_ATTACK = 5;							// 描画スピード(攻撃)
 const int DRAW_SPEED_DAMAGE = 10;							// 描画スピード(被弾)
+const int DRAW_SPEED_DEATH = 10;							// 描画スピード(死亡)
 const int TEXTURE_COLUMN = 7;								// テクスチャ列分割数
 const int TEXTURE_ROW = 3;									// テクスチャ行分割数
 const int WALK_PATTERN = 4;									// 歩きモーションのコマ数
 const int ATTACK_PATTERN = 7;								// 攻撃モーションのコマ数
 const int DAMAGE_PATTERN = 2;								// 被弾モーションのコマ数
+const int DEATH_PATTERN = 2;								// 死亡モーションのコマ数
 const float MOVE_ATTENUATION = 0.2f;						// 移動量減衰係数
 const float GRAVITY = -0.8f;								// 重力
 const float GROUND = 0.0f;									// 地面の高さ
@@ -47,9 +49,12 @@ const float PLAYER_COLLISIONWIDTH = 15.0f;					// 当たり判定幅
 const float PLAYER_COLLISIONHEIGHT = 70.0f;					// 当たり判定高さ
 const int ATTACK_CNT = DRAW_SPEED_ATTACK * ATTACK_PATTERN;  // 攻撃カウンタ
 const int DAMAGE_CNT = DRAW_SPEED_DAMAGE * DAMAGE_PATTERN;  // ダメージカウンタ
+const int DEATH_CNT = 60;									// ダメージカウンタ
 const int SLASH_CNT = 20;									// 斬撃の発生
 const float MOVE_MAX = 50.0f;								// 速度の制限
 const int LIFE_MAX = 100;									// ライフ最大値
+const float ALFA_SPEED = 0.1f;								// アルファ値加減速度
+const float ALFA_LIMIT = 0.1f;								// アルファ値限界値
 
 /******************************************************************************
 関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -65,6 +70,8 @@ CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, obj
 	m_nTexColumn = TEXTURE_COLUMN;
 	m_nDirection = 1;
 	m_Hp = m_HpMax = LIFE_MAX;
+	m_fAlfaSpeed = -ALFA_SPEED;
+	m_pMyscore = NULL;
 }
 
 /******************************************************************************
@@ -120,6 +127,11 @@ void CPlayer::Update(void)
 	if (m_Hp <= 0 && CFade::Get(FADE_NONE))
 	{
 		//CFade::Start( new CResult );
+	}
+	if (m_Hp <= 0)
+	{
+		m_Hp = 0;
+		SetState(STATE_DEATH);
 	}
 
 	if (CInput::GetKeyboardTrigger(DIK_G) && m_nState == STATE_WALK)
@@ -185,7 +197,11 @@ void CPlayer::Update(void)
 	// アニメーション更新
 	UpdateAnimation();
 	//	データ送信。
-	m_Score = m_pMyscore->GetScore();
+	if (m_pMyscore)
+	{
+		m_Score = m_pMyscore->GetScore();
+	}
+	
 	CSync::Send(m_Pos, m_Score);
 	// カメラの追従
 	CGame *game = (CGame*)CManager::GetMode();
@@ -240,10 +256,11 @@ void CPlayer::HitCheck(Vector3 pos, float width, float height)
 ******************************************************************************/
 void CPlayer::UpdateAnimation(void)
 {
-	int drawCnt[STATE_MAX] = { DRAW_SPEED_WALK, DRAW_SPEED_ATTACK, DRAW_SPEED_DAMAGE };
-	int patternCnt[STATE_MAX] = { WALK_PATTERN, ATTACK_PATTERN, DAMAGE_PATTERN };
+	int drawCnt[STATE_MAX] = { DRAW_SPEED_WALK, DRAW_SPEED_ATTACK, DRAW_SPEED_DAMAGE, DRAW_SPEED_DEATH };
+	int patternCnt[STATE_MAX] = { WALK_PATTERN, ATTACK_PATTERN, DAMAGE_PATTERN, DEATH_PATTERN };
+	int animCnt[STATE_MAX] = { ANIM_ROW_WALK, ANIM_ROW_ATTACK, ANIM_ROW_DAMAGE, ANIM_ROW_DEATH };
 
-	m_nRowAnim = m_nState;
+	m_nRowAnim = animCnt[m_nState];
 
 	// パターン描画更新
 	m_nCntAnim++;
@@ -304,6 +321,19 @@ void CPlayer::UpdateState(void)
 			SetState(STATE_WALK);
 		}
 		break;
+	case STATE_DEATH:
+		m_fAlfa += m_fAlfaSpeed;
+		if (m_fAlfa <= ALFA_LIMIT || m_fAlfa >= 1.0f)
+		{
+			m_fAlfaSpeed = -m_fAlfaSpeed;
+		}
+		if (m_nStateCnt >= DEATH_CNT)
+		{
+			SetState(STATE_WALK);
+			m_Hp = m_HpMax;
+			m_fAlfa = 1.0f;
+		}
+		break;
 	default:
 		break;
 	}
@@ -323,13 +353,16 @@ void CPlayer::UpdateCollision(void)
 		if (pScene->GetObjtype(pScene) == OBJ_TYPE_ENEMY)
 		{// 敵との当たり判定
 			CEnemy *pEnemy = (CEnemy*)pScene;
-			Vector3 pos = pEnemy->GetPosition();
-			Vector2 collision = pEnemy->GetCollision();
-			if (abs(m_Pos.x - pos.x) < (m_Collision.x + collision.x) * 0.5f && abs(m_Pos.y - pos.y) < (m_Collision.y + collision.y) * 0.5f)
+			if (pEnemy->GetUse())
 			{
-				m_Hp--;
-				// 状態を被弾状態に
-				SetState(STATE_DAMAGE);
+				Vector3 pos = pEnemy->GetPosition();
+				Vector2 collision = pEnemy->GetCollision();
+				if (abs(m_Pos.x - pos.x) < (m_Collision.x + collision.x) * 0.5f && abs(m_Pos.y - pos.y) < (m_Collision.y + collision.y) * 0.5f)
+				{
+					m_Hp--;
+					// 状態を被弾状態に
+					SetState(STATE_DAMAGE);
+				}
 			}
 		}
 		else if (pScene->GetObjtype(pScene) == OBJ_TYPE_FIELDOBJ)

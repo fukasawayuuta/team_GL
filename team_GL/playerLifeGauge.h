@@ -33,6 +33,7 @@ class CPlayerLifeGauge : public CGame_UI
 private:
 	float m_fMax;			// 最大値
 	float m_fCurrent;		// 現在の値
+	float m_fCurrentNext;	// 次の値
 public:
 	CPlayerLifeGauge(int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_2D);		//	コンストラクタ。
 	~CPlayerLifeGauge();
