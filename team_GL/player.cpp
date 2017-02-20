@@ -48,13 +48,14 @@ const float JUMP_POWER = 15.0f;								// ジャンプ量
 const float PLAYER_COLLISIONWIDTH = 15.0f;					// 当たり判定幅
 const float PLAYER_COLLISIONHEIGHT = 70.0f;					// 当たり判定高さ
 const int ATTACK_CNT = DRAW_SPEED_ATTACK * ATTACK_PATTERN;  // 攻撃カウンタ
-const int DAMAGE_CNT = DRAW_SPEED_DAMAGE * DAMAGE_PATTERN;  // ダメージカウンタ
+const int DAMAGE_CNT = DRAW_SPEED_DAMAGE * DAMAGE_PATTERN * 3;  // ダメージカウンタ
 const int DEATH_CNT = 60;									// ダメージカウンタ
 const int SLASH_CNT = 20;									// 斬撃の発生
 const float MOVE_MAX = 50.0f;								// 速度の制限
 const int LIFE_MAX = 100;									// ライフ最大値
 const float ALFA_SPEED = 0.1f;								// アルファ値加減速度
 const float ALFA_LIMIT = 0.1f;								// アルファ値限界値
+const int DAMAGE_VALUE = 25;								// ダメージ値
 
 /******************************************************************************
 関数名 : CPlayer::CPlayer(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objType)
@@ -355,13 +356,16 @@ void CPlayer::UpdateCollision(void)
 			CEnemy *pEnemy = (CEnemy*)pScene;
 			if (pEnemy->GetUse())
 			{
-				Vector3 pos = pEnemy->GetPosition();
-				Vector2 collision = pEnemy->GetCollision();
-				if (abs(m_Pos.x - pos.x) < (m_Collision.x + collision.x) * 0.5f && abs(m_Pos.y - pos.y) < (m_Collision.y + collision.y) * 0.5f)
+				if (m_nState != STATE_DEATH && m_nState != STATE_DAMAGE)
 				{
-					m_Hp--;
-					// 状態を被弾状態に
-					SetState(STATE_DAMAGE);
+					Vector3 pos = pEnemy->GetPosition();
+					Vector2 collision = pEnemy->GetCollision();
+					if (abs(m_Pos.x - pos.x) < (m_Collision.x + collision.x) * 0.5f && abs(m_Pos.y - pos.y) < (m_Collision.y + collision.y) * 0.5f)
+					{
+						m_Hp -= DAMAGE_VALUE;
+						// 状態を被弾状態に
+						SetState(STATE_DAMAGE);
+					}
 				}
 			}
 		}
