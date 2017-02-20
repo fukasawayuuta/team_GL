@@ -329,7 +329,7 @@ void CPlayer::UpdateState(void)
 		}
 		if (m_nStateCnt >= DEATH_CNT)
 		{
-			SetState(STATE_WALK);
+			SetState(STATE_WALK);		// •àsó‘Ô‚ÉˆÚs
 			m_Hp = m_HpMax;
 			m_fAlfa = 1.0f;
 		}
