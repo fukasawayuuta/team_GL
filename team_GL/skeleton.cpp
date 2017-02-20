@@ -53,8 +53,8 @@ void CSkeleton::Update(void)
 	}
 }
 
-void CSkeleton::Create(Vector3 pos, float width, float height, int texIndex)
+void CSkeleton::Create(Vector3 pos, float width, float height, int texIndex, int id)
 {
 	CSkeleton *obj = new CSkeleton;
-	obj->Init(pos, width, height, texIndex);
+	obj->Init(pos, width, height, texIndex, id);
 }

@@ -18,12 +18,12 @@ public:
 	CEnemy(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_ENEMY);		//	コンストラクタ。
 	~CEnemy(void);		//	デストラクタ。
 
-	void Init(Vector3 pos, float width, float height, int texIndex);		//	初期化関数。
+	void Init(Vector3 pos, float width, float height, int texIndex, int id);		//	初期化関数。
 	void Uninit(void);		//	終了関数。
 	void Update(void);		//	更新関数。
 	void Draw(void);		//	描画関数。
 
-	static void Create(Vector3 pos, float width, float height, int texIndex);		//	生成関数。
+	static void Create(Vector3 pos, float width, float height, int texIndex, int id);		//	生成関数。
 	Vector3 GetPosition( void ){ return m_Pos ; }
 	Vector2 GetCollision( void ){ return m_Collision ; }
 	void HitCheck( Vector3 pos, float width, float height );

@@ -39,6 +39,7 @@
 #include "manager.h"
 #include "slime.h"
 #include "playerLifeGauge.h"
+#include "squid.h"
 
 /*******************************************************************************
 * 静的変数宣言
@@ -82,7 +83,7 @@ void CGame::Init(void)
 	//CSync::Init();
 	m_pCamera = CCamera::Create();
 	CGameBackground::Create();
-	CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
+	//CEnemy::Create(Vector3(100.0f, 25.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_ENEMY001);
 	m_pPlayer = CPlayer::Create(Vector3(-100.0f, 0.0f, 0.0f), 50.0f, 100.0f);
 	m_pPlayer->SetID(CSync::Init());
 	for( int i = 0; i < 3; i ++ )
@@ -103,9 +104,11 @@ void CGame::Init(void)
 			0,
 			&thID);	//	スレッドのID
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
-	CBat::Create(Vector3(200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001);
-	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002);
-	CSlime::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003);
+	CBat::Create(Vector3(200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001, 0);
+	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002, 1);
+	CSlime::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003, 2);
+	CSquid::Create(Vector3(-100.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004, 3);
+
 	CSoundAL::Init();
 
 	for( int i = 0; i < 4; i ++ )

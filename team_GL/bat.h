@@ -18,9 +18,9 @@ public:
 	CBat(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_ENEMY);		//	コンストラクタ。
 	~CBat();		//	デストラクタ。
 
-	void Init(Vector3 pos, float width, float height, int texIndex);
+	void Init(Vector3 pos, float width, float height, int texIndex, int id);
 	void Update(void);		//更新関数。
-	static CBat *Create(Vector3 pos, float width, float height, int texIndex);		//	生成関数。
+	static CBat *Create(Vector3 pos, float width, float height, int texIndex, int id);		//	生成関数。
 
 private:
 	int m_StateCnt;		//	ステートカウンター。
