@@ -50,9 +50,9 @@ CBat::~CBat()
 {
 }
 
-void CBat::Init(Vector3 pos, float width, float height, int texIndex)
+void CBat::Init(Vector3 pos, float width, float height, int texIndex, int id)
 {
-	CEnemy::Init(pos, width, height, texIndex);
+	CEnemy::Init(pos, width, height, texIndex, id);
 	m_FirstYCoordinate = pos.y;
 }
 
@@ -92,10 +92,10 @@ void CBat::Update(void)
 	–ß‚è’l : ‚È‚µ
 	à–¾   : •`‰æˆ—B
 ******************************************************************************/
-CBat * CBat::Create(Vector3 pos, float width, float height, int texIndex)
+CBat * CBat::Create(Vector3 pos, float width, float height, int texIndex, int id)
 {
 	CBat *obj = new CBat;
-	obj->Init(pos, width, height, texIndex);
+	obj->Init(pos, width, height, texIndex, id);
 	
 	return obj;
 }

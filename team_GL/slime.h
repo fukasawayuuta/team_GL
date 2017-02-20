@@ -7,7 +7,7 @@ public:
 
 	void Update(void);
 
-	static void Create(Vector3 pos, float width, float height, int texIndex);
+	static void Create(Vector3 pos, float width, float height, int texIndex, int id);
 
 private:
 	float m_Movement;	//	移動スピード。

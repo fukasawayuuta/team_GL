@@ -34,6 +34,7 @@ CEnemy::CEnemy(int Priority, OBJ_TYPE objType) : CAnimationBoard(Priority, objTy
 	m_nTexRow = TEXTURE_ROW;
 	m_nTexColumn = TEXTURE_COLUMN;
 	m_Hp = HP_MAX;
+	m_nId = 0;
 }
 
 /******************************************************************************
@@ -50,7 +51,7 @@ CEnemy::~CEnemy(void)
 	–ß‚è’l : ‚È‚µ
 	à–¾   : ‰Šú‰»ˆ—
 ******************************************************************************/
-void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
+void CEnemy::Init(Vector3 pos, float width, float height, int texIndex, int id)
 {
 	m_Pos = pos;
 	m_Width = width;
@@ -59,7 +60,7 @@ void CEnemy::Init(Vector3 pos, float width, float height, int texIndex)
 	m_Collision = Vector2(ENEMY_COLLISIONWIDTH, ENEMY_COLLISIONHEIGHT);
 	m_nTexIdx = CTexture::SetTexture(texIndex);
 	m_bUse = true;
-	m_nId = 0;
+	m_nId = id;
 }
 
 /******************************************************************************
@@ -119,10 +120,10 @@ void CEnemy::Draw(void)
 	–ß‚è’l : ‚È‚µ
 	à–¾   : •`‰æˆ—B
 ******************************************************************************/
-void CEnemy::Create(Vector3 pos, float width, float height, int texIndex)
+void CEnemy::Create(Vector3 pos, float width, float height, int texIndex, int id)
 {
 	CEnemy *obj = new CEnemy;
-	obj->Init(pos, width, height, texIndex);
+	obj->Init(pos, width, height, texIndex, id);
 }
 
 /******************************************************************************

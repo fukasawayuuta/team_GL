@@ -64,8 +64,8 @@ void CSlime::Update(void)
 	}
 }
 
-void CSlime::Create(Vector3 pos, float width, float height, int texIndex)
+void CSlime::Create(Vector3 pos, float width, float height, int texIndex, int id)
 {
 	CSlime *obj = new CSlime;
-	obj->Init(pos, width, height, texIndex);
+	obj->Init(pos, width, height, texIndex, id);
 }
