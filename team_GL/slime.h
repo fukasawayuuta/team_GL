@@ -2,7 +2,7 @@
 class CSlime : public CEnemy
 {
 public:
-	CSlime(void);
+	CSlime(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_ENEMY);
 	~CSlime(void);
 
 	void Update(void);

@@ -2,7 +2,7 @@
 class CSquid : public CEnemy
 {
 public:
-	CSquid(void);
+	CSquid(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_ENEMY);
 	~CSquid(void);
 
 	void Init(Vector3 pos, float width, float height, int texIndex, int id);

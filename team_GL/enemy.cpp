@@ -100,6 +100,8 @@ void CEnemy::Update(void)
 		}
 	}
 	LifeCheck();
+
+	DeleteCheck();
 }
 
 /******************************************************************************
@@ -152,5 +154,12 @@ void CEnemy::LifeCheck(void)
 	{
 		//Uninit();
 		m_bUse = false;
+	}
+}
+
+void CEnemy::DeleteCheck(void)
+{
+	if (CSync::GetEnemyUse(CSync::GetEnemyId(m_nId)) == false) {
+		this->Uninit();
 	}
 }

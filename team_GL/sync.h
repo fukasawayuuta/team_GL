@@ -41,4 +41,5 @@ public:
 	static void SetEnemyState( int id, bool use ){ enemyUse[ id ] = use ; }
 	static int GetEnemyId( int id ){ return enemyId[ id ] ; }
 	static bool GetEnemyUse( int id ){ return enemyUse[ id ] ; }
+	static void SetEnemyID(void);
 };

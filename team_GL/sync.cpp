@@ -118,7 +118,7 @@ void CSync::Send( Vector3 pos, int score )
 		pScene = pScene->GetNext( pScene );
 	}
 
-	sprintf( m_SendData, "%5.3f %5.3f %5.3f %d;%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,",
+	sprintf( m_SendData, "%5.3f %5.3f %5.3f %d;%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d;",
 		pos.x, pos.y, pos.z, score,
 		enemyId[ 0 ], enemyUse[ 0 ], enemyId[ 1 ], enemyUse[ 1 ], enemyId[ 2 ], enemyUse[ 2 ], enemyId[ 3 ], enemyUse[ 3 ], enemyId[ 4 ],  enemyUse[ 4 ],
 		enemyId[ 5 ], enemyUse[ 5 ],enemyId[ 6 ], enemyUse[ 6 ], enemyId[ 7 ], enemyUse[ 7 ], enemyId[ 8 ], enemyUse[ 8 ], enemyId[ 9 ], enemyUse[ 9 ],
@@ -138,7 +138,7 @@ Vector3 CSync::Recv( void )
 {
 	//memset( m_RecvData, 0, sizeof( m_RecvData ) );
 	recv( m_Socket, m_RecvData, sizeof( m_RecvData ), 0 );
-	sscanf( m_RecvData, "%f %f %f %d, %f %f %f %d, %f %f %f %d, %f %f %f %d;%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,",
+	sscanf( m_RecvData, "%f %f %f %d, %f %f %f %d, %f %f %f %d, %f %f %f %d;%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d,%d %d;",
 		&playerPos[ 0 ].x, &playerPos[ 0 ].y, &playerPos[ 0 ].z, &playerScore[ 0 ], &playerPos[ 1 ].x, &playerPos[ 1 ].y, &playerPos[ 1 ].z, &playerScore[ 1 ],
 		&playerPos[ 2 ].x, &playerPos[ 2 ].y, &playerPos[ 2 ].z, &playerScore[ 2 ], &playerPos[ 3 ].x, &playerPos[ 3 ].y, &playerPos[ 3 ].z, &playerScore[ 3 ],
 		&enemyId[ 0 ], &enemyUse[ 0 ], &enemyId[ 1 ], &enemyUse[ 1 ],&enemyId[ 2 ], &enemyUse[ 2 ],&enemyId[ 3 ], &enemyUse[ 3 ],&enemyId[ 4 ], &enemyUse[ 4 ],
@@ -148,4 +148,25 @@ Vector3 CSync::Recv( void )
 	COtherPlayerManager::CopyRecvData(m_RecvData);
 
 	return Vector3( 0, 0, 0 ) ;
+}
+
+void CSync::SetEnemyID(void)
+{
+	CScene *scene = CScene::GetList(PRIORITY_3D);
+	CScene *scene_next;
+
+	int id = 0;
+
+	while (scene != NULL) {
+		scene_next = scene->GetNext(scene);
+
+		if (scene->GetObjtype(scene) == OBJ_TYPE_ENEMY) {
+			CEnemy *enemy = dynamic_cast<CEnemy *>(scene);
+			enemyId[id] = enemy->GetId();
+
+			++id;
+		}
+
+		scene = scene_next;
+	}
 }
