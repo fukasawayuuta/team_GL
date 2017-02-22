@@ -203,7 +203,7 @@ void CPlayer::Update(void)
 		m_Score = m_pMyscore->GetScore();
 	}
 	
-	CSync::Send(m_Pos, m_Score);
+	CSync::Send(m_Pos, m_Score, m_nDirection, m_nState );
 	// ƒJƒƒ‰‚Ì’Ç]
 	CGame *game = (CGame*)CManager::GetMode();
 	CCamera *camera = game->GetCamera();
