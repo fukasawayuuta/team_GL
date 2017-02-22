@@ -24,6 +24,8 @@ private:
 	static SOCKADDR_IN m_addr;
 	static Vector3 playerPos[ 4 ];
 	static int playerScore[ 4 ];
+	static int playerDirection[ 4 ];
+	static int playerState[ 4 ];
 	static int enemyId[ 20 ];
 	static bool enemyUse[ 20 ];
 
@@ -33,7 +35,7 @@ public:
 
 	static int Init( void );
 	static void Uninit( void );
-	static void Send( Vector3 pos, int score );
+	static void Send( Vector3 pos, int score, int direction, int state );
 	static Vector3 Recv( void );
 	static char *GetRecvData(void) {return m_RecvData;}
 	static Vector3 GetPos( int id ){ return playerPos[ id ] ; }
