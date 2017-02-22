@@ -40,6 +40,8 @@ public:
 	static char *GetRecvData(void) {return m_RecvData;}
 	static Vector3 GetPos( int id ){ return playerPos[ id ] ; }
 	static int GetScore( int id ){ return playerScore[ id ] ; }
+	static int GetState( int id ){ return playerState[ id ] ; }
+	static int GetDirection( int id ){ return playerDirection[ id ] ; }
 	static void SetEnemyState( int id, bool use ){ enemyUse[ id ] = use ; }
 	static int GetEnemyId( int id ){ return enemyId[ id ] ; }
 	static bool GetEnemyUse( int id ){ return enemyUse[ id ] ; }
