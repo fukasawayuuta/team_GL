@@ -11,7 +11,7 @@
 const float MOVEMENT = 0.25f;
 const int TURN_CNT = 300;
 
-CSlime::CSlime(void)
+CSlime::CSlime(int Priority, OBJ_TYPE objType) : CEnemy(Priority, objType)
 {
 	m_nTexRow = 2;
 	m_nTexColumn = 3;
@@ -47,6 +47,7 @@ void CSlime::Update(void)
 		}
 	}
 	LifeCheck();
+	DeleteCheck();
 
 	if (m_TurnFlag) {
 		m_Pos.x -= m_Movement;

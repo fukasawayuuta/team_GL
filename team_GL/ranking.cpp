@@ -78,7 +78,7 @@ void CRanking::Init ( Vector2 pos, Vector2 rot, float width, float height, int i
 
 	// ランキングに予め数値を入れる
 	for( int i = 0; i < RANKING_ALL; i++ ) {
-		m_nRanking[ i ] = 600 - ( 200 * i );
+		m_nRanking[ i ] = CManager::GetScore(i);
 	}
 
 	// プレイヤーのスコアを入れる

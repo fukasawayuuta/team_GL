@@ -15,7 +15,7 @@
 class CSkeleton : public CEnemy
 {
 public:
-	CSkeleton(void);
+	CSkeleton(int Priority = PRIORITY_3D, OBJ_TYPE objType = OBJ_TYPE_ENEMY);
 	~CSkeleton(void);
 
 	void Update(void);

@@ -20,7 +20,7 @@
 const float MOVEMENT = 0.75f;
 const int TURN_CNT = 300;
 
-CSkeleton::CSkeleton(void)
+CSkeleton::CSkeleton(int Priority, OBJ_TYPE objType) : CEnemy(Priority, objType)
 {
 	m_nTexRow = 1;
 	m_nTexColumn = 3;

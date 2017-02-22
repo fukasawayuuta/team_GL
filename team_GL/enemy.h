@@ -30,6 +30,7 @@ public:
 	void SetDamage(int damage) { m_Hp -= damage; }
 	int GetId( void ){ return m_nId ; }
 	bool GetUse( void ){ return m_bUse ;}
+	void DeleteCheck(void);
 protected:
 	int m_Hp;		// ヒットポイント
 	int m_nId;
