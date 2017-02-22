@@ -104,10 +104,28 @@ void CGame::Init(void)
 			0,
 			&thID);	//	ƒXƒŒƒbƒh‚ÌID
 	//CBoss::Create(Vector3(30.0f, 0.0f, 0.0f), 50.0f, 100.0f, TEXTURE_TYPE_BOSS);
-	CBat::Create(Vector3(200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001, 0);
-	CSkeleton::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002, 1);
-	CSlime::Create(Vector3(-200.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003, 2);
-	CSquid::Create(Vector3(-100.0f, 25.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004, 3);
+	CSlime::Create(Vector3(		 150.0f, 190.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003,  0);
+	CSlime::Create(Vector3(		 400.0f,  20.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003,  1);
+	CBat::Create(Vector3(		 650.0f, 250.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001,  2);
+	CSquid::Create(Vector3(		 750.0f, 125.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004,  3);
+	CSkeleton::Create(Vector3(	1100.0f,  30.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002,  4);
+	CSlime::Create(Vector3(		1175.0f,  65.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003,  5);
+	CSlime::Create(Vector3(		1550.0f,  20.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003,  6);
+	CBat::Create(Vector3(		2300.0f, 200.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001,  7);
+	CSkeleton::Create(Vector3(	2200.0f,  30.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002,  8);
+	CSquid::Create(Vector3(		2500.0f,  75.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004,  9);
+	CSquid::Create(Vector3(		2600.0f, 175.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004, 10);
+	CSquid::Create(Vector3(		2700.0f, 275.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004, 11);
+	CSquid::Create(Vector3(		2800.0f, 175.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004, 12);
+	CSquid::Create(Vector3(		2900.0f,  75.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY004, 13);
+	CSlime::Create(Vector3(		3200.0f, 115.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003, 14);
+	CBat::Create(Vector3(		3500.0f, 200.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001, 15);
+	CSkeleton::Create(Vector3(	3750.0f,  30.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY002, 16);
+	CBat::Create(Vector3(		4000.0f, 150.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001, 17);
+	CSlime::Create(Vector3(		4100.0f,  20.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY003, 18);
+	CBat::Create(Vector3(		4300.0f, 225.0f, 0.0f), 50.0f, 50.0f, TEXTURE_TYPE_ENEMY001, 19);
+
+	CSync::SetEnemyID();
 
 	CSoundAL::Init();
 

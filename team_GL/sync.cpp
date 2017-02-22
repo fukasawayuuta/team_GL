@@ -163,7 +163,7 @@ void CSync::SetEnemyID(void)
 		if (scene->GetObjtype(scene) == OBJ_TYPE_ENEMY) {
 			CEnemy *enemy = dynamic_cast<CEnemy *>(scene);
 			enemyId[id] = enemy->GetId();
-
+			enemyUse[id] = true;
 			++id;
 		}
 
