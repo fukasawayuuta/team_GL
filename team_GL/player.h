@@ -51,6 +51,7 @@ public:
 	void SetMyscore( CScore *pScore ){ m_pMyscore = pScore; }
 	int GetLife(void) { return m_Hp; }							// 現在ライフの取得
 	int GetLifeMax(void) { return m_HpMax; }					// 最大ライフの取得
+	CScore *GetScore( void ){ return m_pMyscore ; }
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
 private:

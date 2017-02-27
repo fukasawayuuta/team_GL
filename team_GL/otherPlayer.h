@@ -20,5 +20,6 @@ public:
 private:
 	int m_Score;
 	int m_nId;
+	Vector3 m_Oldpos;
 };
 

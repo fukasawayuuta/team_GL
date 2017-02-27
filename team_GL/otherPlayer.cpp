@@ -62,11 +62,14 @@ void COtherPlayer::Update(void)
 {
 	Vector3 syncPos;
 	syncPos = CSync::GetPos( m_nId );
+	m_nDirection = CSync::GetDirection( m_nId );
+	//m_nState = CSync::GetScore( m_nId );
 	/*if( syncPos.x >= 0 && syncPos.y >= 0 && syncPos.z >= 0 )
 	{
 		m_Pos = syncPos;
 	}*/
 	m_Pos = syncPos;
+
 	m_nCntAnim++;
 	if (m_nCntAnim == DRAW_SPEED)
 	{

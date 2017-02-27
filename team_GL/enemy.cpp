@@ -16,6 +16,10 @@
 #include "animationBoard.h"
 #include "enemy.h"
 #include "sync.h"
+#include "mode.h"
+#include "game.h"
+#include "player.h"
+#include "score.h"
 
 const int DRAW_SPEED = 30;
 const int TEXTURE_COLUMN = 5;
@@ -160,6 +164,8 @@ void CEnemy::LifeCheck(void)
 void CEnemy::DeleteCheck(void)
 {
 	if (CSync::GetEnemyUse(CSync::GetEnemyId(m_nId)) == false) {
+		CGame *pGame = ( CGame* )CManager::GetMode();
+		pGame->GetPlayer()->GetScore()->AddScore( 100 );
 		this->Uninit();
 	}
 }

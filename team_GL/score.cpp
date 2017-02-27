@@ -85,6 +85,7 @@ void CScore::Init ( Vector2 pos, Vector2 rot, float width, float height, int ind
 	m_Height	= height;
 
 	m_nId = id;
+	m_nScoreOld = 0;
 
 	// テクスチャを読み込み、生成する
 	m_nTexIdx = CTexture::SetTexture( index );
@@ -113,7 +114,8 @@ void CScore::Uninit ( void )
 ******************************************************************************/
 void CScore::Update ( void )
 {
-	m_nScore = CSync::GetScore( m_nId );
+	if( m_nScore < m_nScoreOld )
+		m_nScore = CSync::GetScore( m_nId );
 
 	// スコアの更新順序
 	m_Number[ 0 ] = m_nScore / 10000 % 10;
@@ -124,7 +126,7 @@ void CScore::Update ( void )
 
 	// スコアの動作確認関数( +1ずつ加算する )
 	//AddScore(1);
-
+	m_nScoreOld = m_nScore;
 }
 
 /******************************************************************************

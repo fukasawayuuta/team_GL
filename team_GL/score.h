@@ -42,6 +42,7 @@ class CScore : public CScene2D
 			float m_Width;		//	â°ïùÅB
 			float m_Height;		//	ècïùÅB
 			int m_nId;
+			int m_nScoreOld;
 
 		public:
 			CScore(int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE);

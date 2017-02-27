@@ -21,6 +21,7 @@ class CPlayer;
 class COtherPlayer;
 class COtherPlayerManager;
 class CScore;
+class CMode;
 class CGame : public CMode
 {
 public:
