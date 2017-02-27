@@ -53,7 +53,7 @@ public:
 	int GetLifeMax(void) { return m_HpMax; }					// 最大ライフの取得
 
 	static CPlayer *Create(Vector3 pos, float width, float height);	//	作成関数。
-private:
+protected:
 	// プレイヤーの状態
 	typedef enum
 	{

@@ -17,7 +17,8 @@
 #include "player.h"
 #include "otherPlayer.h"
 #include "sync.h"
-
+#include "animationBoard.h"
+#include "slashEffect.h"
 
 COtherPlayer::COtherPlayer(void)
 {
@@ -67,16 +68,14 @@ void COtherPlayer::Update(void)
 		m_Pos = syncPos;
 	}*/
 	m_Pos = syncPos;
-	m_nCntAnim++;
-	if (m_nCntAnim == DRAW_SPEED)
-	{
-		m_nCntAnim = 0;
-		m_nPatternAnim++;
-		if (m_nPatternAnim == WALK_DRAW)
-		{
-			m_nPatternAnim = 0;
-		}
-	}
+	m_nState = CSync::GetState(m_nId);
+	m_nDirection = CSync::GetDirection(m_nId);
+
+	// 状態更新
+	UpdateState();
+
+	// アニメーション更新
+	UpdateAnimation();
 }
 
 void COtherPlayer::Draw(void)
@@ -88,5 +87,5 @@ COtherPlayer *COtherPlayer::Create( int nId, Vector3 pos, float width, float hei
 {
 	COtherPlayer *pScene = new COtherPlayer;
 	pScene->Init( nId, pos, width, height );
-	return pScene ;
+	return pScene;
 }
