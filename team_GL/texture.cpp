@@ -30,10 +30,15 @@ CTexture *CTexture::m_pTexture[TEXTURE_TYPE_MAX];
 TEXTURE_PARAM CTexture::m_TexParam[TEXTURE_TYPE_MAX] = 
 {
 	{ "data\\TEXTURE\\teamlogo_test.tga" },				// TEXTURE_TYPE_TEAMLOGO
-	{ "data\\TEXTURE\\title_background_test.tga" },		// TEXTURE_TYPE_TITLE_BG
+	{ "data\\TEXTURE\\title_bg_loop.tga" },				// TEXTURE_TYPE_TITLE_BG
+	{ "data\\TEXTURE\\title_bg_field.tga" },			// TEXTURE_TYPE_TITLE_RIVER
 	{ "data\\TEXTURE\\titlelogo_test.tga" },			// TEXTURE_TYPE_TITLE_LOGO
 	{ "data\\TEXTURE\\titlemenu_game_test.tga" },		// TEXTURE_TYPE_TITLE_MENU_GAME
 	{ "data\\TEXTURE\\titlemenu_tutorial_test.tga" },	// TEXTURE_TYPE_TITLE_MENU_TUTORIAL
+	{ "data\\TEXTURE\\titlemenu_credit.tga" },			// TEXTURE_TYPE_TITLE_MENU_CREDIT
+	{ "data\\TEXTURE\\titlemenu_game_exit.tga" },		// TEXTURE_TYPE_TITLE_MENU_GAME_EXIT
+	{ "data\\TEXTURE\\titlemenu_credit.tga" },			// TEXTURE_TYPE_TUTORIAL
+	{ "data\\TEXTURE\\credit.tga" },					// TEXTURE_TYPE_CREDIT
 	{ "data\\TEXTURE\\matching_test.tga" },				// TEXTURE_TYPE_MATCHING_BG
 	{ "data\\TEXTURE\\background_test.tga" },			// TEXTURE_TYPE_GAME_BG
 	{ "data\\TEXTURE\\number.tga" },					// TEXTURE_TYPE_NUMBER

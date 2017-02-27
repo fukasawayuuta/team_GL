@@ -15,9 +15,17 @@
 /*******************************************************************************
 * クラス宣言
 *******************************************************************************/
-// ゲームクラス
+// 前方宣言
+class CCamera;
+class CTitlePlayer;
+
+// タイトルクラス
 class CTitle : public CMode
 {
+private:
+	CCamera *m_pCamera;
+	CTitlePlayer *m_pPlayer;
+
 public:
 	CTitle();
 	~CTitle();
@@ -25,5 +33,8 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+
+	CCamera* GetCamera(void) { return m_pCamera; }		// カメラ取得関数
+	CTitlePlayer* GetPlayer(void) { return m_pPlayer; }		// プレイヤー取得関数
 };
 

@@ -26,22 +26,21 @@ const float FADETERM_MIN_SELECT = 0.7f;	// 選択時のフェード周期の最小値
 /******************************************************************************
 	型定義
 ******************************************************************************/
-
+		// 各項目の種類の構造体
+		typedef enum
+		{
+			TITLE_MENU_GAME = 0,	// ゲーム
+			TITLE_MENU_TUTORIAL,	// チュートリアル
+			TITLE_MENU_CREDIT,		// クレジット
+			TITLE_MENU_GAME_EXIT,	// ゲーム終了
+			TITLE_MENU_MAX			// この構造体の項目数 4
+		} TITLE_MENU;
 // タイトルメニュークラス
 class CTitleMenu : CScene2D
 {
 	private:
 
-		// 各項目の種類の構造体
-		typedef enum
-		{
-			TITLE_MENU_GAME = 0,	// ゲーム
-			TITLE_MENU_TUTORIAL,		// チュートリアル
-			//TITLE_MENU_OPTION,		// オプション
-			//TITLE_MENU_CREDIT,		// クレジット
-			//TITLE_MENU_RUNKING,		// リザルト
-			TITLE_MENU_MAX			// この構造体の項目数 4
-		} TITLE_MENU;
+
 
 		// 項目の構造体
 		struct MENU
@@ -54,12 +53,13 @@ class CTitleMenu : CScene2D
 		};
 
 		MENU m_aTitleMenu[ TITLE_MENU_MAX ];// タイトルのメニューの種類
-		TITLE_MENU m_Menu;					// ポーズメニューのワーク
+		static TITLE_MENU m_Menu;					// ポーズメニューのワーク
 
 		int		m_TexIdx[ TITLE_MENU_MAX ];	// 各項目の画像データのワーク
 		float	m_TimeCntSelect;			// セレクト時にタイムをカウント
 		float	m_HeightChange;				// 項目の高さの間隔
-		// bool	m_bUse;						// タイトルメニュー全体のフラグ
+		bool	m_bUse;						// タイトルメニュー全体のフラグ
+		static bool bUse;					// ゲーム終了用 フラグ
 
 
 
@@ -73,6 +73,8 @@ class CTitleMenu : CScene2D
 		void Draw		( void );
 
 		static CTitleMenu *Create ( Vector2 pos, Vector2 rot, float width, float height );
+		static bool Check	();
+		static bool Get( TITLE_MENU State );
 };
 
 // =================================================================================== titleMenu.hの終了

@@ -12,15 +12,25 @@
 *******************************************************************************/
 #include "main.h"
 #include "mode.h"
+#include "camera.h"
 #include "title.h"
 #include "titlebackground.h"
+#include "river.h"
 #include "titlelogo.h"
 #include "titlemenu.h"
+#include "tutorial.h"
+#include "credit.h"
 #include "matching.h"
 #include "result.h"
 #include "fade.h"
 #include "scene.h"
 #include "scene2D.h"
+#include "scene3D.h"
+
+#include "camera.h"
+
+#include "titlePlayer.h"
+
 #include "input.h"
 #include "texture.h"
 
@@ -55,9 +65,14 @@ CTitle::~CTitle()
 *******************************************************************************/
 void CTitle::Init(void)
 {
-	CTitleLogo::Create( Vector2( SCREEN_WIDTH * 0.5f, 150.0f ), Vector2( 0.0f, 0.0f ), 400.0f, 100.0f, TEXTURE_TYPE_TITLE_LOGO );
-	CTitleMenu::Create( Vector2( SCREEN_WIDTH * 0.5f, 500.0f ), Vector2( 0.0f, 0.0f ), 300.0f, 50.0f );
+	m_pCamera = CCamera::Create();
 	CTitleBackground::Create();
+	CTutorial::Create( Vector2( 0.0f, 0.0f ), Vector2( 0.0f, 0.0f ), 0.0f, 0.0f, TEXTURE_TYPE_RESULT_BG );
+	CCredit::Create( Vector2( 0.0f, 0.0f ), Vector2( 0.0f, 0.0f ), 0.0f, 0.0f, TEXTURE_TYPE_CREDIT );
+	CTitleLogo::Create( Vector2( SCREEN_WIDTH * 0.5f, 150.0f ), Vector2( 0.0f, 0.0f ), 400.0f, 100.0f, TEXTURE_TYPE_TITLE_LOGO );
+	CTitleMenu::Create( Vector2( SCREEN_WIDTH * 0.5f, 450.0f ), Vector2( 0.0f, 0.0f ), 250.0f, 40.0f );
+	m_pPlayer = CTitlePlayer::Create(Vector3(0.0f, 0.0f, 45.0f), 50.0f, 100.0f);
+	CRiver::Create();
 }
 
 /*******************************************************************************
@@ -70,6 +85,12 @@ void CTitle::Init(void)
 void CTitle::Uninit(void)
 {
 	CScene::ReleaseAll();
+	if(m_pCamera)
+	{
+		m_pCamera->Uninit();
+		delete m_pCamera;
+		m_pCamera = NULL;
+	}
 }
 
 /*******************************************************************************
@@ -81,12 +102,8 @@ void CTitle::Uninit(void)
 *******************************************************************************/
 void CTitle::Update(void)
 {
+	m_pCamera->Update();
 	CScene::UpdateAll();
-
-	if (CInput::GetKeyboardTrigger(DIK_RETURN))
-	{
-		CFade::Start(new CMatching);
-	}
 }
 
 /*******************************************************************************
@@ -98,5 +115,6 @@ void CTitle::Update(void)
 *******************************************************************************/
 void CTitle::Draw(void)
 {
+	m_pCamera->Set();
 	CScene::DrawAll();
 }
