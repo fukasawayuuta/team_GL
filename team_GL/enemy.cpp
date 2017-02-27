@@ -138,6 +138,7 @@ void CEnemy::HitCheck( Vector3 pos, float width, float height )
 {
 	if( abs( m_Pos.x - pos.x ) < m_Collision.x / 2 + width / 2 && abs( m_Pos.y - pos.y ) < m_Collision.y / 2 + height / 2 )
 	{
+		CSync::SetEnemyState(m_nId, false);
 		this->Uninit();
 	}
 }
@@ -153,13 +154,17 @@ void CEnemy::LifeCheck(void)
 	if (m_Hp <= 0)
 	{
 		//Uninit();
+		CSync::SetEnemyState(m_nId, false);
 		m_bUse = false;
 	}
 }
 
 void CEnemy::DeleteCheck(void)
 {
-	if (CSync::GetEnemyUse(CSync::GetEnemyId(m_nId)) == false) {
-		this->Uninit();
+	int id = CSync::GetEnemyId(m_nId);
+	if (id == m_nId) {
+		if (CSync::GetEnemyUse(id) == false) {
+			this->Uninit();
+		}
 	}
 }

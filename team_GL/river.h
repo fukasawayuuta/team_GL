@@ -1,8 +1,8 @@
 /*******************************************************************************
 * タイトル名：
-* ファイル名：titlebackground.h
+* ファイル名：river.h
 * 作成者	：AT13B284 02 阿部隆
-* 作成日	：2016/12/05
+* 作成日	：2017/02/08
 ********************************************************************************
 * 更新履歴	：
 *
@@ -19,19 +19,18 @@
 /*******************************************************************************
 * クラス宣言
 *******************************************************************************/
-// タイトル背景クラス
-class CTitleBackground : public CScene2D
+// 川クラス
+class CRiver : public CScene2D
 {
 private:
 	float m_Tex;
 public:
-	CTitleBackground( int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE );		//	コンストラクタ。
-	~CTitleBackground();
+	CRiver( int Priority = PRIORITY_2D, OBJ_TYPE objType = OBJ_TYPE_NONE );		//	コンストラクタ。
+	~CRiver();
 	void Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
 
-	static CTitleBackground *Create( void );
+	static CRiver *Create( void );
 };
-

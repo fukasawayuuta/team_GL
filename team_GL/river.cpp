@@ -1,8 +1,8 @@
 /*******************************************************************************
 * タイトル名：
-* ファイル名：titlebackground.cpp
+* ファイル名：river.cpp
 * 作成者	：AT13B284 02 阿部隆
-* 作成日	：2016/12/05
+* 作成日	：2017/02/08
 ********************************************************************************
 * 更新履歴	：
 *
@@ -13,72 +13,72 @@
 #include "main.h"
 #include "manager.h"
 
-#include "titlebackground.h"
+#include "river.h"
 
 //=============================================================================
-//	関数名 : CTitleBackground::CTitleBackground()
+//	関数名 : CRiver::CRiver()
 //	説明   : コンストラクタ
 //=============================================================================
-CTitleBackground::CTitleBackground( int Priority, OBJ_TYPE objType )
+CRiver::CRiver( int Priority, OBJ_TYPE objType )
 {
 }
 
 //=============================================================================
-//	関数名 : CTitleBackground::~CTitleBackground()
+//	関数名 : CRiver::~CRiver()
 //	説明   : デストラクタ
 //=============================================================================
-CTitleBackground::~CTitleBackground()
+CRiver::~CRiver()
 {
 }
 
 /*******************************************************************************
-* 関数名：void CTitleBackground::Init ( void )
+* 関数名：void CRiver::Init ( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：初期化処理
 *******************************************************************************/
-void CTitleBackground::Init ( void )
+void CRiver::Init ( void )
 {
-	m_Pos = Vector2( SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.5f );
+	m_Pos = Vector2( SCREEN_WIDTH * 0.5f, SCREEN_HEIGHT * 0.91f );
 	m_Rot = Vector2( 0.0f, 0.0f );
-	m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_TITLE_BG );
+	m_nTexIdx = CTexture::SetTexture( TEXTURE_TYPE_TITLE_RIVER );
 	m_Width = SCREEN_WIDTH;
-	m_Height = SCREEN_HEIGHT;
+	m_Height = SCREEN_HEIGHT * 0.17f;
 	m_Tex = 0.0f;
 }
 
 /*******************************************************************************
-* 関数名：void CTitleBackground::Uninit(void)
+* 関数名：void CRiver::Uninit(void)
 *
 * 引数	：
 * 戻り値：
 * 説明	：終了処理
 *******************************************************************************/
-void CTitleBackground::Uninit ( void )
+void CRiver::Uninit ( void )
 {
 }
 
 /*******************************************************************************
-* 関数名：void CTitleBackground::Update ( void )
+* 関数名：void CRiver::Update ( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：更新処理
 *******************************************************************************/
-void CTitleBackground::Update ( void )
+void CRiver::Update ( void )
 {
-	m_Tex += 0.0005f;
+	m_Tex += 0.0003f;
 }
 
 /*******************************************************************************
-* 関数名：void CTitleBackground::Draw ( void )
+* 関数名：void CRiver::Draw ( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：描画処理
 *******************************************************************************/
-void CTitleBackground::Draw ( void )
+void CRiver::Draw ( void )
 {
 	glDisable(GL_LIGHTING);
 	//	ここからプロジェクションマトリクスの設定////////////////////
@@ -123,16 +123,16 @@ void CTitleBackground::Draw ( void )
  //   glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), 0.0f );
 
 	glTexCoord2d(0.0 + m_Tex, 1.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), -0.999f );
+    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), -0.998f );
 
 	glTexCoord2d(1.0 + m_Tex, 1.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), -0.999f );
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y + (m_Height * 0.5f), -0.998f );
 
 	glTexCoord2d(0.0 + m_Tex, 0.0);
-    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), -0.999f );
+    glVertex3f(m_Pos.x - (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), -0.998f );
 
 	glTexCoord2d(1.0 + m_Tex, 0.0);
-    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), -0.999f );
+    glVertex3f(m_Pos.x + (m_Width * 0.5f), m_Pos.y - (m_Height * 0.5f), -0.998f );
 
 	glEnd();
 	//	描画終了
@@ -154,15 +154,15 @@ void CTitleBackground::Draw ( void )
 }
 
 /*******************************************************************************
-* 関数名：CTitleBackground *Create( void )
+* 関数名：CRiver *Create( void )
 *
 * 引数	：
 * 戻り値：
 * 説明	：
 *******************************************************************************/
-CTitleBackground *CTitleBackground::Create( void )
+CRiver *CRiver::Create( void )
 {
-	CTitleBackground *pBg = new CTitleBackground;
+	CRiver *pBg = new CRiver;
 	pBg->Init();
 	return pBg ;
 }

@@ -13,11 +13,13 @@
 #include "main.h"
 #include "mode.h"
 #include "matching.h"
+#include "input.h"
 #include "fade.h"
 
 #include "titlemenu.h"
+#include "tutorial.h"
+#include "credit.h"
 
-#include "input.h"
 
 
 //=============================================================================
@@ -38,6 +40,9 @@ CTitleMenu::CTitleMenu ( int Priority, OBJ_TYPE objType )
 CTitleMenu::~CTitleMenu ()
 {
 }
+
+bool CTitleMenu::bUse = false;
+TITLE_MENU  CTitleMenu::m_Menu;
 
 /******************************************************************************
 	マクロ定義
@@ -85,6 +90,8 @@ void CTitleMenu::Init ( Vector2 pos, Vector2 rot, float width, float height )
 	// テクスチャを読み込み、生成する
 	m_TexIdx[ 0 ] = CTexture::SetTexture( TEXTURE_TYPE_TITLE_MENU_GAME );
 	m_TexIdx[ 1 ] = CTexture::SetTexture( TEXTURE_TYPE_TITLE_MENU_TUTORIAL );
+	m_TexIdx[ 2 ] = CTexture::SetTexture( TEXTURE_TYPE_TITLE_MENU_CREDIT );
+	m_TexIdx[ 3 ] = CTexture::SetTexture( TEXTURE_TYPE_TITLE_MENU_GAME_EXIT );
 
 } // InitTitleMenu関数の終了
 
@@ -106,82 +113,98 @@ void CTitleMenu::Uninit ( void )
 ******************************************************************************/
 void CTitleMenu::Update ( void )
 {
-	/*****************************************
-		各タイトルメニューの項目が出来次第
-		処理を追加する。
-		現在の実装内容：ゲーム、チュートリアル
-		現在の項目数　：２個
-		2016年12月2日 17:40:40
-	*****************************************/
-
 
 	// タイトルメニュー 使用時
 	if( CFade::Get( FADE_NONE ) ) {
-		// 上 セレクト時
-		if( CInput::GetKeyboardTrigger( DIK_UP ) ) {
-			// α値を初期に戻す
-			m_TimeCntSelect = 0;
-			// 各項目から上セレクト時の処理
-			switch( m_Menu ) {
+		// フラグ on
+		if( m_bUse ) {
+			// 上 セレクト時
+			if( CInput::GetKeyboardTrigger( DIK_UP ) ) {
+				// α値を初期に戻す
+				m_TimeCntSelect = 0;
+				// 各項目から上セレクト時の処理
+				switch( m_Menu ) {
 
-				case TITLE_MENU_GAME:
-					m_Menu = TITLE_MENU_TUTORIAL;
-					m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
-					m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = true;	// チュートリアル
-				//m_aTitleMenu[ TITLE_MENU_OPTION ].bUse = false;		// オプション
-				//m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
-				//m_aTitleMenu[ TITLE_MENU_RUNKING ].bUse = true;,		// リザルト
-					break;
+					case TITLE_MENU_GAME:
+						m_Menu = TITLE_MENU_GAME;
+						//m_aTitleMenu[ TITLE_MENU_GAME ].bUse = true;
+						//m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;	// チュートリアル
+						//m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
+						//m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = false;	// ゲーム 終了
+						break;
 
-				case TITLE_MENU_TUTORIAL:
-					m_Menu = TITLE_MENU_GAME;
-					m_aTitleMenu[ TITLE_MENU_GAME ].bUse = true;
-					m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;	// チュートリアル
-				//m_aTitleMenu[ TITLE_MENU_OPTION ].bUse = false;		// オプション
-				//m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
-				//m_aTitleMenu[ TITLE_MENU_RUNKING ].bUse = true;,		// リザルト
-					break;
+					case TITLE_MENU_TUTORIAL:
+						m_Menu = TITLE_MENU_GAME;
+						m_aTitleMenu[ TITLE_MENU_GAME ].bUse = true;
+						m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;	// チュートリアル
+						m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
+						m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = false;	// ゲーム 終了
+						break;
 
-				/*                 
-				   オプション～ランキングの処理
-				                   */
+					case TITLE_MENU_CREDIT:
+						m_Menu = TITLE_MENU_TUTORIAL;
+						m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = true;	// チュートリアル
+						m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
+						m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = false;	// ゲーム 終了
+						break;
 
-				default:
-					break;
-			}
-		}
-
-		// 下 セレクト時
-		if( CInput::GetKeyboardTrigger( DIK_DOWN ) ) {
-			// α値を初期に戻す
-			m_TimeCntSelect = 0;
-			// 各項目から下セレクト時の処理
-			switch( m_Menu ) {
-
-				case TITLE_MENU_GAME:
-					m_Menu = TITLE_MENU_TUTORIAL;
-					m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
-					m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = true;
-					//m_aTitleMenu[ TITLE_MENU_OPTION ].bUse = false;		// オプション
-					//m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
-					//m_aTitleMenu[ TITLE_MENU_RUNKING ].bUse = true;,		// リザルト
-					break;
-
-				case TITLE_MENU_TUTORIAL:
-					m_Menu = TITLE_MENU_GAME;
-					m_aTitleMenu[ TITLE_MENU_GAME ].bUse = true;
-					m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;
-					//m_aTitleMenu[ TITLE_MENU_OPTION ].bUse = false;		// オプション
-					//m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
-					//m_aTitleMenu[ TITLE_MENU_RUNKING ].bUse = true;,		// リザルト
-					break;
-
-				/*                 
-				   オプション～ランキングの処理
-				                   */
+					case TITLE_MENU_GAME_EXIT:
+						m_Menu = TITLE_MENU_CREDIT;
+						m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;	// チュートリアル
+						m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = true;		// クレジット
+						m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = false;	// ゲーム 終了
+						break;
 
 					default:
 						break;
+				}
+			}
+
+			// 下 セレクト時
+			if( CInput::GetKeyboardTrigger( DIK_DOWN ) ) {
+				// α値を初期に戻す
+				m_TimeCntSelect = 0;
+				// 各項目から下セレクト時の処理
+				switch( m_Menu ) {
+
+					case TITLE_MENU_GAME:
+						m_Menu = TITLE_MENU_TUTORIAL;
+						m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = true;
+						m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
+						m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = false;	// ゲーム 終了
+						break;
+
+					case TITLE_MENU_TUTORIAL:
+						m_Menu = TITLE_MENU_CREDIT;
+						m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = true;		// クレジット
+						m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = false;	// ゲーム 終了
+						break;
+
+					case TITLE_MENU_CREDIT:
+						m_Menu = TITLE_MENU_GAME_EXIT;
+						m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;
+						m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
+						m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = true;	// ゲーム 終了
+						break;
+
+
+					case TITLE_MENU_GAME_EXIT:
+						m_Menu = TITLE_MENU_GAME_EXIT;
+						//m_aTitleMenu[ TITLE_MENU_GAME ].bUse = false;
+						//m_aTitleMenu[ TITLE_MENU_TUTORIAL ].bUse = false;
+						//m_aTitleMenu[ TITLE_MENU_CREDIT ].bUse = false;		// クレジット
+						//m_aTitleMenu[ TITLE_MENU_GAME_EXIT ].bUse = true;	// ゲーム 終了
+						break;
+
+						default:
+							break;
+				}
 			}
 		}
 
@@ -191,21 +214,49 @@ void CTitleMenu::Update ( void )
 			switch( m_Menu ) {
 				case TITLE_MENU_GAME:		// ゲームへ画面遷移
 					CFade::Start( new CMatching );
-					//m_bUse = false;
+					m_bUse = false;
 					break;
 
 				case TITLE_MENU_TUTORIAL:	// チュートリアルの画像を出す
+					if( m_bUse ) {
+						m_bUse = false;		// フラグ off
+						CTutorial::Start();	// 画像 表示
+					} else {
+						m_bUse = true;		// フラグ on
+						CTutorial::End();	// 画像 非表示
+					}
 					break;
 
-				/*                 
-				   オプション～ランキングの処理
-				                   */
+				case TITLE_MENU_CREDIT:	// クレジットの画像を出す
+					if( m_bUse ) {
+						m_bUse = false;		// フラグ off
+						CCredit::Start();	// 画像 表示
+					} else {
+						m_bUse = true;		// フラグ on
+						CCredit::End();	// 画像 非表示
+					}
+					break;
+
+				case TITLE_MENU_GAME_EXIT:	// ゲームを終了させる
+					bUse = true;
+					//if( m_bUse ) {
+					//	m_bUse = false;		// フラグ off
+					//	bUse = true;
+					//} else {
+					//	m_bUse = true;		// フラグ on
+					//	bUse = false;
+					//}
+					break;
 
 				default:
 					break;
 			}
 		}
 	}
+	//if( ( m_bUse == false ) && ( m_Menu == TITLE_MENU_GAME_EXIT ) ) {
+		//bUse = false;
+	//}
+
 	// 各項目の設定
 	for( int nCntTitleMenu = 0; nCntTitleMenu < TITLE_MENU_MAX; nCntTitleMenu++ ) {
 		// 選択時の項目の処理
@@ -326,4 +377,33 @@ CTitleMenu *CTitleMenu::Create ( Vector2 pos, Vector2 rot, float width, float he
 	titleMenu -> Init( pos, rot, width, height );
 
 	return titleMenu;
+}
+
+
+/*******************************************************************************
+* 関数名：bool CTitleMenu::Check ()
+*
+* 引数	：
+* 戻り値：
+* 説明	：windowsで終了させる為のフラグ管理
+*******************************************************************************/
+bool CTitleMenu::Check ()
+{
+	return ( bUse ) ? true:false;
+	if( bUse ) {
+		bUse = false;
+	}
+}
+
+/*******************************************************************************
+* 関数名：void CFade::Get ( FADE State )
+*
+* 引数	：
+* 戻り値：
+* 説明	：フェード無
+*******************************************************************************/
+bool CTitleMenu::Get ( TITLE_MENU menu )
+{
+	return ( m_Menu == menu ) ? true:false;
+	//m_Menu = TITLE_MENU_GAME;
 }

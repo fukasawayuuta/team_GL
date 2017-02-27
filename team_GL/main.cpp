@@ -14,6 +14,7 @@
 ******************************************************************************/
 #include "main.h"
 #include "manager.h"
+#include "titlemenu.h"
 
 /******************************************************************************
 	マクロ定義
@@ -161,6 +162,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	}
 
+	// タイトル画面 ゲーム終了項目
+	if( ( wParam == VK_RETURN ) ) {
+		if( CTitleMenu::Check() ) {
+			DestroyWindow( hWnd );//ウィンドウを破棄
+		}
+	}
 	return DefWindowProc( hWnd , uMsg , wParam , lParam );
 }
 /********************************************************************
